@@ -14,6 +14,7 @@ namespace MoonBot
         public static string twitchId = "167461349";
         public static string broadcasterName = "novaevermoon";
 
+
         public static string GetMessage(string fullMessage)
         {
             string message;
@@ -33,6 +34,11 @@ namespace MoonBot
         }
 
         public static void WriteChatLogLine(string username, string message)
+        {
+
+        }
+
+        public static void getChannelID()
         {
 
         }
