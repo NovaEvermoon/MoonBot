@@ -29,9 +29,11 @@ namespace MoonBot
             MySqlCommand command = new MySqlCommand(request,conn);
             MySqlDataReader reader = command.ExecuteReader();
 
-            Command commandTest = new Command();
+            List<Command> commands = new List<Command>();
+            
             while(reader.Read())
             {
+                Command commandTest = new Command();
                 commandTest.id = reader.GetInt32(0);
                 commandTest.keyword = reader.GetString(1);
                 commandTest.message = reader.GetString(2);
@@ -39,11 +41,10 @@ namespace MoonBot
                 commandTest.cooldown = reader.GetInt32(4);
                 commandTest.status = reader.GetBoolean(5);
                 commandTest.description = reader.GetString(6);
+
+                commands.Add(commandTest);
             }
             
-
-
-
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
 
             PingSender ping = new PingSender(irc);
@@ -54,7 +55,34 @@ namespace MoonBot
                 // read any message from the chat room
                 string message = irc.ReadMessage();
 
-                irc.WriteChatMessage("this is a test");
+                char firstCharacter = message[0];
+                if(firstCharacter == '!')
+                {
+                    string commandMessage = message.Substring(message.IndexOf('!') + 1);
+                    if (commandMessage.Contains(" "))
+                    {
+                        string fullcommand = commandMessage.Substring(message.IndexOf(' '));
+                        //command = fullcommand[0];
+                        //var soUser = fullcommand[1];
+                    }
+                    else
+                    {
+                        foreach(Command commandd in commands)
+                        {
+                            if(commandd.keyword == commandMessage)
+                            {
+                                irc.WriteChatMessage(commandd.message);
+                            }
+                        }
+                    }
+                }
+
+
+
+  
+
+
+                //irc.WriteChatMessage("this is a test");
 
                 //string url = @"https://api.twitch.tv/helix/users?login=novaevermoon&client_id=" + ChatBot.clientID;
                 //string url = @"https://api.twitch.tv/helix/users?login=terror_seeds&client_id=" + ChatBot.clientID;

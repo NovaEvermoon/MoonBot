@@ -73,6 +73,8 @@ namespace MoonBot
             try
             {
                 string message = reader.ReadLine();
+                message = message.Substring(message.IndexOf('#'));
+                message = message.Substring(message.IndexOf(':')+1);
                 return message;
             }
             catch (Exception ex)
