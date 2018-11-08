@@ -15,7 +15,7 @@ namespace MoonBot
         private string channelName;
 
         private TcpClient tcpClient;
-        private StreamReader reader;
+        private StreamReader ircReader;
         private StreamWriter writer;
 
         public IrcClient(string Ip, int Port, string BotName, string Password, string ChannelName)
@@ -26,7 +26,7 @@ namespace MoonBot
                 this.channelName = ChannelName;
 
                 tcpClient = new TcpClient(Ip, Port);
-                reader = new StreamReader(tcpClient.GetStream());
+                ircReader = new StreamReader(tcpClient.GetStream());
                 writer = new StreamWriter(tcpClient.GetStream());
 
                 // Try to join the room
@@ -72,9 +72,8 @@ namespace MoonBot
         {
             try
             {
-                string message = reader.ReadLine();
-                message = message.Substring(message.IndexOf('#'));
-                message = message.Substring(message.IndexOf(':')+1);
+                string message = ircReader.ReadLine();
+
                 return message;
             }
             catch (Exception ex)

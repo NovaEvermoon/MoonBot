@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Timers;
 
 namespace MoonBot
 {
@@ -30,22 +30,54 @@ namespace MoonBot
             MySqlDataReader reader = command.ExecuteReader();
 
             List<Command> commands = new List<Command>();
-            
+            List<Command> timedCommands = new List<Command>();
             while(reader.Read())
             {
                 Command commandTest = new Command();
+
                 commandTest.id = reader.GetInt32(0);
                 commandTest.keyword = reader.GetString(1);
                 commandTest.message = reader.GetString(2);
                 commandTest.userLevel = reader.GetString(3);
                 commandTest.cooldown = reader.GetInt32(4);
                 commandTest.status = reader.GetBoolean(5);
-                commandTest.description = reader.GetString(6);
+                commandTest.timer = reader.GetInt32(6);
+                commandTest.description = reader.GetString(7);
 
-                commands.Add(commandTest);
+                if(commandTest.timer == 0)
+                {
+                    commands.Add(commandTest);
+                }
+                else
+                {
+                    timedCommands.Add(commandTest);
+                }
+                
             }
-            
+
+
+
+
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
+
+
+            Timer timer = new Timer(timedCommands[0].timer);
+            Timer timer2 = new Timer(timedCommands[1].timer);
+            timer.Start();
+            timer2.Start();
+
+            timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
+            timer2.Elapsed += new ElapsedEventHandler(timerElapsed);
+
+            void _timer_Elapsed(object sender, ElapsedEventArgs e)
+            {
+                irc.WriteChatMessage(timedCommands[0].message);
+            }
+
+            void timerElapsed(object sender, ElapsedEventArgs e)
+            {
+                irc.WriteChatMessage(timedCommands[1].message);
+            }
 
             PingSender ping = new PingSender(irc);
             ping.Start();
@@ -111,26 +143,38 @@ namespace MoonBot
                 //    }
                 //}
 
+                string username = ChatBot.GetUsername(irc.ReadMessage());
 
-                var webRequest = System.Net.WebRequest.Create(url);
-                if (webRequest != null)
+                if(username == "novaevermoon" )
                 {
-                    webRequest.Method = "GET";
-                    webRequest.Timeout = 12000;
-                    webRequest.ContentType = "application/json";
-                    webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-
-                }
-
-                using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
-                {
-                    using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                    var urlGetUser = @"https://api.twitch.tv/helix/users?login=" + username + "&client_id=" + ChatBot.clientID;
+                    var webRequest = System.Net.WebRequest.Create(urlGetUser);
+                    if (webRequest != null)
                     {
-                        var jsonResponse = sr.ReadToEnd();
-                        User twitchUser = JsonConvert.DeserializeObject<User>(jsonResponse);
-                        Console.WriteLine(String.Format("Response: {0}", jsonResponse));
+                        webRequest.Method = "GET";
+                        webRequest.Timeout = 12000;
+                        webRequest.ContentType = "application/json";
+                        webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+
                     }
+
+
+
+                    using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+                    {
+                        using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                        {
+                            var jsonResponse = sr.ReadToEnd();
+                            User twitchUser = JsonConvert.DeserializeObject<User>(jsonResponse);
+                            //Console.WriteLine(String.Format("Response: {0}", jsonResponse));
+                        }
+                    }
+
                 }
+                
+
+
+                
 
                 if (message.Contains("PRIVMSG"))
                 {
@@ -139,7 +183,7 @@ namespace MoonBot
 
                     // modify message to only retrieve user and message
                     int intindexparsesign = message.IndexOf('!');
-                    string username = message.Substring(1, intindexparsesign - 1); // parse username from specific section (without quotes)
+                     username = message.Substring(1, intindexparsesign - 1); // parse username from specific section (without quotes)
                                                                                    // format: ":[user]!"
                                                                                    // get user's message
                     intindexparsesign = message.IndexOf(" :");

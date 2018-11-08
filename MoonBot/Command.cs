@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace MoonBot
 {
@@ -14,6 +15,7 @@ namespace MoonBot
         public string userLevel { get; set; }
         public int cooldown { get; set; }
         public bool status { get; set; }
+        public int timer { get; set; }
         public string description { get; set; }
     }
 }

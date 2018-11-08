@@ -18,8 +18,8 @@ namespace MoonBot
         public static string GetMessage(string fullMessage)
         {
             string message;
-            int intIndexParseSign = fullMessage.IndexOf(" :");
-            message = fullMessage.Substring(intIndexParseSign + 2);
+            message = fullMessage.Substring(fullMessage.IndexOf('#'));
+            message = fullMessage.Substring(fullMessage.IndexOf(':') + 1);
 
             return message;
         }
@@ -27,8 +27,16 @@ namespace MoonBot
         public static string GetUsername(string fullMessage)
         {
             string username;
-            int intIndexParseSign = fullMessage.IndexOf('!');
-            username = fullMessage.Substring(1, intIndexParseSign - 1);
+            int intIndexParseSign = fullMessage.IndexOf(':');
+            if(fullMessage.Contains('!'))
+            {
+                int indexNicknameEnd = fullMessage.IndexOf('!');
+                username = fullMessage.Substring(1, indexNicknameEnd - 1);
+            }
+            else
+            {
+                username = "";
+            }
 
             return username;
         }
