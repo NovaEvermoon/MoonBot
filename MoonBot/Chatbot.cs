@@ -11,7 +11,7 @@ namespace MoonBot
         public static string botName = "themoonchatbot";
         public static string password = "oauth:mmidl67j5h7ygb4gfjbccxwrb502bo";
         public static string clientID = "v31jt30fnjpg8qgu0ucfbd3ly0q5tx";
-        public static string twitchId = "167461349";
+        public static string channelId = "167461349";
         public static string broadcasterName = "novaevermoon";
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -80,6 +81,43 @@ namespace MoonBot
             {
                 return "Error receiving message: " + ex.Message;
             }
+        }
+
+        public JsonFollowersAnswer GetFollowersAnswer(string channelId, string clientId, int count, string cursor)
+        {
+            string url = "";
+            JsonFollowersAnswer jsonFowllowAnswer = new JsonFollowersAnswer();
+
+            if (count > 0)
+            {
+                url = @"https://api.twitch.tv/helix/users/follows?to_id=" + channelId +"&after=" + cursor  ;
+            }
+            else
+            {
+                url = @"https://api.twitch.tv/helix/users/follows?to_id=" + channelId;
+            }
+            
+
+            var webRequest = System.Net.WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Headers.Add("Client-ID", clientId);
+
+            }
+
+            using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+            {
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                {
+                    var jsonResponse = sr.ReadToEnd();
+                    Console.WriteLine(jsonResponse);
+                     jsonFowllowAnswer = JsonConvert.DeserializeObject<JsonFollowersAnswer>(jsonResponse);
+                }
+            }
+            return jsonFowllowAnswer;
         }
     }
 }

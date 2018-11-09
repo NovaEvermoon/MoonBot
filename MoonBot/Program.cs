@@ -60,6 +60,17 @@ namespace MoonBot
 
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
 
+            JsonFollowersAnswer test = new JsonFollowersAnswer();
+            int count = 0;
+
+            test = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
+
+            count = test.data.Count();
+
+            test = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, test.pagination.cursor);
+
+            
+
 
             Timer timer = new Timer(timedCommands[0].timer);
             Timer timer2 = new Timer(timedCommands[1].timer);
@@ -109,83 +120,20 @@ namespace MoonBot
                     }
                 }
 
-
-
-  
-
-
-                //irc.WriteChatMessage("this is a test");
-
-                //string url = @"https://api.twitch.tv/helix/users?login=novaevermoon&client_id=" + ChatBot.clientID;
-                //string url = @"https://api.twitch.tv/helix/users?login=terror_seeds&client_id=" + ChatBot.clientID;
-                string url = @"https://api.twitch.tv/helix/users/follows?to_id=167461349";
-
-                //string getChannelUrl = @"https://api.twitch.tv/kraken/channels/ " +ChatBot.password;
-                // //string getChannelUrl = @"https://api.twitch.tv/kraken/channels/" + ChatBot.broadcasterName;
-                ////string getChannelUrl = @"https://api.twitch.tv/kraken/users?login=" + ChatBot.broadcasterName;
-                ////string getChannelUrl = @"https://api.twitch.tv/kraken/chat/"+ ChatBot.channelID /* ChatBot.broadcasterName*/ +"/rooms";
-
-                ////ChatBot.channelID ;
-                //WebRequest getChannelWebRequest = WebRequest.Create(getChannelUrl);
-                //if (getChannelWebRequest!=null)
-                //{
-                //    getChannelWebRequest.Method = "GET";
-                //    getChannelWebRequest.Timeout = 12000;
-                //    getChannelWebRequest.ContentType = "application/json";
-                //    getChannelWebRequest.Headers.Add("Client-ID", ChatBot.clientID);
-                //}
-
-                //using (Stream s = getChannelWebRequest.GetResponse().GetResponseStream())
-                //{
-                //    using (StreamReader sr = new System.IO.StreamReader(s))
-                //    {
-                //        var jsonResponse = sr.ReadToEnd();
-                //    }
-                //}
+                
 
                 string username = ChatBot.GetUsername(irc.ReadMessage());
 
                 if(username == "novaevermoon" )
                 {
-                    var urlGetUser = @"https://api.twitch.tv/helix/users?login=" + username + "&client_id=" + ChatBot.clientID;
-                    var webRequest = System.Net.WebRequest.Create(urlGetUser);
-                    if (webRequest != null)
-                    {
-                        webRequest.Method = "GET";
-                        webRequest.Timeout = 12000;
-                        webRequest.ContentType = "application/json";
-                        webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-
-                    }
-
-
-
-                    using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
-                    {
-                        using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
-                        {
-                            var jsonResponse = sr.ReadToEnd();
-                            User twitchUser = JsonConvert.DeserializeObject<User>(jsonResponse);
-                            //Console.WriteLine(String.Format("Response: {0}", jsonResponse));
-                        }
-                    }
-
+                    
                 }
                 
-
-
-                
-
                 if (message.Contains("PRIVMSG"))
                 {
-                    // messages from the users will look something like this (without quotes):
-                    // format: ":[user]![user]@[user].tmi.twitch.tv privmsg #[channel] :[message]"
-
-                    // modify message to only retrieve user and message
                     int intindexparsesign = message.IndexOf('!');
-                     username = message.Substring(1, intindexparsesign - 1); // parse username from specific section (without quotes)
-                                                                                   // format: ":[user]!"
-                                                                                   // get user's message
+                     username = message.Substring(1, intindexparsesign - 1); 
+                                                                                                                                                  
                     intindexparsesign = message.IndexOf(" :");
                     message = message.Substring(intindexparsesign + 2);
 
