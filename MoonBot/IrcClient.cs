@@ -108,7 +108,7 @@ namespace MoonBot
 
             }
 
-            using (System.IO.Stream s = webRequest.GetResponse().GetResponseStream())
+            using (Stream s = webRequest.GetResponse().GetResponseStream())
             {
                 using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
                 {

@@ -19,7 +19,7 @@ namespace MoonBot
         {
             string message;
             message = fullMessage.Substring(fullMessage.IndexOf('#'));
-            message = fullMessage.Substring(fullMessage.IndexOf(':') + 1);
+            message = message.Substring(message.IndexOf(':') + 1 );
 
             return message;
         }

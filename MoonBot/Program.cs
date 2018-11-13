@@ -26,12 +26,12 @@ namespace MoonBot
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             string request = "SELECT * FROM command";
-            MySqlCommand command = new MySqlCommand(request,conn);
+            MySqlCommand command = new MySqlCommand(request, conn);
             MySqlDataReader reader = command.ExecuteReader();
 
             List<Command> commands = new List<Command>();
             List<Command> timedCommands = new List<Command>();
-            while(reader.Read())
+            while (reader.Read())
             {
                 Command commandTest = new Command();
 
@@ -44,7 +44,7 @@ namespace MoonBot
                 commandTest.timer = reader.GetInt32(6);
                 commandTest.description = reader.GetString(7);
 
-                if(commandTest.timer == 0)
+                if (commandTest.timer == 0)
                 {
                     commands.Add(commandTest);
                 }
@@ -52,7 +52,7 @@ namespace MoonBot
                 {
                     timedCommands.Add(commandTest);
                 }
-                
+
             }
 
 
@@ -69,7 +69,7 @@ namespace MoonBot
 
             test = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, test.pagination.cursor);
 
-            
+
 
 
             Timer timer = new Timer(timedCommands[0].timer);
@@ -95,50 +95,78 @@ namespace MoonBot
 
             while (true)
             {
-                // read any message from the chat room
-                string message = irc.ReadMessage();
 
-                char firstCharacter = message[0];
-                if(firstCharacter == '!')
+                // read any message from the chat room
+                string fullMessage = irc.ReadMessage();
+                if(fullMessage.Contains('#'))
                 {
-                    string commandMessage = message.Substring(message.IndexOf('!') + 1);
-                    if (commandMessage.Contains(" "))
+                    string username = ChatBot.GetUsername(fullMessage);
+                    string message = ChatBot.GetMessage(fullMessage);
+                    if (username == "novaevermoon")
                     {
-                        string fullcommand = commandMessage.Substring(message.IndexOf(' '));
-                        //command = fullcommand[0];
-                        //var soUser = fullcommand[1];
-                    }
-                    else
-                    {
-                        foreach(Command commandd in commands)
+                        char firstCharacter = message[0];
+                        if (firstCharacter == '!')
                         {
-                            if(commandd.keyword == commandMessage)
+                            string commandMessage = message.Substring(message.IndexOf('!') + 1);
+                            if (commandMessage.Contains(" "))
                             {
-                                irc.WriteChatMessage(commandd.message);
+                                string fullcommand = commandMessage.Substring(message.IndexOf(' '));
+
+                            }
+                            else
+                            {
+                                foreach (Command commandd in commands)
+                                {
+                                    if (commandd.keyword == commandMessage)
+                                    {
+                                        DateTime testDate = new DateTime(1, 1, 1);
+                                        DateTime date = DateTime.Now;
+                                        if (commandd.startedTime == testDate)
+                                        {
+                                            commandd.startedTime = date;
+                                            irc.WriteChatMessage(commandd.message);
+                                        }
+                                        else
+                                        {
+                                            TimeSpan span = date - commandd.startedTime;
+                                            int ms = (int)span.TotalMilliseconds;
+                                            if(ms <= commandd.cooldown)
+                                            {
+                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                            }
+                                            else
+                                            {
+                                                irc.WriteChatMessage(commandd.message);
+                                                commandd.startedTime = DateTime.Now;
+                                            }
+
+                                        }
+
+                                    }
+                                }
                             }
                         }
                     }
+
+                    if (message.Contains("PRIVMSG"))
+                    {
+                        int intindexparsesign = message.IndexOf('!');
+                        username = message.Substring(1, intindexparsesign - 1);
+
+                        intindexparsesign = message.IndexOf(" :");
+                        message = message.Substring(intindexparsesign + 2);
+
+                    }
                 }
+                //string username = ChatBot.GetUsername(irc.ReadMessage());
 
                 
 
-                string username = ChatBot.GetUsername(irc.ReadMessage());
-
-                if(username == "novaevermoon" )
-                {
-                    
-                }
+                //string bleble = ChatBot.GetMessage(message);
                 
-                if (message.Contains("PRIVMSG"))
-                {
-                    int intindexparsesign = message.IndexOf('!');
-                     username = message.Substring(1, intindexparsesign - 1); 
-                                                                                                                                                  
-                    intindexparsesign = message.IndexOf(" :");
-                    message = message.Substring(intindexparsesign + 2);
-
                 }
             }
         }
     }
-}
+
+
