@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2018 at 05:31 PM
+-- Generation Time: Nov 14, 2018 at 05:52 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -21,6 +21,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `moonbot`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `burps`
+--
+
+CREATE TABLE `burps` (
+  `burps_total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `burps`
+--
+
+INSERT INTO `burps` (`burps_total`) VALUES
+(0);
 
 -- --------------------------------------------------------
 
@@ -51,7 +68,10 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (5, 'monthly', 'Humble bundle monthly : https://www.humblebundle.com/monthly?partner=novaevermoon', 'everyone', 10000, 1, 0, 'Get humble monthly link'),
 (6, 'crystals', 'Crystals are the channel\'s currency, you earn them while watching the stream and by following, hosting, subscribing etc. You can use these to buy neat rewards ! Leaderboard : https://streamlabs.com/novaevermoon#/loyalty', 'everyone', 10000, 1, 0, 'Get crystal infos'),
 (7, 'lurk', 'is going into lurk mode ! Thank you ♡', 'everyone', 10000, 1, 0, ''),
-(8, 'discord', 'Wanna be part of the cool kids and hang out after stream? You can get access to my discord either by subbing or with crystals (!crystals for more info :3 )', 'everyone', 10000, 1, 0, 'get discord info');
+(8, 'discord', 'Wanna be part of the cool kids and hang out after stream? You can get access to my discord either by subbing or with crystals (!crystals for more info :3 )', 'everyone', 10000, 1, 0, 'get discord info'),
+(9, 'commands', 'List of commands you can use in the chat : ', 'everyone', 10000, 1, 0, 'Display list of usable commands'),
+(10, 'prime', 'Did you know that you can get a free subscription to the channel with twitch prime ! Follow that link to learn more about it ! https://twitch.amazon.com/prime ', 'everyone', 0, 1, 1800000, 'Display information about twitch prime'),
+(11, 'burp', 'UPDATE burps SET burps_total = burps_total + 1', 'moderator', 0, 1, 0, 'Add burps to the burp total');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +91,7 @@ ALTER TABLE `command`
 -- AUTO_INCREMENT for table `command`
 --
 ALTER TABLE `command`
-  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

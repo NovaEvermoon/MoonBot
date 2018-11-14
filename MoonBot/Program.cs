@@ -26,8 +26,8 @@ namespace MoonBot
             MySqlConnection conn = new MySqlConnection(connString);
             conn.Open();
             string request = "SELECT * FROM command";
-            MySqlCommand command = new MySqlCommand(request, conn);
-            MySqlDataReader reader = command.ExecuteReader();
+            MySqlCommand commandGetCommands = new MySqlCommand(request, conn);
+            MySqlDataReader reader = commandGetCommands.ExecuteReader();
 
             List<Command> commands = new List<Command>();
             List<Command> timedCommands = new List<Command>();
@@ -55,7 +55,16 @@ namespace MoonBot
 
             }
 
+            string commandsText = "";
 
+            foreach(Command command in commands)
+            {
+                if(command.userLevel == "everyone" && command.timer ==0)
+                {
+                    commandsText += "!" + command.keyword + ", ";
+                    
+                }
+            }
 
 
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
@@ -124,6 +133,10 @@ namespace MoonBot
                                         if (commandd.startedTime == testDate)
                                         {
                                             commandd.startedTime = date;
+                                            if(commandd.keyword == "commands")
+                                            {
+                                                commandd.message += commandsText;
+                                            }
                                             irc.WriteChatMessage(commandd.message);
                                         }
                                         else
