@@ -17,43 +17,53 @@ namespace MoonBot
         //TcpClient tcpClient;
         //StreamReader reader;
         //StreamWriter writer;
+        public static readonly string[] kappamonCommands = { "song", "feed", "meow" };
 
         static void Main(string[] args)
         {
+
             // Connection String.
             String connString = "Server=127.0.0.1;Database=MoonBot;port=3306;User Id=root;password=";
 
-            MySqlConnection conn = new MySqlConnection(connString);
-            conn.Open();
+            MySqlConnection mySqlConnection = new MySqlConnection(connString);
+            mySqlConnection.Open();
             string request = "SELECT * FROM command";
-            MySqlCommand commandGetCommands = new MySqlCommand(request, conn);
+            MySqlCommand commandGetCommands = new MySqlCommand(request, mySqlConnection);
             MySqlDataReader reader = commandGetCommands.ExecuteReader();
 
             List<Command> commands = new List<Command>();
             List<Command> timedCommands = new List<Command>();
             while (reader.Read())
             {
-                Command commandTest = new Command();
+                Command chatCommand = new Command();
 
-                commandTest.id = reader.GetInt32(0);
-                commandTest.keyword = reader.GetString(1);
-                commandTest.message = reader.GetString(2);
-                commandTest.userLevel = reader.GetString(3);
-                commandTest.cooldown = reader.GetInt32(4);
-                commandTest.status = reader.GetBoolean(5);
-                commandTest.timer = reader.GetInt32(6);
-                commandTest.description = reader.GetString(7);
+                chatCommand.id = reader.GetInt32(0);
+                chatCommand.keyword = reader.GetString(1);
+                chatCommand.message = reader.GetString(2);
+                chatCommand.userLevel = reader.GetString(3);
+                chatCommand.cooldown = reader.GetInt32(4);
+                chatCommand.status = reader.GetBoolean(5);
+                chatCommand.timer = reader.GetInt32(6);
+                chatCommand.description = reader.GetString(7);
+                chatCommand.type = reader.GetString(8);
+                chatCommand.request = reader.GetString(9);
 
-                if (commandTest.timer == 0)
+                switch(chatCommand.type)
                 {
-                    commands.Add(commandTest);
-                }
-                else
-                {
-                    timedCommands.Add(commandTest);
+                    case "regular":
+                        commands.Add(chatCommand);
+                        break;
+                    case "timed":
+                        timedCommands.Add(chatCommand);
+                        break;
+                    case "request":
+                        commands.Add(chatCommand);
+                        break;
                 }
 
             }
+
+            mySqlConnection.Close();
 
             string commandsText = "";
 
@@ -69,16 +79,14 @@ namespace MoonBot
 
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
 
-            JsonFollowersAnswer test = new JsonFollowersAnswer();
+            JsonFollowersAnswer JsonAnswer = new JsonFollowersAnswer();
             int count = 0;
 
-            test = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
+            JsonAnswer = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
 
-            count = test.data.Count();
+            count = JsonAnswer.data.Count();
 
-            test = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, test.pagination.cursor);
-
-
+            JsonAnswer = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, JsonAnswer.pagination.cursor);
 
 
             Timer timer = new Timer(timedCommands[0].timer);
@@ -104,7 +112,6 @@ namespace MoonBot
 
             while (true)
             {
-
                 // read any message from the chat room
                 string fullMessage = irc.ReadMessage();
                 if(fullMessage.Contains('#'))
@@ -120,42 +127,91 @@ namespace MoonBot
                             if (commandMessage.Contains(" "))
                             {
                                 string fullcommand = commandMessage.Substring(message.IndexOf(' '));
-
                             }
                             else
                             {
                                 foreach (Command commandd in commands)
                                 {
-                                    if (commandd.keyword == commandMessage)
+                                    if(commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
                                     {
-                                        DateTime testDate = new DateTime(1, 1, 1);
-                                        DateTime date = DateTime.Now;
-                                        if (commandd.startedTime == testDate)
+                                        if (commandd.keyword == commandMessage)
                                         {
-                                            commandd.startedTime = date;
-                                            if(commandd.keyword == "commands")
+                                            DateTime testDate = new DateTime(1, 1, 1);
+                                            DateTime date = DateTime.Now;
+                                            if (commandd.startedTime == testDate)
                                             {
-                                                commandd.message += commandsText;
-                                            }
-                                            irc.WriteChatMessage(commandd.message);
-                                        }
-                                        else
-                                        {
-                                            TimeSpan span = date - commandd.startedTime;
-                                            int ms = (int)span.TotalMilliseconds;
-                                            if(ms <= commandd.cooldown)
-                                            {
-                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                                commandd.startedTime = date;
+                                                if (commandd.keyword == "commands")
+                                                {
+                                                    commandd.message += commandsText;
+                                                }
+
+                                                if (commandd.type == "request")
+                                                {
+                                                    string query = commandd.request;
+                                                    mySqlConnection.Open();
+                                                    MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
+
+                                                    if(commandd.request.Contains("SELECT"))
+                                                    {
+                                                        var result = mySqlCommand.ExecuteScalar();
+                                                        mySqlConnection.Close();
+                                                        if(result == null)
+                                                        {
+                                                            irc.WriteChatMessage("There was a problem executing that command");
+                                                        }
+                                                        else
+                                                        {
+                                                            if (commandd.message.Contains("@"))
+                                                            {
+                                                                irc.WriteChatMessage(commandd.message.Replace("@", result.ToString()));
+                                                            }
+                                                        }
+                                                    }
+                                                    else if(commandd.request.Contains("UPDATE"))
+                                                    {
+                                                        int result = mySqlCommand.ExecuteNonQuery();
+                                                        mySqlConnection.Close();
+                                                        if (result < 0)
+                                                        {
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            irc.WriteChatMessage(commandd.message);
+                                                        }
+                                                    }
+
+
+                                                }
+                                                else
+                                                {
+                                                    irc.WriteChatMessage(commandd.message);
+                                                }
                                             }
                                             else
                                             {
-                                                irc.WriteChatMessage(commandd.message);
-                                                commandd.startedTime = DateTime.Now;
+                                                TimeSpan span = date - commandd.startedTime;
+                                                int ms = (int)span.TotalMilliseconds;
+                                                if (ms <= commandd.cooldown)
+                                                {
+                                                    irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                                }
+                                                else
+                                                {
+                                                    irc.WriteChatMessage(commandd.message);
+                                                    commandd.startedTime = DateTime.Now;
+                                                }
+
                                             }
-
                                         }
-
                                     }
+                                    else
+                                    {
+                                        irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
+                                        break;
+                                    }
+                                    
                                 }
                             }
                         }
@@ -171,15 +227,9 @@ namespace MoonBot
 
                     }
                 }
-                //string username = ChatBot.GetUsername(irc.ReadMessage());
-
-                
-
-                //string bleble = ChatBot.GetMessage(message);
-                
-                }
             }
         }
     }
+}
 
 
