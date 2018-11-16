@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -14,15 +15,14 @@ namespace MoonBot
 {
     class Program
     {
-        //TcpClient tcpClient;
-        //StreamReader reader;
-        //StreamWriter writer;
         public static readonly string[] kappamonCommands = { "song", "feed", "meow" };
 
         static void Main(string[] args)
         {
-
-            // Connection String.
+            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
+            User user = irc.getUser("gaellevel");
+            irc.getUserSubscriber(user);
+            // Connection String
             String connString = "Server=127.0.0.1;Database=MoonBot;port=3306;User Id=root;password=";
 
             MySqlConnection mySqlConnection = new MySqlConnection(connString);
@@ -77,7 +77,9 @@ namespace MoonBot
             }
 
 
-            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
+           
+
+
 
             JsonFollowersAnswer JsonAnswer = new JsonFollowersAnswer();
             int count = 0;
@@ -114,13 +116,13 @@ namespace MoonBot
             {
                 // read any message from the chat room
                 string fullMessage = irc.ReadMessage();
-                if(fullMessage.Contains('#'))
+                if(fullMessage.Contains("PRIVMSG"))
                 {
+
                     string username = ChatBot.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
-                    if (username == "novaevermoon")
-                    {
-                        char firstCharacter = message[0];
+                    bool link = ChatBot.checkLink(message);
+                    char firstCharacter = message[0];
                         if (firstCharacter == '!')
                         {
                             string commandMessage = message.Substring(message.IndexOf('!') + 1);
@@ -215,21 +217,15 @@ namespace MoonBot
                                 }
                             }
                         }
-                    }
-
-                    if (message.Contains("PRIVMSG"))
-                    {
-                        int intindexparsesign = message.IndexOf('!');
-                        username = message.Substring(1, intindexparsesign - 1);
-
-                        intindexparsesign = message.IndexOf(" :");
-                        message = message.Substring(intindexparsesign + 2);
-
+                        else
+                        {
+                            //
+                        }
                     }
                 }
             }
         }
     }
-}
+
 
 

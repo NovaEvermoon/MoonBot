@@ -119,5 +119,66 @@ namespace MoonBot
             }
             return jsonFowllowAnswer;
         }
+
+        public User getUser(string username)
+        {
+            User user = new User();
+            string url = "https://api.twitch.tv/helix/users?login=" + username;
+            var webRequest = System.Net.WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+
+            }
+
+            using (Stream s = webRequest.GetResponse().GetResponseStream())
+            {
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                {
+                    var jsonResponse = sr.ReadToEnd(); 
+                    
+                    Console.WriteLine(jsonResponse);
+                    user = JsonConvert.DeserializeObject<User>(jsonResponse);
+                }
+            }
+
+            return user;
+        }
+
+        public void getUserSubscriber(User user)
+        {
+            string id = "";
+            foreach(Data data in user.data)
+            {
+
+                id = data.id;
+            }
+            string url = "https://api.twitch.tv/kraken/users/" + id + "/subscriptions/"+ ChatBot.channelId ;
+            var webRequest = System.Net.WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+            }
+
+            using (Stream s = webRequest.GetResponse().GetResponseStream())
+            {
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                {
+                    var jsonResponse = sr.ReadToEnd();
+
+                    Console.WriteLine(jsonResponse);
+                    user = JsonConvert.DeserializeObject<User>(jsonResponse);
+                }
+            }
+
+        }
     }
+
+
 }

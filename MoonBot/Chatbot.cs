@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MoonBot
@@ -50,5 +51,23 @@ namespace MoonBot
         {
 
         }
+
+        public static bool checkLink(string message)
+        {
+            bool link = false;
+            Regex regex = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            foreach (Match m in regex.Matches(message))
+            {
+                if (m != null)
+                {
+                    link = true;
+                }
+            }
+
+            return link;
+        }
+
+
     }
 }
