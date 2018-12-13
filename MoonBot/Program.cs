@@ -20,8 +20,7 @@ namespace MoonBot
         static void Main(string[] args)
         {
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
-            User user = irc.getUser("gaellevel");
-            irc.getUserSubscriber(user);
+
             // Connection String
             String connString = "Server=127.0.0.1;Database=MoonBot;port=3306;User Id=root;password=";
 
@@ -33,6 +32,9 @@ namespace MoonBot
 
             List<Command> commands = new List<Command>();
             List<Command> timedCommands = new List<Command>();
+
+
+            
             while (reader.Read())
             {
                 Command chatCommand = new Command();
@@ -76,11 +78,6 @@ namespace MoonBot
                 }
             }
 
-
-           
-
-
-
             JsonFollowersAnswer JsonAnswer = new JsonFollowersAnswer();
             int count = 0;
 
@@ -121,6 +118,23 @@ namespace MoonBot
 
                     string username = ChatBot.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
+                    User user = irc.getUser(username);
+                    Subs subs = irc.getUserSubscriber(user);
+
+                    var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
+                    //{
+                    //    if(sub.user.name.Contains(username))
+                    //    {
+                    //        irc.WriteChatMessage("This user is a sub and allowed to post a message!");
+                    //        break;
+                    //    }
+                    //    else
+                    //    {
+                    //        irc.WriteChatMessage("This user is not a sub");
+                    //    }
+                    //}
+                    
+
                     bool link = ChatBot.checkLink(message);
                     char firstCharacter = message[0];
                         if (firstCharacter == '!')

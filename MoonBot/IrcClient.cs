@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace MoonBot
 {
@@ -148,22 +149,27 @@ namespace MoonBot
             return user;
         }
 
-        public void getUserSubscriber(User user)
+        public Subs getUserSubscriber(User user)
         {
+            Subs subs = new Subs();
             string id = "";
             foreach(Data data in user.data)
             {
-
                 id = data.id;
             }
-            string url = "https://api.twitch.tv/kraken/users/" + id + "/subscriptions/"+ ChatBot.channelId ;
-            var webRequest = System.Net.WebRequest.Create(url);
+
+            string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions";
+            //string url = "https://api.twitch.tv/kraken/users/" + id + "/subscriptions/"+ ChatBot.channelId ;
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
             {
                 webRequest.Method = "GET";
                 webRequest.Timeout = 12000;
                 webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
                 webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+                webRequest.Headers.Add("Authorization: OAuth l3iwchpk1lqyv69zp9mwgg8hjiyqrq");
             }
 
             using (Stream s = webRequest.GetResponse().GetResponseStream())
@@ -173,10 +179,10 @@ namespace MoonBot
                     var jsonResponse = sr.ReadToEnd();
 
                     Console.WriteLine(jsonResponse);
-                    user = JsonConvert.DeserializeObject<User>(jsonResponse);
+                    subs = JsonConvert.DeserializeObject<Subs>(jsonResponse);
                 }
             }
-
+            return subs;
         }
     }
 

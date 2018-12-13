@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TwitchLib.Api;
+using TwitchLib.Api.Models.Helix.Users.GetUsersFollows;
+using TwitchLib.Api.Models.v5.Channels;
+using TwitchLib.Api.Models.v5.Subscriptions;
 
 namespace MoonBot
 {
     public static class ChatBot
     {
+
         public static string botName = "themoonchatbot";
         public static string password = "oauth:mmidl67j5h7ygb4gfjbccxwrb502bo";
         public static string clientID = "v31jt30fnjpg8qgu0ucfbd3ly0q5tx";
         public static string channelId = "167461349";
         public static string broadcasterName = "novaevermoon";
-
+        
 
         public static string GetMessage(string fullMessage)
         {
@@ -67,7 +72,5 @@ namespace MoonBot
 
             return link;
         }
-
-
     }
 }
