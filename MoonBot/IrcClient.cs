@@ -149,17 +149,18 @@ namespace MoonBot
             return user;
         }
 
-        public Subs getUserSubscriber(User user)
+        public Subscription getUserSubscriber(User user)
         {
-            Subs subs = new Subs();
+            Subscription sub = new Subscription();
             string id = "";
             foreach(Data data in user.data)
             {
                 id = data.id;
             }
 
-            string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions";
+            //string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions?offset=0";
             //string url = "https://api.twitch.tv/kraken/users/" + id + "/subscriptions/"+ ChatBot.channelId ;
+            string url = "https://api.twitch.tv/kraken/channels/"+ChatBot.channelId+"/subscriptions/" + id;
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
@@ -169,20 +170,30 @@ namespace MoonBot
                 webRequest.ContentType = "application/json";
                 webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
                 webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-                webRequest.Headers.Add("Authorization: OAuth l3iwchpk1lqyv69zp9mwgg8hjiyqrq");
+                webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
             }
 
-            using (Stream s = webRequest.GetResponse().GetResponseStream())
+            try
             {
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                using (Stream s = webRequest.GetResponse().GetResponseStream())
                 {
-                    var jsonResponse = sr.ReadToEnd();
+                    using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                    {
+                        var jsonResponse = sr.ReadToEnd();
 
-                    Console.WriteLine(jsonResponse);
-                    subs = JsonConvert.DeserializeObject<Subs>(jsonResponse);
+                        Console.WriteLine(jsonResponse);
+                        sub = JsonConvert.DeserializeObject<Subscription>(jsonResponse);
+                    }
                 }
+                
             }
-            return subs;
+            catch(Exception ex)
+            {
+                sub = new Subscription();
+            }
+
+            return sub;
+
         }
     }
 

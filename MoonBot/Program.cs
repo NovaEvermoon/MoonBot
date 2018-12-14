@@ -119,23 +119,20 @@ namespace MoonBot
                     string username = ChatBot.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     User user = irc.getUser(username);
-                    Subs subs = irc.getUserSubscriber(user);
+                    Subscription sub = irc.getUserSubscriber(user);
 
-                    var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
-                    //{
-                    //    if(sub.user.name.Contains(username))
-                    //    {
-                    //        irc.WriteChatMessage("This user is a sub and allowed to post a message!");
-                    //        break;
-                    //    }
-                    //    else
-                    //    {
-                    //        irc.WriteChatMessage("This user is not a sub");
-                    //    }
-                    //}
+                    if(sub.user == null)
+                    {
+                        bool link = ChatBot.checkLink(message);
+                        irc.WriteChatMessage("/timeout" + username);
+                    }
+
+
+                    //var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
+
                     
 
-                    bool link = ChatBot.checkLink(message);
+                    
                     char firstCharacter = message[0];
                         if (firstCharacter == '!')
                         {

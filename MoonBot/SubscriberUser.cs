@@ -14,16 +14,16 @@ public class SubscriberUser
 }
 
 
-public class Subscription
-{
-    public DateTime created_at { get; set; }
-    public string _id { get; set; }
-    public string sub_plan { get; set; }
-    public string sub_plan_name { get; set; }
-    public bool is_gift { get; set; }
-    public SubscriberUser user { get; set; }
-    public object sender { get; set; }
-}
+//public class Subscription
+//{
+//    public DateTime created_at { get; set; }
+//    public string _id { get; set; }
+//    public string sub_plan { get; set; }
+//    public string sub_plan_name { get; set; }
+//    public bool is_gift { get; set; }
+//    public SubscriberUser user { get; set; }
+//    public object sender { get; set; }
+//}
 
 public class Subs
 {

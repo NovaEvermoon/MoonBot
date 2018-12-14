@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2018 at 02:40 PM
+-- Generation Time: Dec 14, 2018 at 05:27 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -74,7 +74,12 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (9, 'commands', 'List of commands you can use in the chat : ', 'everyone', 10000, 1, 0, 'Display list of usable commands', 'regular', ''),
 (10, 'prime', 'Did you know that you can get a free subscription to the channel with twitch prime ! Follow that link to learn more about it ! https://twitch.amazon.com/prime ', 'everyone', 0, 1, 1800000, 'Display information about twitch prime', 'timed', ''),
 (11, 'burp', 'The burp count has been updated ! ', 'moderator', 1000, 1, 0, 'Add burps to the burp total', 'request', 'UPDATE burps SET burps_total = burps_total+1'),
-(12, 'burps', 'Nova has burped @ times so far !', 'everyone', 10000, 1, 0, 'get the total number of burps', 'request', 'SELECT * FROM burps');
+(12, 'burps', 'Nova has burped @ times so far !', 'everyone', 10000, 1, 0, 'get the total number of burps', 'request', 'SELECT * FROM burps'),
+(13, 'charity', 'From December 12-27, you can cheer with #charity and Twitch will donate $.20 for every 100 Bits to DirectRelief! You\'ll also be able to snag a cute  shiny new charity badge, so make dem bitties rain ! ', '', 0, 0, 0, '', '', ''),
+(14, 'charity', 'From December 12-27, you can cheer with #charity and Twitch will donate $.20 for every 100 Bits to DirectRelief! You\\\'ll also be able to snag a cute  shiny new charity badge, so make dem bitties rain ! ', 'everyone', 0, 1, 2400000, 'charity command', 'timed', ''),
+(15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 1, 1800000, 'Birthday event explanation ', 'timed', '0'),
+(16, 'rewards', '1€/100 bits : Name in hall of fame\r\n2€/200 bits : Custom command on stream\r\n5€/500 bits : Name on Balloon\r\n10€/1000 bits : Postal Card\r\n20€/2000 bits : Pokemon Pearler Bead\r\n50€/5000 bits : All rewards', 'everyone', 15000, 1, 0, 'birthday rewards', 'regular', ''),
+(17, 'rewards', '200€ : Bestfriend does my makeup (completed)\r\n400€ : Vegan cheescake cooking stream with Chaton\r\n600€ : Helium Karaoke\r\n800€ : Spyro giveaway (PS4)\r\n1000€ : PC Building Stream\r\n1200€(stretch goal) : Cosplay Stream\r\n', 'everyone', 15000, 1, 0, 'Birthday goals ', 'regular', '');
 
 --
 -- Indexes for dumped tables
@@ -94,7 +99,7 @@ ALTER TABLE `command`
 -- AUTO_INCREMENT for table `command`
 --
 ALTER TABLE `command`
-  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
