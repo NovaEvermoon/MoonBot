@@ -90,11 +90,14 @@ namespace MoonBot
 
             Timer timer = new Timer(timedCommands[0].timer);
             Timer timer2 = new Timer(timedCommands[1].timer);
+            Timer timer3 = new Timer(timedCommands[2].timer);
             timer.Start();
             timer2.Start();
+            timer3.Start();
 
             timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
             timer2.Elapsed += new ElapsedEventHandler(timerElapsed);
+            timer3.Elapsed += new ElapsedEventHandler(timer3Elapsed);
 
             void _timer_Elapsed(object sender, ElapsedEventArgs e)
             {
@@ -104,6 +107,11 @@ namespace MoonBot
             void timerElapsed(object sender, ElapsedEventArgs e)
             {
                 irc.WriteChatMessage(timedCommands[1].message);
+            }
+
+            void timer3Elapsed(object sender, ElapsedEventArgs e)
+            {
+                irc.WriteChatMessage(timedCommands[2].message);
             }
 
             PingSender ping = new PingSender(irc);
@@ -124,15 +132,16 @@ namespace MoonBot
                     if(sub.user == null)
                     {
                         bool link = ChatBot.checkLink(message);
-                        irc.WriteChatMessage("/timeout" + username);
-                    }
+                        if(link == true)
+                        {
+                            irc.WriteChatMessage(".timeout " + username + " 15");
+                            irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
+                        }
 
+                    }
 
                     //var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
 
-                    
-
-                    
                     char firstCharacter = message[0];
                         if (firstCharacter == '!')
                         {
