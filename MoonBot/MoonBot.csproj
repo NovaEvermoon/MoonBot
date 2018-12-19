@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chatbot.cs" />
+    <Compile Include="Chatter.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="IrcClient.cs" />
@@ -166,7 +167,8 @@
     <Compile Include="PingSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubscriberUser.cs" />
+    <Compile Include="TmiApi.cs" />
+    <Compile Include="TwitchApi.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

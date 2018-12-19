@@ -20,13 +20,17 @@ namespace MoonBot
         static void Main(string[] args)
         {
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
+            TwitchApi api = new TwitchApi();
+            TmiApi tmi = new TmiApi();
 
-            // Connection String
+            Example chatters = new Example();
+            
+
             String connString = "Server=127.0.0.1;Database=MoonBot;port=3306;User Id=root;password=";
 
             MySqlConnection mySqlConnection = new MySqlConnection(connString);
             mySqlConnection.Open();
-            string request = "SELECT * FROM command";
+            string request = "SELECT * FROM command WHERE command_status != 0";
             MySqlCommand commandGetCommands = new MySqlCommand(request, mySqlConnection);
             MySqlDataReader reader = commandGetCommands.ExecuteReader();
 
@@ -81,11 +85,11 @@ namespace MoonBot
             JsonFollowersAnswer JsonAnswer = new JsonFollowersAnswer();
             int count = 0;
 
-            JsonAnswer = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
+            JsonAnswer = api.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
 
             count = JsonAnswer.data.Count();
 
-            JsonAnswer = irc.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, JsonAnswer.pagination.cursor);
+            JsonAnswer = api.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, JsonAnswer.pagination.cursor);
 
 
             Timer timer = new Timer(timedCommands[0].timer);
@@ -101,6 +105,7 @@ namespace MoonBot
 
             void _timer_Elapsed(object sender, ElapsedEventArgs e)
             {
+               
                 irc.WriteChatMessage(timedCommands[0].message);
             }
 
@@ -119,15 +124,17 @@ namespace MoonBot
 
             while (true)
             {
-                // read any message from the chat room
+
+                chatters = tmi.getMods();
+
                 string fullMessage = irc.ReadMessage();
                 if(fullMessage.Contains("PRIVMSG"))
                 {
-
                     string username = ChatBot.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
-                    User user = irc.getUser(username);
-                    Subscription sub = irc.getUserSubscriber(user);
+                    bool isMod = chatters.chatters.moderators.Contains(username);
+                    User user = api.getUser(username);
+                    Subscription sub = api.getUserSubscriber(user);
 
                     if(sub.user == null)
                     {
@@ -143,18 +150,26 @@ namespace MoonBot
                     //var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
 
                     char firstCharacter = message[0];
-                        if (firstCharacter == '!')
+                    if (firstCharacter == '!')
+                    {
+                        string commandMessage = message.Substring(message.IndexOf('!') + 1);
+                        if (commandMessage.Contains(" "))
                         {
-                            string commandMessage = message.Substring(message.IndexOf('!') + 1);
-                            if (commandMessage.Contains(" "))
+                            string fullcommand = commandMessage.Substring(message.IndexOf(' '));
+                        }
+                        else
+                        {
+                            foreach (Command commandd in commands)
                             {
-                                string fullcommand = commandMessage.Substring(message.IndexOf(' '));
-                            }
-                            else
-                            {
-                                foreach (Command commandd in commands)
+
+                                if(commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
                                 {
-                                    if(commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
+                                    if (commandd.userLevel == "moderator" && isMod == false)
+                                    {
+                                        irc.WriteChatMessage("You are not allowed to use this command you naughty person!");
+                                        break;
+                                    }
+                                    else
                                     {
                                         if (commandd.keyword == commandMessage)
                                         {
@@ -174,11 +189,11 @@ namespace MoonBot
                                                     mySqlConnection.Open();
                                                     MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
 
-                                                    if(commandd.request.Contains("SELECT"))
+                                                    if (commandd.request.Contains("SELECT"))
                                                     {
                                                         var result = mySqlCommand.ExecuteScalar();
                                                         mySqlConnection.Close();
-                                                        if(result == null)
+                                                        if (result == null)
                                                         {
                                                             irc.WriteChatMessage("There was a problem executing that command");
                                                         }
@@ -190,13 +205,13 @@ namespace MoonBot
                                                             }
                                                         }
                                                     }
-                                                    else if(commandd.request.Contains("UPDATE"))
+                                                    else if (commandd.request.Contains("UPDATE"))
                                                     {
                                                         int result = mySqlCommand.ExecuteNonQuery();
                                                         mySqlConnection.Close();
                                                         if (result < 0)
                                                         {
-                                                            
+
                                                         }
                                                         else
                                                         {
@@ -226,26 +241,30 @@ namespace MoonBot
                                                 }
 
                                             }
+                                            break;
                                         }
+
                                     }
-                                    else
-                                    {
-                                        irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
-                                        break;
-                                    }
-                                    
                                 }
+                                else
+                                {
+                                    irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
+                                    break;
+                                }
+                                    
+                                    
                             }
                         }
-                        else
-                        {
-                            //
-                        }
+                    }
+                    else
+                    {
+                        //
                     }
                 }
             }
         }
     }
+}
 
 
 
