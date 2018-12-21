@@ -158,6 +158,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Channel.cs" />
     <Compile Include="Chatbot.cs" />
     <Compile Include="Chatter.cs" />
     <Compile Include="Command.cs" />

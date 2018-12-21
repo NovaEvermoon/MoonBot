@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -82,16 +83,6 @@ namespace MoonBot
                 }
             }
 
-            JsonFollowersAnswer JsonAnswer = new JsonFollowersAnswer();
-            int count = 0;
-
-            JsonAnswer = api.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, "");
-
-            count = JsonAnswer.data.Count();
-
-            JsonAnswer = api.GetFollowersAnswer(ChatBot.channelId, ChatBot.clientID, count, JsonAnswer.pagination.cursor);
-
-
             Timer timer = new Timer(timedCommands[0].timer);
             Timer timer2 = new Timer(timedCommands[1].timer);
             Timer timer3 = new Timer(timedCommands[2].timer);
@@ -136,7 +127,15 @@ namespace MoonBot
                     User user = api.getUser(username);
                     Subscription sub = api.getUserSubscriber(user);
 
-                    if(sub.user == null)
+                    Follower test = api.GetUserFollower(user);
+
+                    MethodInfo mInfo;
+
+                    mInfo = typeof(Follower).GetMethod("getFollowage", BindingFlags.Public | BindingFlags.Instance,null,CallingConventions.Any,new Type[] { typeof(object[])},null);
+                    object[] parameters = new object[] { test.created_at };
+                    mInfo.Invoke(mInfo, parameters );
+
+                    if (sub.user == null)
                     {
                         bool link = ChatBot.checkLink(message);
                         if(link == true)
@@ -146,8 +145,6 @@ namespace MoonBot
                         }
 
                     }
-
-                    //var test = subs.subscriptions.FirstOrDefault(e => e.user.name.Contains(username));
 
                     char firstCharacter = message[0];
                     if (firstCharacter == '!')
@@ -219,6 +216,10 @@ namespace MoonBot
                                                         }
                                                     }
 
+
+                                                }
+                                                else if(commandd.type == "api")
+                                                {
 
                                                 }
                                                 else

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Dec 17, 2018 at 10:04 PM
--- Server version: 5.7.23
--- PHP Version: 7.2.10
+-- Host: 127.0.0.1
+-- Generation Time: Dec 21, 2018 at 02:23 PM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,8 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `burps`
 --
 
-DROP TABLE IF EXISTS `burps`;
-CREATE TABLE IF NOT EXISTS `burps` (
+CREATE TABLE `burps` (
   `burps_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(5);
+(7);
 
 -- --------------------------------------------------------
 
@@ -46,9 +45,8 @@ INSERT INTO `burps` (`burps_total`) VALUES
 -- Table structure for table `command`
 --
 
-DROP TABLE IF EXISTS `command`;
-CREATE TABLE IF NOT EXISTS `command` (
-  `command_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `command` (
+  `command_id` int(11) NOT NULL,
   `command_keyword` varchar(150) COLLATE utf8_bin NOT NULL,
   `command_message` varchar(1000) COLLATE utf8_bin NOT NULL,
   `command_userLevel` varchar(150) COLLATE utf8_bin NOT NULL,
@@ -57,9 +55,8 @@ CREATE TABLE IF NOT EXISTS `command` (
   `command_timer` int(11) NOT NULL,
   `command_description` varchar(500) COLLATE utf8_bin NOT NULL,
   `command_type` varchar(500) COLLATE utf8_bin NOT NULL,
-  `command_request` varchar(5000) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`command_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `command_request` varchar(5000) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `command`
@@ -82,7 +79,28 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 1, 1800000, 'Birthday event explanation ', 'timed', '0'),
 (16, 'rewards', '1€/100 bits : Name in hall of fame\r\n2€/200 bits : Custom command on stream\r\n5€/500 bits : Name on Balloon\r\n10€/1000 bits : Postal Card\r\n20€/2000 bits : Pokemon Pearler Bead\r\n50€/5000 bits : All rewards', 'everyone', 15000, 1, 0, 'birthday rewards', 'regular', ''),
 (17, 'goals', '200€ : Bestfriend does my makeup (completed)\r\n400€ : Vegan cheescake cooking stream with Chaton\r\n600€ : Helium Karaoke\r\n800€ : Spyro giveaway (PS4)\r\n1000€ : PC Building Stream\r\n1200€(stretch goal) : Cosplay Stream\r\n', 'everyone', 15000, 1, 0, 'Birthday goals ', 'regular', ''),
-(18, 'duo', 'Today, Nova is duo streaming Human Fall Flat with Dudoiselle ! Head to  https://multistre.am/dudoiselle/novaevermoon/layout4/ to watch both the strims !', 'everyone', 10000, 1, 0, 'duo stream', 'regular', '');
+(18, 'duo', 'Today, Nova is duo streaming Human Fall Flat with Dudoiselle ! Head to  https://multistre.am/dudoiselle/novaevermoon/layout4/ to watch both the strims !', 'everyone', 10000, 0, 0, 'duo stream', 'regular', ''),
+(19, 'addicted', 'toKappa', 'everyone', 10000, 1, 0, 'birthday command for addictedtokappa', 'regular', '');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `command`
+--
+ALTER TABLE `command`
+  ADD PRIMARY KEY (`command_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `command`
+--
+ALTER TABLE `command`
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
