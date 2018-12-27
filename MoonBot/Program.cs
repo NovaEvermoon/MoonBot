@@ -25,7 +25,7 @@ namespace MoonBot
             TmiApi tmi = new TmiApi();
 
             Example chatters = new Example();
-            
+
 
             String connString = "Server=127.0.0.1;Database=MoonBot;port=3306;User Id=root;password=";
 
@@ -39,7 +39,7 @@ namespace MoonBot
             List<Command> timedCommands = new List<Command>();
 
 
-            
+
             while (reader.Read())
             {
                 Command chatCommand = new Command();
@@ -55,7 +55,7 @@ namespace MoonBot
                 chatCommand.type = reader.GetString(8);
                 chatCommand.request = reader.GetString(9);
 
-                switch(chatCommand.type)
+                switch (chatCommand.type)
                 {
                     case "regular":
                         commands.Add(chatCommand);
@@ -74,12 +74,12 @@ namespace MoonBot
 
             string commandsText = "";
 
-            foreach(Command command in commands)
+            foreach (Command command in commands)
             {
-                if(command.userLevel == "everyone" && command.timer ==0)
+                if (command.userLevel == "everyone" && command.timer == 0)
                 {
                     commandsText += "!" + command.keyword + ", ";
-                    
+
                 }
             }
 
@@ -96,7 +96,7 @@ namespace MoonBot
 
             void _timer_Elapsed(object sender, ElapsedEventArgs e)
             {
-               
+
                 irc.WriteChatMessage(timedCommands[0].message);
             }
 
@@ -119,7 +119,7 @@ namespace MoonBot
                 chatters = tmi.getMods();
 
                 string fullMessage = irc.ReadMessage();
-                if(fullMessage.Contains("PRIVMSG"))
+                if (fullMessage.Contains("PRIVMSG"))
                 {
                     string username = ChatBot.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
@@ -129,16 +129,16 @@ namespace MoonBot
 
                     Follower test = api.GetUserFollower(user);
 
-                    MethodInfo mInfo;
+                    // MethodInfo mInfo;
 
-                    mInfo = typeof(Follower).GetMethod("getFollowage", BindingFlags.Public | BindingFlags.Instance,null,CallingConventions.Any,new Type[] { typeof(object[])},null);
-                    object[] parameters = new object[] { test.created_at };
-                    mInfo.Invoke(mInfo, parameters );
+                    // mInfo = typeof(Follower).GetMethod("getFollowage", BindingFlags.Public | BindingFlags.Instance,null,CallingConventions.Any,new Type[] { typeof(object[])},null);
+                    // object[] parameters = new object[] { test.created_at };
+                    //mInfo.Invoke(mInfo, parameters );
 
                     if (sub.user == null)
                     {
                         bool link = ChatBot.checkLink(message);
-                        if(link == true)
+                        if (link == true)
                         {
                             irc.WriteChatMessage(".timeout " + username + " 15");
                             irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
@@ -159,101 +159,95 @@ namespace MoonBot
                             foreach (Command commandd in commands)
                             {
 
-                                if(commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
+                                if (commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
                                 {
-                                    if (commandd.userLevel == "moderator" && isMod == false)
+                                    if (commandd.keyword == commandMessage)
                                     {
-                                        irc.WriteChatMessage("You are not allowed to use this command you naughty person!");
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        if (commandd.keyword == commandMessage)
+                                        DateTime testDate = new DateTime(1, 1, 1);
+                                        DateTime date = DateTime.Now;
+                                        if (commandd.startedTime == testDate)
                                         {
-                                            DateTime testDate = new DateTime(1, 1, 1);
-                                            DateTime date = DateTime.Now;
-                                            if (commandd.startedTime == testDate)
+                                            commandd.startedTime = date;
+                                            if (commandd.keyword == "commands")
                                             {
-                                                commandd.startedTime = date;
-                                                if (commandd.keyword == "commands")
-                                                {
-                                                    commandd.message += commandsText;
-                                                }
+                                                commandd.message += commandsText;
+                                            }
 
-                                                if (commandd.type == "request")
-                                                {
-                                                    string query = commandd.request;
-                                                    mySqlConnection.Open();
-                                                    MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
+                                            if (commandd.type == "request")
+                                            {
+                                                string query = commandd.request;
+                                                mySqlConnection.Open();
+                                                MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
 
-                                                    if (commandd.request.Contains("SELECT"))
+                                                if (commandd.request.Contains("SELECT"))
+                                                {
+                                                    var result = mySqlCommand.ExecuteScalar();
+                                                    mySqlConnection.Close();
+                                                    if (result == null)
                                                     {
-                                                        var result = mySqlCommand.ExecuteScalar();
-                                                        mySqlConnection.Close();
-                                                        if (result == null)
+                                                        irc.WriteChatMessage("There was a problem executing that command");
+                                                    }
+                                                    else
+                                                    {
+                                                        if (commandd.message.Contains("@"))
                                                         {
-                                                            irc.WriteChatMessage("There was a problem executing that command");
-                                                        }
-                                                        else
-                                                        {
-                                                            if (commandd.message.Contains("@"))
-                                                            {
-                                                                irc.WriteChatMessage(commandd.message.Replace("@", result.ToString()));
-                                                            }
+                                                            irc.WriteChatMessage(commandd.message.Replace("@", result.ToString()));
                                                         }
                                                     }
-                                                    else if (commandd.request.Contains("UPDATE"))
+                                                }
+                                                else if (commandd.request.Contains("UPDATE"))
+                                                {
+                                                    int result = mySqlCommand.ExecuteNonQuery();
+                                                    mySqlConnection.Close();
+                                                    if (result < 0)
                                                     {
-                                                        int result = mySqlCommand.ExecuteNonQuery();
-                                                        mySqlConnection.Close();
-                                                        if (result < 0)
-                                                        {
 
-                                                        }
-                                                        else
-                                                        {
-                                                            irc.WriteChatMessage(commandd.message);
-                                                        }
                                                     }
+                                                    else
+                                                    {
+                                                        irc.WriteChatMessage(commandd.message);
+                                                    }
+                                                }
 
 
-                                                }
-                                                else if(commandd.type == "api")
-                                                {
+                                            }
+                                            else if (commandd.type == "api")
+                                            {
 
-                                                }
-                                                else
-                                                {
-                                                    irc.WriteChatMessage(commandd.message);
-                                                }
                                             }
                                             else
                                             {
-                                                TimeSpan span = date - commandd.startedTime;
-                                                int ms = (int)span.TotalMilliseconds;
-                                                if (ms <= commandd.cooldown)
-                                                {
-                                                    irc.WriteChatMessage("This command is in cooldown right now, be patient !");
-                                                }
-                                                else
-                                                {
-                                                    irc.WriteChatMessage(commandd.message);
-                                                    commandd.startedTime = DateTime.Now;
-                                                }
-
+                                                irc.WriteChatMessage(commandd.message);
                                             }
-                                            break;
                                         }
+                                        else
+                                        {
+                                            TimeSpan span = date - commandd.startedTime;
+                                            int ms = (int)span.TotalMilliseconds;
+                                            if (ms <= commandd.cooldown)
+                                            {
+                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                            }
+                                            else
+                                            {
+                                                irc.WriteChatMessage(commandd.message);
+                                                commandd.startedTime = DateTime.Now;
+                                            }
 
+                                        }
+                                        break;
                                     }
+
                                 }
+
+
                                 else
                                 {
                                     irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
                                     break;
                                 }
-                                    
-                                    
+
+
                             }
                         }
                     }
