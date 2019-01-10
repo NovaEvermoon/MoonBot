@@ -66,6 +66,9 @@ namespace MoonBot
                     case "request":
                         commands.Add(chatCommand);
                         break;
+                    case "api":
+                        commands.Add(chatCommand);
+                        break;
                 }
 
             }
@@ -127,13 +130,8 @@ namespace MoonBot
                     User user = api.getUser(username);
                     Subscription sub = api.getUserSubscriber(user);
 
-                    Follower test = api.GetUserFollower(user);
+                    Follower apifollower = api.GetUserFollower(user);
 
-                    // MethodInfo mInfo;
-
-                    // mInfo = typeof(Follower).GetMethod("getFollowage", BindingFlags.Public | BindingFlags.Instance,null,CallingConventions.Any,new Type[] { typeof(object[])},null);
-                    // object[] parameters = new object[] { test.created_at };
-                    //mInfo.Invoke(mInfo, parameters );
 
                     if (sub.user == null)
                     {
@@ -156,110 +154,102 @@ namespace MoonBot
                         }
                         else
                         {
-                            foreach (Command commandd in commands)
+                            if (commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
                             {
+                                Command foundCommand = commands.Single(c => c.keyword == commandMessage);
 
-                                if (commands.Any(c => c.keyword == commandMessage) || kappamonCommands.Contains(commandMessage))
+
+                                DateTime testDate = new DateTime(1, 1, 1);
+                                DateTime date = DateTime.Now;
+
+                                if (foundCommand.startedTime == testDate)
                                 {
-                                    if (commandd.keyword == commandMessage)
+
+                                    if (foundCommand.keyword == "commands")
                                     {
-                                        DateTime testDate = new DateTime(1, 1, 1);
-                                        DateTime date = DateTime.Now;
-                                        if (commandd.startedTime == testDate)
-                                        {
-                                            commandd.startedTime = date;
-                                            if (commandd.keyword == "commands")
-                                            {
-                                                commandd.message += commandsText;
-                                            }
+                                        foundCommand.message += commandsText;
+                                    }
 
-                                            if (commandd.type == "request")
-                                            {
-                                                string query = commandd.request;
-                                                mySqlConnection.Open();
-                                                MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
+                                    switch (foundCommand.type)
+                                    {
+                                        case "request":
+                                            string query = foundCommand.request;
+                                            mySqlConnection.Open();
+                                            MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
 
-                                                if (commandd.request.Contains("SELECT"))
+                                            if (foundCommand.request.Contains("SELECT"))
+                                            {
+                                                var result = mySqlCommand.ExecuteScalar();
+                                                mySqlConnection.Close();
+                                                if (result == null)
                                                 {
-                                                    var result = mySqlCommand.ExecuteScalar();
-                                                    mySqlConnection.Close();
-                                                    if (result == null)
+                                                    irc.WriteChatMessage("There was a problem executing that command");
+                                                }
+                                                else
+                                                {
+                                                    if (foundCommand.message.Contains("@"))
                                                     {
-                                                        irc.WriteChatMessage("There was a problem executing that command");
-                                                    }
-                                                    else
-                                                    {
-                                                        if (commandd.message.Contains("@"))
-                                                        {
-                                                            irc.WriteChatMessage(commandd.message.Replace("@", result.ToString()));
-                                                        }
+                                                        irc.WriteChatMessage(foundCommand.message.Replace("@", result.ToString()));
                                                     }
                                                 }
-                                                else if (commandd.request.Contains("UPDATE"))
+                                            }
+                                            else if (foundCommand.request.Contains("UPDATE"))
+                                            {
+                                                int result = mySqlCommand.ExecuteNonQuery();
+                                                mySqlConnection.Close();
+                                                if (result < 0)
                                                 {
-                                                    int result = mySqlCommand.ExecuteNonQuery();
-                                                    mySqlConnection.Close();
-                                                    if (result < 0)
-                                                    {
 
-                                                    }
-                                                    else
-                                                    {
-                                                        irc.WriteChatMessage(commandd.message);
-                                                    }
                                                 }
-
-
+                                                else
+                                                {
+                                                    irc.WriteChatMessage(foundCommand.message);
+                                                }
                                             }
-                                            else if (commandd.type == "api")
-                                            {
-
-                                            }
-                                            else
-                                            {
-                                                irc.WriteChatMessage(commandd.message);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            TimeSpan span = date - commandd.startedTime;
-                                            int ms = (int)span.TotalMilliseconds;
-                                            if (ms <= commandd.cooldown)
-                                            {
-                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
-                                            }
-                                            else
-                                            {
-                                                irc.WriteChatMessage(commandd.message);
-                                                commandd.startedTime = DateTime.Now;
-                                            }
-
-                                        }
-                                        break;
+                                            break;
+                                        case "regular":
+                                            irc.WriteChatMessage(foundCommand.message);
+                                            break;
+                                        case "api":
+                                            MethodInfo mInfo;
+                                            Type type = Type.GetType("MoonBot.TwitchApi", false);
+                                            mInfo = type.GetMethod(foundCommand.message);
+                                            object[] parameters = new object[] { apifollower, username };
+                                            object apiAnswer = mInfo.Invoke(api, parameters);
+                                            irc.WriteChatMessage(apiAnswer.ToString());
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    TimeSpan span = date - foundCommand.startedTime;
+                                    int ms = (int)span.TotalMilliseconds;
+                                    if (ms <= foundCommand.cooldown)
+                                    {
+                                        irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                    }
+                                    else
+                                    {
+                                        irc.WriteChatMessage(foundCommand.message);
+                                        foundCommand.startedTime = DateTime.Now;
                                     }
 
                                 }
-
-
-                                else
-                                {
-                                    irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
-                                    break;
-                                }
-
-
+                                break;
+                            }
+                            else
+                            {
+                                irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
+                                break;
                             }
                         }
-                    }
-                    else
-                    {
-                        //
                     }
                 }
             }
         }
     }
 }
+
 
 
 

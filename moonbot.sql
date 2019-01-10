@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 27, 2018 at 07:44 PM
+-- Generation Time: Jan 10, 2019 at 07:34 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.2.10
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `command` (
   `command_type` varchar(500) COLLATE utf8_bin NOT NULL,
   `command_request` varchar(5000) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`command_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `command`
@@ -79,13 +79,17 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (11, 'burp', 'The burp count has been updated ! ', 'moderator', 1000, 1, 0, 'Add burps to the burp total', 'request', 'UPDATE burps SET burps_total = burps_total+1'),
 (12, 'burps', 'Nova has burped @ times so far !', 'everyone', 10000, 1, 0, 'get the total number of burps', 'request', 'SELECT * FROM burps'),
 (13, 'charity', 'From December 12-27, you can cheer with #charity and Twitch will donate $.20 for every 100 Bits to DirectRelief! You\'ll also be able to snag a cute  shiny new charity badge, so make dem bitties rain ! ', 'everyone', 15000, 1, 0, 'charity explanation', 'regular', ''),
-(15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 1, 1800000, 'Birthday event explanation ', 'timed', '0'),
-(16, 'rewards', '1€/100 bits : Name in hall of fame\r\n2€/200 bits : Custom command on stream\r\n5€/500 bits : Name on Balloon\r\n10€/1000 bits : Postal Card\r\n20€/2000 bits : Pokemon Pearler Bead\r\n50€/5000 bits : All rewards', 'everyone', 15000, 1, 0, 'birthday rewards', 'regular', ''),
+(15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 0, 1800000, 'Birthday event explanation ', 'timed', '0'),
+(16, 'rewards', '1€/100 bits : Name in hall of fame\r\n2€/200 bits : Custom command on stream\r\n5€/500 bits : Name on Balloon\r\n10€/1000 bits : Postal Card\r\n20€/2000 bits : Pokemon Pearler Bead\r\n50€/5000 bits : All rewards', 'everyone', 15000, 0, 0, 'birthday rewards', 'regular', ''),
 (17, 'goals', '200€ : Bestfriend does my makeup (completed)\r\n400€ : Vegan cheescake cooking stream with Chaton\r\n600€ : Helium Karaoke\r\n800€ : Spyro giveaway (PS4)\r\n1000€ : PC Building Stream\r\n1200€(stretch goal) : Cosplay Stream\r\n', 'everyone', 15000, 1, 0, 'Birthday goals ', 'regular', ''),
 (18, 'duo', 'Today, Nova is duo streaming Human Fall Flat with Dudoiselle ! Head to  https://multistre.am/dudoiselle/novaevermoon/layout4/ to watch both the strims !', 'everyone', 10000, 0, 0, 'duo stream', 'regular', ''),
 (19, 'addicted', 'toKappa', 'everyone', 10000, 1, 0, 'birthday command for addictedtokappa', 'regular', ''),
-(20, 'giveaway', 'Ho ho ho ! To thank you all for making this year amazing, I\'m gonna be giving away a copy Spyro Reignited for PS4 so be sure to hang out today :3 ', 'everyone', 15000, 1, 0, 'Christmas Giveaway ', 'regular', ''),
-(21, 'menu', 'For today\'s cooking stream, we will me making : Garlic Puff pastry, Garlic mushrooms, Seitan roast with mushroom sauce (yeah we really like mushrooms :B), potatoe gratin, Pecan mapple puff pastry and sugar cookies !', 'everyone', 15000, 1, 0, 'Christmas menu', 'regular', '');
+(20, 'giveaway', 'Ho ho ho ! To thank you all for making this year amazing, I\'m gonna be giving away a copy Spyro Reignited for PS4 so be sure to hang out today :3 ', 'everyone', 15000, 0, 0, 'Christmas Giveaway ', 'regular', ''),
+(21, 'menu', 'For today\'s cooking stream, we will me making : Garlic Puff pastry, Garlic mushrooms, Seitan roast with mushroom sauce (yeah we really like mushrooms :B), potatoe gratin, Pecan mapple puff pastry and sugar cookies !', 'everyone', 15000, 0, 0, 'Christmas menu', 'regular', ''),
+(22, 'HinaNumbaOne', 'My gold medal, don\'t test me Kappa', 'everyone', 15000, 1, 0, 'Hina\'s command', 'regular', ''),
+(23, 'followage', 'getFollowage', 'everyone', 15000, 1, 0, 'getFollowage', 'api', ''),
+(24, 'stretch', 'It\'s time to take a short break, stretch dese legs and grab a drink ! ', 'everyone', 0, 1, 3420000, 'Stretch Command', 'timed', ''),
+(25, 'pc', 'Nova is currently streaming on a broken ass laptop and is pushing for a new pc ! We\'re almost there ! Thank you everyone for the support :3 ', 'everyone', 15000, 1, 0, 'Pc push description', 'regular', '');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

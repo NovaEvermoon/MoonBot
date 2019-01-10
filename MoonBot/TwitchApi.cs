@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MoonBot
 {
-    class TwitchApi
+    public class TwitchApi
     {
-        public JsonFollowersAnswer GetFollowersAnswer(string channelId, string clientId, int count, string cursor)
+        public  JsonFollowersAnswer GetFollowersAnswer(string channelId, string clientId, int count, string cursor)
         {
             string url = "";
             JsonFollowersAnswer jsonFowllowAnswer = new JsonFollowersAnswer();
@@ -155,6 +155,51 @@ namespace MoonBot
 
             return follower;
         }
+
+        public string getFollowage(Follower follower, string userName)
+        {
+            DateTime today = DateTime.Now;
+            DateTime zeroTime = new DateTime(1, 1, 1);
+
+            TimeSpan span = today - follower.created_at;
+
+
+            int years = (zeroTime + span).Year - 1;
+            int months = (zeroTime + span).Month - 1;
+            int days = (zeroTime + span).Day;
+
+            string message = userName + " has been following the channel for ";
+            if(years >0 && years < 2)
+            {
+                message += years + " year ";
+            }
+            else if (years >= 2)
+            {
+                message += years + " years ";
+            }
+
+            if (months > 0 && months < 2)
+            {
+                message += months + " month ";
+            }
+            else if (months >= 2)
+            {
+                message += months + " months ";
+            }
+
+            if (days > 0 && days < 2)
+            {
+                message += days + " day ";
+            }
+            else if (days >= 2)
+            {
+                message += days + " days ";
+            }
+
+            return message;
+
+        }
+
     }
 }
 
