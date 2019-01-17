@@ -39,6 +39,7 @@ namespace MoonBot
             List<Command> timedCommands = new List<Command>();
 
 
+            string test = api.GetTeamMember("novaevermoon", "theicewalkers");
 
             while (reader.Read())
             {
@@ -235,12 +236,10 @@ namespace MoonBot
                                     }
 
                                 }
-                                break;
                             }
                             else
                             {
                                 irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
-                                break;
                             }
                         }
                     }

@@ -200,6 +200,56 @@ namespace MoonBot
 
         }
 
+        public string GetTeamMember(string userName, string teamName)
+        {
+            string teamMember = "";
+            Team team = new Team();
+            team = GetTeamMembers(teamName);
+
+            if(team.user.Any(b => b.name == userName))
+            {
+                teamMember = "IceWalker";
+            }
+
+            return teamMember;
+        }
+
+        public Team GetTeamMembers(string teamName)
+        {
+            Team team = new Team();
+
+            string url = "https://api.twitch.tv/kraken/teams/" + teamName;
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+                webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
+            }
+
+            try
+            {
+                using (Stream s = webRequest.GetResponse().GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(s))
+                    {
+                        var jsonResponse = sr.ReadToEnd();
+
+                        Console.WriteLine(jsonResponse);
+                        team = JsonConvert.DeserializeObject<Team>(jsonResponse);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return team;
+        }
     }
 }
 
