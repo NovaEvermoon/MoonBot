@@ -75,6 +75,13 @@ namespace MoonBot
 
             }
 
+            LaunchTimer launchTimer = new LaunchTimer(irc);
+            foreach(Command timedCommand in timedCommands)
+            {
+                launchTimer.createTimer(timedCommand);
+            }
+
+
             mySqlConnection.Close();
 
             string commandsText = "";
@@ -88,32 +95,7 @@ namespace MoonBot
                 }
             }
 
-            Timer timer = new Timer(timedCommands[0].timer);
-            Timer timer2 = new Timer(timedCommands[1].timer);
-            Timer timer3 = new Timer(timedCommands[2].timer);
-            timer.Start();
-            timer2.Start();
-            timer3.Start();
-
-            timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
-            timer2.Elapsed += new ElapsedEventHandler(timerElapsed);
-            timer3.Elapsed += new ElapsedEventHandler(timer3Elapsed);
-
-            void _timer_Elapsed(object sender, ElapsedEventArgs e)
-            {
-
-                irc.WriteChatMessage(timedCommands[0].message);
-            }
-
-            void timerElapsed(object sender, ElapsedEventArgs e)
-            {
-                irc.WriteChatMessage(timedCommands[1].message);
-            }
-
-            void timer3Elapsed(object sender, ElapsedEventArgs e)
-            {
-                irc.WriteChatMessage(timedCommands[2].message);
-            }
+            
 
             PingSender ping = new PingSender(irc);
             ping.Start();
