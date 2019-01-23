@@ -39,7 +39,8 @@ namespace MoonBot
             List<Command> timedCommands = new List<Command>();
 
 
-            string test = api.GetTeamMember("novaevermoon", "theicewalkers");
+            //string test = api.GetTeamMember("novaevermoon", "theicewalkers");
+            //Channel channel = api.getChannel();
 
             while (reader.Read())
             {
@@ -215,7 +216,17 @@ namespace MoonBot
                                             MethodInfo mInfo;
                                             Type type = Type.GetType("MoonBot.TwitchApi", false);
                                             mInfo = type.GetMethod(foundCommand.message);
-                                            object[] parameters = new object[] { apifollower, username };
+                                            object[] parameters;
+
+                                            if (foundCommand.parameter == 0)
+                                            {
+                                                parameters = new object[] {/* apifollower, username*/ };
+                                            }
+                                            else
+                                            {
+                                                parameters = new object[] { apifollower, username };
+                                            }
+                                            
                                             object apiAnswer = mInfo.Invoke(api, parameters);
                                             irc.WriteChatMessage(apiAnswer.ToString());
                                             break;

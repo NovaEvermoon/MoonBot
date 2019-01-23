@@ -206,7 +206,7 @@ namespace MoonBot
             Team team = new Team();
             team = GetTeamMembers(teamName);
 
-            if(team.user.Any(b => b.name == userName))
+            if(team.users.Any(b => b.name == userName))
             {
                 teamMember = "IceWalker";
             }
@@ -250,6 +250,74 @@ namespace MoonBot
 
             return team;
         }
+
+        public Channel getChannel()
+        {
+
+            Channel channel = new Channel();
+            string url = "https://api.twitch.tv/kraken/channel";
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+                webRequest.Headers.Add("Authorization: OAuth anbv0yz4999janso5ocxkaakd52yma");
+            }
+
+            try
+            {
+                using (Stream s = webRequest.GetResponse().GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(s))
+                    {
+                        var jsonResponse = sr.ReadToEnd();
+
+                        Console.WriteLine(jsonResponse);
+                        channel = JsonConvert.DeserializeObject<Channel>(jsonResponse);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return channel;
+        }
+
+        public string getChannelTitle()
+        {
+            Channel channel = getChannel();
+            string title = "The stream's current title is : " + channel.status;
+            return title;
+        }
+
+        public string getChannelGame()
+        {
+            Channel channel = getChannel();
+            string game = "Currently playing : " + channel.game;
+            return game;
+        }
+
+        public void udateChannelTitle()
+        {
+            string url = "https://api.twitch.tv/kraken/channels/"+ ChatBot.channelId;
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "PUT";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+                webRequest.Headers.Add("Authorization: OAuth yiha3wvz45tm8daeajmcijwh281u2b");
+                
+            }
+        }
+
     }
 }
 

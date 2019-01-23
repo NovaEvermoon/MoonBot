@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoonBot
 {
-    public class BroadCaster
+    public class Users
     {
         public bool mature { get; set; }
         public string status { get; set; }

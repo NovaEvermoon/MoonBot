@@ -20,6 +20,7 @@ namespace MoonBot
         public DateTime startedTime { get; set; }
         public string type { get; set; }
         public string request { get; set; }
+        public int parameter { get; set; }
         public Command()
         {
         }

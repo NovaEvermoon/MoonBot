@@ -31,6 +31,8 @@ namespace MoonBot
         public string description { get; set; }
         public bool private_video { get; set; }
         public bool privacy_options_enabled { get; set; }
+        public string stream_key { get; set; }
+        public string email { get; set; }
     }
 
     public class Follower

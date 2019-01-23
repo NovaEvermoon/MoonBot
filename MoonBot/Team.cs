@@ -17,7 +17,7 @@ namespace MoonBot
         public string logo { get; set; }
         public string banner { get; set; }
         public object background { get; set; }
-        public IList<BroadCaster> user { get; set; }
+        public IList<Users> users { get; set; }
 
     }
 }
