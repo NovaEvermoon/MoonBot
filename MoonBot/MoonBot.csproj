@@ -56,6 +56,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.6.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.3.0\lib\net46\Serilog.dll</HintPath>
     </Reference>
@@ -72,6 +75,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
@@ -124,6 +128,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -162,7 +167,6 @@
     <Compile Include="Channel.cs" />
     <Compile Include="Chatbot.cs" />
     <Compile Include="Chatter.cs" />
-    <Compile Include="Command.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="IrcClient.cs" />
     <Compile Include="JsonFollowersAnswer.cs" />
@@ -178,6 +182,16 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MoonBot-Data\MoonBot-Data.csproj">
+      <Project>{50295A95-BB31-4F4A-B410-5687B02707FC}</Project>
+      <Name>MoonBot-Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Moonbot-Objects\Moonbot-Objects.csproj">
+      <Project>{6247396F-246A-47FC-B41B-AFB2E7AC39BC}</Project>
+      <Name>Moonbot-Objects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

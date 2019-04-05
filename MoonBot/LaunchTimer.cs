@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moonbot_Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace MoonBot
             this.irc = irc;
             timers = new List<customTimer>();
         }
-        public void createTimer(Command command)
+        public void createTimer(CommandO command)
         {
             customTimer timer = new customTimer(command.timer, command.message);
             timer.Start();

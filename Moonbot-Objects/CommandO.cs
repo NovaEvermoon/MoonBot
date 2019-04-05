@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 
-namespace MoonBot
+namespace Moonbot_Objects
 {
-    public class Command
+    public class CommandO
     {
         public int id { get; set; }
         public string keyword { get; set; }
@@ -21,7 +20,7 @@ namespace MoonBot
         public string type { get; set; }
         public string request { get; set; }
         public int parameter { get; set; }
-        public Command()
+        public CommandO()
         {
         }
     }

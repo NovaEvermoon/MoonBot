@@ -1,0 +1,7 @@
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\Moonbot-Objects.exe.config
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\Moonbot-Objects.exe
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\Moonbot-Objects.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot-Objects.csprojAssemblyReference.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot-Objects.csproj.CoreCompileInputs.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot-Objects.exe
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot-Objects.pdb

@@ -73,3 +73,11 @@ C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\MySql.Data.xml
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Serilog.xml
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Serilog.Extensions.Logging.xml
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\RestSharp.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\RestSharp.xml
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.exe
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.exe
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.exe.config
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.exe.config
