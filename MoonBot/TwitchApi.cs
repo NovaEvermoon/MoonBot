@@ -121,6 +121,8 @@ namespace MoonBot
 
         }
 
+        
+
         public Follower GetUserFollower(User user)
         {
             Follower follower = new Follower();

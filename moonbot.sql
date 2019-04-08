@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 23, 2019 at 02:39 PM
+-- Generation Time: Apr 08, 2019 at 01:39 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -37,7 +37,7 @@ CREATE TABLE `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(8);
+(80);
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (4, 'store', 'Humble bundle store : https://www.humblebundle.com/store?partner=novaevermoon', 'everyone', 10000, 1, 0, 'Get the humble store partner link', 'regular', '', 0),
 (5, 'monthly', 'Humble bundle monthly : https://www.humblebundle.com/monthly?partner=novaevermoon', 'everyone', 10000, 1, 0, 'Get humble monthly link', 'regular', '', 0),
 (6, 'crystals', 'Crystals are the channel\'s currency, you earn them while watching the stream and by following, hosting, subscribing etc. You can use these to buy neat rewards ! Leaderboard : https://streamlabs.com/novaevermoon#/loyalty', 'everyone', 10000, 1, 0, 'Get crystal infos', 'regular', '', 0),
-(7, 'lurk', 'is going into lurk mode ! Thank you ♡', 'everyone', 10000, 1, 0, 'sending message for lurk ', 'regular', '', 0),
+(7, 'lurk', ' is going into lurk mode ! Thank you ♡', 'everyone', 10000, 1, 0, 'sending message for lurk ', 'regular', '', 0),
 (8, 'discord', 'Wanna be part of the cool kids and hang out after stream? You can get access to my discord either by subbing or with crystals (!crystals for more info :3 )', 'everyone', 10000, 1, 0, 'get discord info', 'regular', '', 0),
 (9, 'commands', 'List of commands you can use in the chat : ', 'everyone', 10000, 1, 0, 'Display list of usable commands', 'regular', '', 0),
 (10, 'prime', 'Did you know that you can get a free subscription to the channel with twitch prime ! Follow that link to learn more about it ! https://twitch.amazon.com/prime ', 'everyone', 0, 1, 4440000, 'Display information about twitch prime', 'timed', '', 0),
@@ -92,6 +92,31 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (27, 'title', 'getChannelTitle', 'everyone', 15000, 1, 0, 'get the stream\'s current title', 'api', '', 0),
 (28, 'game', 'getChannelGame', 'everyone', 15000, 1, 0, 'get channel\'s current game', 'api', '', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `follower`
+--
+
+CREATE TABLE `follower` (
+  `follower_id` int(11) NOT NULL,
+  `follower_createdAt` datetime NOT NULL,
+  `follower_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL,
+  `user_displayName` varchar(200) COLLATE utf8_bin NOT NULL,
+  `user_name` varchar(200) COLLATE utf8_bin NOT NULL,
+  `user_twitchId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 --
 -- Indexes for dumped tables
 --
@@ -103,6 +128,19 @@ ALTER TABLE `command`
   ADD PRIMARY KEY (`command_id`);
 
 --
+-- Indexes for table `follower`
+--
+ALTER TABLE `follower`
+  ADD PRIMARY KEY (`follower_id`),
+  ADD KEY `follower_user_id` (`follower_user_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -111,6 +149,28 @@ ALTER TABLE `command`
 --
 ALTER TABLE `command`
   MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `follower`
+--
+ALTER TABLE `follower`
+  MODIFY `follower_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `follower`
+--
+ALTER TABLE `follower`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`follower_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -19,8 +19,6 @@ namespace MoonBot
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
@@ -34,7 +32,7 @@ namespace MoonBot
 
             //string test = api.GetTeamMember("novaevermoon", "theicewalkers");
             //api.udateChannelTitle(api.getChannel());
-
+            FollowerD.insertFollowers(0, ChatBot.channelId);
 
 
 

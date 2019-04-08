@@ -81,3 +81,4 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.exe.config
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.pdb
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.exe.config
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.pdb

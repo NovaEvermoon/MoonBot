@@ -11,3 +11,6 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBot-
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.csproj.CopyComplete
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.exe
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.xml
