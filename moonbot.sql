@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2019 at 01:39 PM
+-- Generation Time: Apr 09, 2019 at 02:11 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -21,6 +21,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `moonbot`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser` (IN `displayName` VARCHAR(500), IN `name` VARCHAR(500), IN `twitchId` INT(6) UNSIGNED)  INSERT INTO user(user_displayName, user_name,user_twitchId)
+SELECT @displayName, @name, @twitchId
+ WHERE NOT EXISTS ( SELECT * 
+                      FROM user 
+                      WHERE user_twitchId = @twitchId
+                    )$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -118,6 +131,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_displayName`, `user_name`, `user_twitchId`) VALUES
+(1, '', '', 0),
+(2, '', '', 0);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -160,7 +181,7 @@ ALTER TABLE `follower`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
