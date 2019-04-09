@@ -177,7 +177,6 @@
     <Compile Include="Team.cs" />
     <Compile Include="TmiApi.cs" />
     <Compile Include="TwitchApi.cs" />
-    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

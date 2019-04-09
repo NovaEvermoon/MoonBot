@@ -14,6 +14,7 @@ using System.Timers;
 using System.Configuration;
 using Moonbot_Objects;
 using MoonBot_Data;
+using Moonbot_Objects.TwitchJsonAnswer;
 
 namespace MoonBot
 {
@@ -25,7 +26,7 @@ namespace MoonBot
             TwitchApi api = new TwitchApi();
             TmiApi tmi = new TmiApi();
             List<CommandO> commands = new List<CommandO>();
-            Example chatters = new Example();
+            Examplet chatters = new Examplet();
 
 
             commands = CommandD.loadCommands();
@@ -70,25 +71,25 @@ namespace MoonBot
                 string fullMessage = irc.ReadMessage();
                 if (fullMessage.Contains("PRIVMSG"))
                 {
-                    string username = ChatBot.GetUsername(fullMessage);
+                    string username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     bool isMod = chatters.chatters.moderators.Contains(username);
-                    User user = api.getUser(username);
-                    Subscription sub = api.getUserSubscriber(user);
+                    Datum user = UserD.getUser(username);
 
-                    Follower apifollower = api.GetUserFollower(user);
+                    //UserD.insertUser(user);
+                    //Follower apifollower = api.GetUserFollower(user);
 
 
-                    if (sub.user == null)
-                    {
-                        bool link = ChatBot.checkLink(message);
-                        if (link == true)
-                        {
-                            irc.WriteChatMessage(".timeout " + username + " 15");
-                            irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
-                        }
+                    //if (sub.user == null)
+                    //{
+                    //    bool link = ChatBot.checkLink(message);
+                    //    if (link == true)
+                    //    {
+                    //        irc.WriteChatMessage(".timeout " + username + " 15");
+                    //        irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
+                    //    }
 
-                    }
+                    //}
 
                     char firstCharacter = message[0];
                     if (firstCharacter == '!')
@@ -171,7 +172,7 @@ namespace MoonBot
                                                 }
                                                 else
                                                 {
-                                                    parameters = new object[] { apifollower, username };
+                                                    parameters = new object[] { /*apifollower, username*/ };
                                                 }
 
                                                 object apiAnswer = mInfo.Invoke(api, parameters);

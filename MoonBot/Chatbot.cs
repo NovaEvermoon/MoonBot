@@ -30,22 +30,7 @@ namespace MoonBot
             return message;
         }
 
-        public static string GetUsername(string fullMessage)
-        {
-            string username;
-            int intIndexParseSign = fullMessage.IndexOf(':');
-            if(fullMessage.Contains('!'))
-            {
-                int indexNicknameEnd = fullMessage.IndexOf('!');
-                username = fullMessage.Substring(1, indexNicknameEnd - 1);
-            }
-            else
-            {
-                username = "";
-            }
-
-            return username;
-        }
+        
 
         public static void WriteChatLogLine(string username, string message)
         {

@@ -11,9 +11,9 @@ namespace MoonBot
 {
     class TmiApi
     {
-        public Example getMods()
+        public Examplet getMods()
         {
-            Example test = new Example();
+            Examplet test = new Examplet();
             string url = "https://tmi.twitch.tv/group/user/" + ChatBot.broadcasterName + "/chatters";
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
@@ -25,7 +25,7 @@ namespace MoonBot
                         using (StreamReader sr = new StreamReader(s))
                         {
                             var jsonResponse = sr.ReadToEnd();
-                            test = JsonConvert.DeserializeObject<Example>(jsonResponse);
+                            test = JsonConvert.DeserializeObject<Examplet>(jsonResponse);
                         }
                     }
                 }

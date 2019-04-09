@@ -4,32 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects
+namespace Moonbot_Objects.TwitchJsonAnswer
 {
+    public class Datum
+    {
+        public string id { get; set; }
+        public string login { get; set; }
+        public string display_name { get; set; }
+        public string type { get; set; }
+        public string broadcaster_type { get; set; }
+        public string description { get; set; }
+        public string profile_image_url { get; set; }
+        public string offline_image_url { get; set; }
+        public int view_count { get; set; }
+    }
+
     public class User
     {
-        public string display_name { get; set; }
-        public string _id { get; set; }
-        public string name { get; set; }
-        public string type { get; set; }
-        public object bio { get; set; }
-        public DateTime created_at { get; set; }
-        public DateTime updated_at { get; set; }
-        public string logo { get; set; }
+        List<Datum> data;
     }
-
-    public class Follow
-    {
-        public DateTime created_at { get; set; }
-        public bool notifications { get; set; }
-        public User user { get; set; }
-    }
-
-    public class Example
-    {
-        public int _total { get; set; }
-        public string _cursor { get; set; }
-        public IList<Follow> follows { get; set; }
-    }
-
 }

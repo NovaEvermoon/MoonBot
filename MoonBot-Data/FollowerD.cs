@@ -14,7 +14,7 @@ namespace MoonBot_Data
     {
         public static void insertFollowers(int offset, string channelId)
         {
-            Example follower = new Example();
+            ExampleA follower = new ExampleA();
             string url = "https://api.twitch.tv/kraken/channels/" + channelId + "/follows?offset=" + offset;
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
@@ -34,7 +34,7 @@ namespace MoonBot_Data
                     using (StreamReader sr = new StreamReader(s))
                     {
                         var jsonResponse = sr.ReadToEnd();
-                        follower = JsonConvert.DeserializeObject<Example>(jsonResponse);
+                        follower = JsonConvert.DeserializeObject<ExampleA>(jsonResponse);
                         Console.WriteLine(jsonResponse);
                     }
                 }

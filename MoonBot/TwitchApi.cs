@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Moonbot_Objects;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -75,58 +76,58 @@ namespace MoonBot
 
             return user;
         }
-        public Subscription getUserSubscriber(User user)
-        {
-            Subscription sub = new Subscription();
-            string id = "";
-            foreach (Data data in user.data)
-            {
-                id = data.id;
-            }
+        //public Subscription getUserSubscriber(User user)
+        //{
+        //    Subscription sub = new Subscription();
+        //    string id = "";
+        //    foreach (Data data in user.data)
+        //    {
+        //        id = data.id;
+        //    }
 
-            //string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions?offset=0";
-            string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions/" + id;
+        //    //string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions?offset=0";
+        //    string url = "https://api.twitch.tv/kraken/channels/" + ChatBot.channelId + "/subscriptions/" + id;
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
-                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-                webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
-            }
+        //    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+        //    if (webRequest != null)
+        //    {
+        //        webRequest.Method = "GET";
+        //        webRequest.Timeout = 12000;
+        //        webRequest.ContentType = "application/json";
+        //        webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+        //        webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+        //        webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
+        //    }
 
-            try
-            {
-                using (Stream s = webRequest.GetResponse().GetResponseStream())
-                {
-                    using (StreamReader sr = new StreamReader(s))
-                    {
-                        var jsonResponse = sr.ReadToEnd();
+        //    try
+        //    {
+        //        using (Stream s = webRequest.GetResponse().GetResponseStream())
+        //        {
+        //            using (StreamReader sr = new StreamReader(s))
+        //            {
+        //                var jsonResponse = sr.ReadToEnd();
 
-                        //Console.WriteLine(jsonResponse);
-                        sub = JsonConvert.DeserializeObject<Subscription>(jsonResponse);
-                    }
-                }
+        //                //Console.WriteLine(jsonResponse);
+        //                sub = JsonConvert.DeserializeObject<Subscription>(jsonResponse);
+        //            }
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-                sub = new Subscription();
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        sub = new Subscription();
+        //    }
 
-            return sub;
+        //    return sub;
 
-        }
+        //}
 
         
 
         public Follower GetUserFollower(User user)
         {
             Follower follower = new Follower();
-            string url = "https://api.twitch.tv/kraken/users/"+user.data[0].id+"/follows/channels/"+ChatBot.channelId;
+            string url = "";//"https://api.twitch.tv/kraken/users/"+user.data[0].id+"/follows/channels/"+ChatBot.channelId;
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
             {
