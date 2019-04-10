@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects.TwitchJsonAnswer
+namespace Moonbot_Objects.User
 {
-    public class Datum
+    public class DataUser
     {
         public string id { get; set; }
         public string login { get; set; }
@@ -19,8 +19,9 @@ namespace Moonbot_Objects.TwitchJsonAnswer
         public int view_count { get; set; }
     }
 
-    public class User
+    public class UserO
     {
-        List<Datum> data;
+        public List<DataUser> data { get; set; }
     }
+
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects
+namespace Moonbot_Objects.User
 {
     public class User
     {
@@ -12,7 +12,7 @@ namespace Moonbot_Objects
         public string _id { get; set; }
         public string name { get; set; }
         public string type { get; set; }
-        public object bio { get; set; }
+        public string bio { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
         public string logo { get; set; }
@@ -25,11 +25,10 @@ namespace Moonbot_Objects
         public User user { get; set; }
     }
 
-    public class ExampleA
+    public class FollowerO
     {
         public int _total { get; set; }
         public string _cursor { get; set; }
-        public IList<Follow> follows { get; set; }
+        public List<Follow> follows { get; set; }
     }
-
 }

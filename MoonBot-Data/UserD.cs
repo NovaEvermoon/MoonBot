@@ -1,5 +1,4 @@
-﻿using Moonbot_Objects;
-using Moonbot_Objects.TwitchJsonAnswer;
+﻿using Moonbot_Objects.User;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -15,25 +14,32 @@ namespace MoonBot_Data
 {
     public static class UserD
     {
-        public static void insertUser(Moonbot_Objects.User user)
+        public static void insertUser(UserO user)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
-            using (MySqlConnection mySqlConnection = new MySqlConnection(connectionString))
+            try
             {
-                mySqlConnection.Open();
-
-                using (MySqlCommand cmd = new MySqlCommand())
+                string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
+                using (MySqlConnection mySqlConnection = new MySqlConnection(connectionString))
                 {
-                    cmd.CommandText = "InsertUser";
-                    cmd.Connection = mySqlConnection;
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@displayName", user.display_name);
-                    cmd.Parameters.AddWithValue("@name", user.name);
-                    cmd.Parameters.AddWithValue("@twitchId", user._id);
-                    var test = cmd.ExecuteReader();
-                }
+                    mySqlConnection.Open();
 
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.CommandText = "InsertUser";
+                        cmd.Connection = mySqlConnection;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("displayName", user.data[0].display_name);
+                        cmd.Parameters.AddWithValue("twitchId", user.data[0].id);
+                        var test = cmd.ExecuteReader();
+                    }
+
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
         public static string GetUsername(string fullMessage)
         {
@@ -51,9 +57,11 @@ namespace MoonBot_Data
 
             return username;
         }
-        public static Datum getUser(string username)
+        public static UserO getUser(string username)
         {
-            Datum user = new Datum();
+
+            string readUserToken = ConfigurationManager.AppSettings["userReadToken"];
+            UserO user = new UserO();
             string url = "https://api.twitch.tv/helix/users?login=" + username;
             var webRequest = System.Net.WebRequest.Create(url);
             if (webRequest != null)
@@ -61,7 +69,7 @@ namespace MoonBot_Data
                 webRequest.Method = "GET";
                 webRequest.Timeout = 12000;
                 webRequest.ContentType = "application/json";
-                webRequest.Headers.Add("Client-ID", "v31jt30fnjpg8qgu0ucfbd3ly0q5tx");
+                webRequest.Headers.Add("Client-ID", readUserToken);
 
             }
 
@@ -70,8 +78,7 @@ namespace MoonBot_Data
                 using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
                 {
                     var jsonResponse = sr.ReadToEnd();
-                    object test = JsonConvert.DeserializeObject<Moonbot_Objects.TwitchJsonAnswer.User>(jsonResponse);
-                    user = JsonConvert.DeserializeObject<Datum>(jsonResponse);
+                    user = JsonConvert.DeserializeObject<UserO>(jsonResponse);
                 }
             }
 

@@ -1,4 +1,5 @@
 ﻿using Moonbot_Objects;
+using Moonbot_Objects.Channel;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -49,33 +50,6 @@ namespace MoonBot
             }
             return jsonFowllowAnswer;
         }
-        public User getUser(string username)
-        {
-            User user = new User();
-            string url = "https://api.twitch.tv/helix/users?login=" + username;
-            var webRequest = System.Net.WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-
-            }
-
-            using (Stream s = webRequest.GetResponse().GetResponseStream())
-            {
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
-                {
-                    var jsonResponse = sr.ReadToEnd();
-
-                    Console.WriteLine(jsonResponse);
-                    user = JsonConvert.DeserializeObject<User>(jsonResponse);
-                }
-            }
-
-            return user;
-        }
         //public Subscription getUserSubscriber(User user)
         //{
         //    Subscription sub = new Subscription();
@@ -122,43 +96,7 @@ namespace MoonBot
 
         //}
 
-        
 
-        public Follower GetUserFollower(User user)
-        {
-            Follower follower = new Follower();
-            string url = "";//"https://api.twitch.tv/kraken/users/"+user.data[0].id+"/follows/channels/"+ChatBot.channelId;
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
-                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-                webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
-            }
-
-            try
-            {
-                using (Stream s = webRequest.GetResponse().GetResponseStream())
-                {
-                    using (StreamReader sr = new StreamReader(s))
-                    {
-                        var jsonResponse = sr.ReadToEnd();
-
-                        //Console.WriteLine(jsonResponse);
-                        follower = JsonConvert.DeserializeObject<Follower>(jsonResponse);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return follower;
-        }
 
         public string getFollowage(Follower follower, string userName)
         {
@@ -204,11 +142,11 @@ namespace MoonBot
 
         }
 
-        public string GetTeamMember(string userName, string teamName)
+        public string GetTeamMember(string userName, string teamName,ChannelO channel)
         {
             string teamMember = "";
             Team team = new Team();
-            team = GetTeamMembers(teamName);
+            team = GetTeamMembers(teamName,channel);
 
             if(team.users.Any(b => b.name == userName))
             {
@@ -218,7 +156,7 @@ namespace MoonBot
             return teamMember;
         }
 
-        public Team GetTeamMembers(string teamName)
+        public Team GetTeamMembers(string teamName,ChannelO channel)
         {
             Team team = new Team();
 
@@ -230,7 +168,7 @@ namespace MoonBot
                 webRequest.Timeout = 12000;
                 webRequest.ContentType = "application/json";
                 webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
-                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
+                webRequest.Headers.Add("Client-ID",channel._id);
                 webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
             }
 
@@ -255,108 +193,9 @@ namespace MoonBot
             return team;
         }
 
-        public Channel getChannel()
-        {
+        
 
-            Channel channel = new Channel();
-            string url = "https://api.twitch.tv/kraken/channel";
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
-                webRequest.Headers.Add("Client-ID", ChatBot.clientID);
-                webRequest.Headers.Add("Authorization: OAuth anbv0yz4999janso5ocxkaakd52yma");
-            }
-
-            try
-            {
-                using (Stream s = webRequest.GetResponse().GetResponseStream())
-                {
-                    using (StreamReader sr = new StreamReader(s))
-                    {
-                        var jsonResponse = sr.ReadToEnd();
-
-                        //Console.WriteLine(jsonResponse);
-                        channel = JsonConvert.DeserializeObject<Channel>(jsonResponse);
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-            }
-
-            return channel;
-        }
-
-        public string getChannelTitle()
-        {
-            Channel channel = getChannel();
-            string title = "The stream's current title is : " + channel.status;
-            return title;
-        }
-
-        public string getChannelGame()
-        {
-            Channel channel = getChannel();
-            string game = "Currently playing : " + channel.game;
-            return game;
-        }
-
-        public void udateChannelTitle(Channel channel)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.twitch.tv/kraken/channels/" + ChatBot.channelId);
-            request.Method = "PUT";
-            string postData = "This is a test that posts this string to a Web server.";
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-            //request.Headers.Add("content-type", "application/json");
-            request.ContentType = "application/json";
-            request.Headers.Add("cache-control", "no-cache");
-            // Set the ContentLength property of the WebRequest.
-            request.ContentLength = byteArray.Length;
-            //request.Headers.Add("content-length", byteArray.Length.ToString());
-            Stream dataStream = request.GetRequestStream();
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            dataStream.Close();
-            WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            dataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataStream);
-            string responseFromServer = reader.ReadToEnd();
-            Console.WriteLine(responseFromServer);
-            // Clean up the streams.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
-
-
-
-
-            //HttpWebRequest wrequest = (HttpWebRequest)WebRequest.Create("https://api.twitch.tv/kraken/channels/" + ChatBot.channelId);
-            //wrequest.Method = "PUT";
-            //wrequest.Headers.Add("cache-control", "no-cache");
-            //wrequest.Headers.Add("content-type", "application/json");
-            //wrequest.Headers.Add("Client-ID", ChatBot.clientID);
-            //wrequest.Headers.Add("authorization", "OAuth yiha3wvz45tm8daeajmcijwh281u2b");
-            //wrequest.Headers.Add("accept", "application/vnd.twitchtv.v3+json");
-            //wrequest.ContentType = "application/xml";
-
-            //channel.status = "TEST";
-            //if (channel != null)
-            //{
-            //    wrequest.ContentLength = 500;
-            //    Stream dataStream = wrequest.GetRequestStream();
-            //    Serialize(dataStream, channel);
-            //    dataStream.Close();
-            //}
-
-            //HttpWebResponse wresponse = (HttpWebResponse)wrequest.GetResponse();
-            //string returnString = wresponse.StatusCode.ToString();
-
-        }
+        
 
         public void Serialize(Stream output, object input)
         {

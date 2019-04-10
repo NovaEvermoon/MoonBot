@@ -14,38 +14,41 @@ using System.Timers;
 using System.Configuration;
 using Moonbot_Objects;
 using MoonBot_Data;
-using Moonbot_Objects.TwitchJsonAnswer;
+using MoonBot_Data.Channel;
+using Moonbot_Objects.Channel;
+using Moonbot_Objects.Command;
+using Moonbot_Objects.User;
 
 namespace MoonBot
 {
     class Program
     {
+        static readonly string password = ConfigurationManager.AppSettings["password"];
+
         static void Main(string[] args)
         {
-            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, ChatBot.password, ChatBot.broadcasterName);
+            #region LoadChannel
+                ChannelO channel = ChannelD.getChannel();
+            #endregion
+
+
+            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
             TwitchApi api = new TwitchApi();
             TmiApi tmi = new TmiApi();
-            List<CommandO> commands = new List<CommandO>();
+            
             Examplet chatters = new Examplet();
 
-
+            #region LoadCommands
+            List<CommandO> commands = new List<CommandO>();
             commands = CommandD.loadCommands();
-
-            //string test = api.GetTeamMember("novaevermoon", "theicewalkers");
-            //api.udateChannelTitle(api.getChannel());
-            FollowerD.insertFollowers(0, ChatBot.channelId);
-
-
-
             LaunchTimer launchTimer = new LaunchTimer(irc);
-            foreach(CommandO command in commands)
+            foreach (CommandO command in commands)
             {
-                if(command.type == "timed")
+                if (command.type == "timed")
                 {
                     launchTimer.createTimer(command);
-                } 
+                }
             }
-
 
             string commandsText = "";
 
@@ -57,8 +60,9 @@ namespace MoonBot
 
                 }
             }
-
-            
+            #endregion
+            //"KitanaJAne"
+            FollowerO followers = ChannelD.getChannelFollowers(24, channel);
 
             PingSender ping = new PingSender(irc);
             ping.Start();
@@ -66,7 +70,7 @@ namespace MoonBot
             while (true)
             {
 
-                chatters = tmi.getMods();
+                chatters = tmi.getMods(channel);
 
                 string fullMessage = irc.ReadMessage();
                 if (fullMessage.Contains("PRIVMSG"))
@@ -74,9 +78,10 @@ namespace MoonBot
                     string username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     bool isMod = chatters.chatters.moderators.Contains(username);
-                    Datum user = UserD.getUser(username);
+                    UserO user = UserD.getUser(username);
 
-                    //UserD.insertUser(user);
+                    UserD.insertUser(user);
+                    
                     //Follower apifollower = api.GetUserFollower(user);
 
 

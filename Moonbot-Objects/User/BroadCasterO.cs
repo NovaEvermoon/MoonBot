@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects
+namespace Moonbot_Objects.User
 {
-    class Program
+    class BroadCasterO
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoonBot
+namespace Moonbot_Objects.Channel
 {
-    public class Channel
+    public class ChannelO
     {
         public bool mature { get; set; }
         public string status { get; set; }
@@ -15,7 +15,7 @@ namespace MoonBot
         public string display_name { get; set; }
         public string game { get; set; }
         public string language { get; set; }
-        public int _id { get; set; }
+        public string _id { get; set; }
         public string name { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
@@ -23,7 +23,7 @@ namespace MoonBot
         public string logo { get; set; }
         public string video_banner { get; set; }
         public object profile_banner { get; set; }
-        public string profile_banner_background_color { get; set; }
+        public object profile_banner_background_color { get; set; }
         public string url { get; set; }
         public int views { get; set; }
         public int followers { get; set; }
@@ -34,17 +34,4 @@ namespace MoonBot
         public string stream_key { get; set; }
         public string email { get; set; }
     }
-
-    public class Follower
-    {
-        public DateTime created_at { get; set; }
-        public Channel channel { get; set; }
-        public bool notifications { get; set; }
-
-        public void getFollowage(object[] createdAt)
-        {
-            string test = "";
-        }
-    }
-
 }

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoonBot_Data
+namespace Moonbot_Objects.User
 {
-    class Program
+    class SubscriberO
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2019 at 02:11 PM
+-- Generation Time: Apr 10, 2019 at 02:04 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -26,11 +26,11 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser` (IN `displayName` VARCHAR(500), IN `name` VARCHAR(500), IN `twitchId` INT(6) UNSIGNED)  INSERT INTO user(user_displayName, user_name,user_twitchId)
-SELECT @displayName, @name, @twitchId
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser` (IN `displayName` VARCHAR(500), IN `twitchId` INT(6) UNSIGNED)  INSERT INTO user(user_displayName,user_twitchId)
+SELECT displayName, twitchId
  WHERE NOT EXISTS ( SELECT * 
                       FROM user 
-                      WHERE user_twitchId = @twitchId
+                      WHERE user_twitchId = twitchId
                     )$$
 
 DELIMITER ;
@@ -126,7 +126,6 @@ CREATE TABLE `follower` (
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL,
   `user_displayName` varchar(200) COLLATE utf8_bin NOT NULL,
-  `user_name` varchar(200) COLLATE utf8_bin NOT NULL,
   `user_twitchId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -134,9 +133,8 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_displayName`, `user_name`, `user_twitchId`) VALUES
-(1, '', '', 0),
-(2, '', '', 0);
+INSERT INTO `user` (`user_id`, `user_displayName`, `user_twitchId`) VALUES
+(3, 'NovaEvermoon', 167461349);
 
 --
 -- Indexes for dumped tables
@@ -181,7 +179,7 @@ ALTER TABLE `follower`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

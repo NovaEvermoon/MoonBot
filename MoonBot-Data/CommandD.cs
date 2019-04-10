@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moonbot_Objects;
+using Moonbot_Objects.Command;
 using MySql.Data.MySqlClient;
 
 namespace MoonBot_Data

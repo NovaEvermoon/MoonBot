@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿
+using Moonbot_Objects.Channel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,10 +13,10 @@ namespace MoonBot
 {
     class TmiApi
     {
-        public Examplet getMods()
+        public Examplet getMods(ChannelO channel)
         {
             Examplet test = new Examplet();
-            string url = "https://tmi.twitch.tv/group/user/" + ChatBot.broadcasterName + "/chatters";
+            string url = "https://tmi.twitch.tv/group/user/" + channel.name + "/chatters";
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
             {
