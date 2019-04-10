@@ -164,17 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BroadCaster.cs" />
-    <Compile Include="Channel.cs" />
     <Compile Include="Chatbot.cs" />
     <Compile Include="Chatter.cs" />
-    <Compile Include="Data.cs" />
     <Compile Include="IrcClient.cs" />
-    <Compile Include="JsonFollowersAnswer.cs" />
     <Compile Include="LaunchTimer.cs" />
     <Compile Include="PingSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Team.cs" />
     <Compile Include="TmiApi.cs" />
     <Compile Include="TwitchApi.cs" />
   </ItemGroup>

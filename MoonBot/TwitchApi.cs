@@ -14,42 +14,7 @@ namespace MoonBot
 {
     public class TwitchApi
     {
-        public  JsonFollowersAnswer GetFollowersAnswer(string channelId, string clientId, int count, string cursor)
-        {
-            string url = "";
-            JsonFollowersAnswer jsonFowllowAnswer = new JsonFollowersAnswer();
-
-            if (count > 0)
-            {
-                url = @"https://api.twitch.tv/helix/users/follows?to_id=" + channelId + "&after=" + cursor;
-            }
-            else
-            {
-                url = @"https://api.twitch.tv/helix/users/follows?to_id=" + channelId;
-            }
-
-
-            var webRequest = System.Net.WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Headers.Add("Client-ID", clientId);
-
-            }
-
-            using (Stream s = webRequest.GetResponse().GetResponseStream())
-            {
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
-                {
-                    var jsonResponse = sr.ReadToEnd();
-                    Console.WriteLine(jsonResponse);
-                    jsonFowllowAnswer = JsonConvert.DeserializeObject<JsonFollowersAnswer>(jsonResponse);
-                }
-            }
-            return jsonFowllowAnswer;
-        }
+        
         //public Subscription getUserSubscriber(User user)
         //{
         //    Subscription sub = new Subscription();
@@ -98,100 +63,100 @@ namespace MoonBot
 
 
 
-        public string getFollowage(Follower follower, string userName)
-        {
-            DateTime today = DateTime.Now;
-            DateTime zeroTime = new DateTime(1, 1, 1);
+        //public string getFollowage(Follower follower, string userName)
+        //{
+        //    DateTime today = DateTime.Now;
+        //    DateTime zeroTime = new DateTime(1, 1, 1);
 
-            TimeSpan span = today - follower.created_at;
+        //    TimeSpan span = today - follower.created_at;
 
 
-            int years = (zeroTime + span).Year - 1;
-            int months = (zeroTime + span).Month - 1;
-            int days = (zeroTime + span).Day;
+        //    int years = (zeroTime + span).Year - 1;
+        //    int months = (zeroTime + span).Month - 1;
+        //    int days = (zeroTime + span).Day;
 
-            string message = userName + " has been following the channel for ";
-            if(years >0 && years < 2)
-            {
-                message += years + " year ";
-            }
-            else if (years >= 2)
-            {
-                message += years + " years ";
-            }
+        //    string message = userName + " has been following the channel for ";
+        //    if(years >0 && years < 2)
+        //    {
+        //        message += years + " year ";
+        //    }
+        //    else if (years >= 2)
+        //    {
+        //        message += years + " years ";
+        //    }
 
-            if (months > 0 && months < 2)
-            {
-                message += months + " month ";
-            }
-            else if (months >= 2)
-            {
-                message += months + " months ";
-            }
+        //    if (months > 0 && months < 2)
+        //    {
+        //        message += months + " month ";
+        //    }
+        //    else if (months >= 2)
+        //    {
+        //        message += months + " months ";
+        //    }
 
-            if (days > 0 && days < 2)
-            {
-                message += days + " day ";
-            }
-            else if (days >= 2)
-            {
-                message += days + " days ";
-            }
+        //    if (days > 0 && days < 2)
+        //    {
+        //        message += days + " day ";
+        //    }
+        //    else if (days >= 2)
+        //    {
+        //        message += days + " days ";
+        //    }
 
-            return message;
+        //    return message;
 
-        }
+        //}
 
-        public string GetTeamMember(string userName, string teamName,ChannelO channel)
-        {
-            string teamMember = "";
-            Team team = new Team();
-            team = GetTeamMembers(teamName,channel);
+        //public string GetTeamMember(string userName, string teamName,ChannelO channel)
+        //{
+        //    string teamMember = "";
+        //    Team team = new Team();
+        //    team = GetTeamMembers(teamName,channel);
 
-            if(team.users.Any(b => b.name == userName))
-            {
-                teamMember = "IceWalker";
-            }
+        //    if(team.users.Any(b => b.name == userName))
+        //    {
+        //        teamMember = "IceWalker";
+        //    }
 
-            return teamMember;
-        }
+        //    return teamMember;
+        //}
 
-        public Team GetTeamMembers(string teamName,ChannelO channel)
-        {
-            Team team = new Team();
+        //public Team GetTeamMembers(string teamName,ChannelO channel)
+        //{
+        //    Team team = new Team();
 
-            string url = "https://api.twitch.tv/kraken/teams/" + teamName;
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-            if (webRequest != null)
-            {
-                webRequest.Method = "GET";
-                webRequest.Timeout = 12000;
-                webRequest.ContentType = "application/json";
-                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
-                webRequest.Headers.Add("Client-ID",channel._id);
-                webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
-            }
+        //    string url = "https://api.twitch.tv/kraken/teams/" + teamName;
+        //    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+        //    if (webRequest != null)
+        //    {
+        //        webRequest.Method = "GET";
+        //        webRequest.Timeout = 12000;
+        //        webRequest.ContentType = "application/json";
+        //        webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+        //        webRequest.Headers.Add("Client-ID",channel._id);
+        //        webRequest.Headers.Add("Authorization: OAuth 2tj232fx71a9jhd9hu61crlrj5nced");
+        //    }
 
-            try
-            {
-                using (Stream s = webRequest.GetResponse().GetResponseStream())
-                {
-                    using (StreamReader sr = new StreamReader(s))
-                    {
-                        var jsonResponse = sr.ReadToEnd();
+        //    try
+        //    {
+        //        using (Stream s = webRequest.GetResponse().GetResponseStream())
+        //        {
+        //            using (StreamReader sr = new StreamReader(s))
+        //            {
+        //                var jsonResponse = sr.ReadToEnd();
 
-                        //Console.WriteLine(jsonResponse);
-                        team = JsonConvert.DeserializeObject<Team>(jsonResponse);
-                    }
-                }
+        //                //Console.WriteLine(jsonResponse);
+        //                team = JsonConvert.DeserializeObject<Team>(jsonResponse);
+        //            }
+        //        }
 
-            }
-            catch (Exception ex)
-            {
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
 
-            return team;
-        }
+        //    return team;
+        //}
 
         
 

@@ -61,8 +61,10 @@ namespace MoonBot
                 }
             }
             #endregion
-            //"KitanaJAne"
-            FollowerO followers = ChannelD.getChannelFollowers(24, channel);
+
+
+            FollowerD.insertFollowers(channel);
+
 
             PingSender ping = new PingSender(irc);
             ping.Start();

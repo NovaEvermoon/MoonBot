@@ -80,3 +80,10 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.cspro
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CopyComplete
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.exe
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\MoonBot-Data.dll
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.dll
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\RestSharp.dll
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\MoonBot-Data.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\RestSharp.xml
