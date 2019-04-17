@@ -25,3 +25,4 @@ C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.csp
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.csproj.CopyComplete
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.dll
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBot-Data.csproj.ResolveComReference.cache

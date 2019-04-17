@@ -85,6 +85,39 @@ namespace MoonBot_Data.Channel
             }
             return followers;
         }
+        public static void getChannelSubscribers(int offset, ChannelO channel)
+        {
+            string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
+            string readChannelSubOauth = ConfigurationManager.AppSettings["channelSubscriptionToken"];
+            string url = "https://api.twitch.tv/kraken/channels/"+ channel._id+ "/subscriptions?offset=" + offset;
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Client-ID", channelOauth);
+                webRequest.Headers.Add("Authorization: " + readChannelSubOauth);
+            }
+
+            try
+            {
+                using (Stream s = webRequest.GetResponse().GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(s))
+                    {
+                        var jsonResponse = sr.ReadToEnd();
+                        //followers = JsonConvert.DeserializeObject<FollowerO>(jsonResponse);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         public static string getChannelTitle(ChannelO channel)
         {
             string title = "The stream's current title is : " + channel.status;

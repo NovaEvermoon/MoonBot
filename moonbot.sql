@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2019 at 01:44 PM
+-- Generation Time: Apr 17, 2019 at 01:36 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -926,7 +926,11 @@ INSERT INTO `follower` (`follower_id`, `follower_createdAt`, `follower_twitchId`
 (772, '2018-03-14 10:17:09', 164187663),
 (773, '2018-03-14 10:16:55', 161356062),
 (774, '2018-03-14 10:16:27', 58755787),
-(775, '2017-09-26 09:22:49', 67052145);
+(775, '2017-09-26 09:22:49', 67052145),
+(776, '2019-04-15 10:53:03', 170086790),
+(777, '2019-04-15 09:45:27', 59168684),
+(778, '2019-04-15 00:17:04', 112586922),
+(779, '2019-04-14 10:49:26', 429929251);
 
 -- --------------------------------------------------------
 
@@ -1719,7 +1723,11 @@ INSERT INTO `user` (`user_id`, `user_displayName`, `user_twitchId`, `user_name`)
 (774, 'garionwolf12', 164187663, 'garionwolf12'),
 (775, 'niteangel000', 161356062, 'niteangel000'),
 (776, 'TheShowstopper85', 58755787, 'theshowstopper85'),
-(777, 'Nebuleah', 67052145, 'nebuleah');
+(777, 'Nebuleah', 67052145, 'nebuleah'),
+(778, 'Dashi_Corn', 170086790, 'dashi_corn'),
+(779, 'Skerpi', 59168684, 'skerpi'),
+(780, 'Chrissmith147', 112586922, 'chrissmith147'),
+(781, 'scrash_14', 429929251, 'scrash_14');
 
 --
 -- Indexes for dumped tables
@@ -1757,13 +1765,13 @@ ALTER TABLE `command`
 -- AUTO_INCREMENT for table `follower`
 --
 ALTER TABLE `follower`
-  MODIFY `follower_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=776;
+  MODIFY `follower_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=780;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=778;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=782;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

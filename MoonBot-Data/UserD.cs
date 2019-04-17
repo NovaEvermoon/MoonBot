@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,18 +60,19 @@ namespace MoonBot_Data
         }
         public static UserO getUser(string username)
         {
-
+            string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
             string readUserToken = ConfigurationManager.AppSettings["userReadToken"];
             UserO user = new UserO();
-            string url = "https://api.twitch.tv/helix/users?login=" + username;
-            var webRequest = System.Net.WebRequest.Create(url);
+            string url = "https://api.twitch.tv/kraken/users?login=" + username;
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
             {
                 webRequest.Method = "GET";
                 webRequest.Timeout = 12000;
+                webRequest.Headers.Add("Client-ID", channelOauth);
                 webRequest.ContentType = "application/json";
-                webRequest.Headers.Add("Client-ID", readUserToken);
-
+                webRequest.Accept = "application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Authorization: " + readUserToken);
             }
 
             using (Stream s = webRequest.GetResponse().GetResponseStream())
