@@ -29,8 +29,8 @@ namespace MoonBot_Data
                         cmd.CommandText = "InsertUser";
                         cmd.Connection = mySqlConnection;
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("displayName", user.data[0].display_name);
-                        cmd.Parameters.AddWithValue("twitchId", user.data[0].id);
+                        cmd.Parameters.AddWithValue("displayName", user.users[0].display_name);
+                        cmd.Parameters.AddWithValue("twitchId", user.users[0]._id);
                         var test = cmd.ExecuteReader();
                     }
 

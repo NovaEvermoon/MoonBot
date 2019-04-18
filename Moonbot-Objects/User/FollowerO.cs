@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moonbot_Objects.User
 {
-    public class User
+    public class UserF
     {
         public string display_name { get; set; }
         public string _id { get; set; }
@@ -22,7 +22,7 @@ namespace Moonbot_Objects.User
     {
         public DateTime created_at { get; set; }
         public bool notifications { get; set; }
-        public User user { get; set; }
+        public UserF user { get; set; }
     }
 
     public class FollowerO

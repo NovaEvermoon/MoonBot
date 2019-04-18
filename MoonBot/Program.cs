@@ -61,12 +61,8 @@ namespace MoonBot
                 }
             }
             #endregion
-
             SubscriberD.InsertFollowerFromExcel();
-            //FollowerD.insertFollowers(channel);
-            UserD.getUser("TacoButt");
 
-            //ChannelD.getChannelSubscribers(1, channel);
 
             PingSender ping = new PingSender(irc);
             ping.Start();

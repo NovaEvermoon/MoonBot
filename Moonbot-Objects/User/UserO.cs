@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace Moonbot_Objects.User
 {
-    public class DataUser
+    public class User
     {
-        public string id { get; set; }
-        public string login { get; set; }
         public string display_name { get; set; }
+        public string _id { get; set; }
+        public string name { get; set; }
         public string type { get; set; }
-        public string broadcaster_type { get; set; }
-        public string description { get; set; }
-        public string profile_image_url { get; set; }
-        public string offline_image_url { get; set; }
-        public int view_count { get; set; }
+        public object bio { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
+        public string logo { get; set; }
     }
 
     public class UserO
     {
-        public List<DataUser> data { get; set; }
+        public int _total { get; set; }
+        public List<User> users { get; set; }
     }
 
 }
