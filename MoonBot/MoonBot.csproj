@@ -179,13 +179,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MoonBot-Data\MoonBot-Data.csproj">
+    <ProjectReference Include="..\MoonBot-Data\MoonBot_Data.csproj">
       <Project>{50295A95-BB31-4F4A-B410-5687B02707FC}</Project>
-      <Name>MoonBot-Data</Name>
+      <Name>MoonBot_Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Moonbot-Objects\Moonbot-Objects.csproj">
+    <ProjectReference Include="..\Moonbot-Objects\Moonbot_Objects.csproj">
       <Project>{6247396F-246A-47FC-B41B-AFB2E7AC39BC}</Project>
-      <Name>Moonbot-Objects</Name>
+      <Name>Moonbot_Objects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

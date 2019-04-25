@@ -20,6 +20,7 @@ namespace Moonbot_Objects.Command
         public string type { get; set; }
         public string request { get; set; }
         public int parameter { get; set; }
+        public string file { get; set; }
         public CommandO()
         {
         }

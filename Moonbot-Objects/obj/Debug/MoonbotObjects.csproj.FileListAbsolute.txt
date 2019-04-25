@@ -1,0 +1,5 @@
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\MoonbotObjects.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\MoonbotObjects.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\MoonbotObjects.csproj.CoreCompileInputs.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\MoonbotObjects.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\MoonbotObjects.pdb

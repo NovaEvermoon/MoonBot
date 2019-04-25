@@ -50,8 +50,8 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Ext
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Options.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Primitives.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MySql.Data.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\RestSharp.dll
@@ -68,8 +68,8 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Cli
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.Models.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.PubSub.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\WebSocket4Net.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot-Data.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot-Objects.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.pdb
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.xml
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Moonbot_Objects.Channel;
-using MoonBot_Data.Channel;
+using MoonBot_Data;
 using Moonbot_Objects.User;
 using System.Configuration;
 using MySql.Data.MySqlClient;

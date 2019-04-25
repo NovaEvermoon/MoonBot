@@ -10,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoonBot_Data.Channel
+namespace MoonBot_Data
 {
     public static class ChannelD
     {
@@ -118,13 +118,17 @@ namespace MoonBot_Data.Channel
                 Console.WriteLine(ex.Message);
             }
         }
-        public static string getChannelTitle(ChannelO channel)
+        public static string getChannelTitle()
         {
+            ChannelO channel = getChannel();
+
             string title = "The stream's current title is : " + channel.status;
             return title;
         }
-        public static string getChannelGame(ChannelO channel)
+        public static string getChannelGame()
         {
+            ChannelO channel = getChannel();
+
             string game = "Currently playing : " + channel.game;
             return game;
         }

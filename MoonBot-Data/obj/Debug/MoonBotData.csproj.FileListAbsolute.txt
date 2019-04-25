@@ -1,0 +1,15 @@
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MoonBotData.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MoonBotData.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MoonbotObjects.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MySql.Data.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MoonbotObjects.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\MySql.Data.xml
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.csprojAssemblyReference.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.csproj.ResolveComReference.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.csproj.CoreCompileInputs.cache
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.csproj.CopyComplete
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot-Data\obj\Debug\MoonBotData.pdb
