@@ -13,11 +13,10 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Configuration;
 using Moonbot_Objects;
-using MoonBot_Data;
-using MoonBot_Data.Channel;
 using Moonbot_Objects.Channel;
 using Moonbot_Objects.Command;
 using Moonbot_Objects.User;
+using MoonBot_Data;
 
 namespace MoonBot
 {
@@ -30,7 +29,6 @@ namespace MoonBot
             #region LoadChannel
                 ChannelO channel = ChannelD.getChannel();
             #endregion
-
 
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
             TwitchApi api = new TwitchApi();
@@ -61,7 +59,8 @@ namespace MoonBot
                 }
             }
             #endregion
-            SubscriberD.InsertFollowerFromExcel();
+
+            //SubscriberD.InsertFollowerFromExcel();
 
 
             PingSender ping = new PingSender(irc);
@@ -73,6 +72,7 @@ namespace MoonBot
                 chatters = tmi.getMods(channel);
 
                 string fullMessage = irc.ReadMessage();
+                CommandO foundCommand = new CommandO();
                 if (fullMessage.Contains("PRIVMSG"))
                 {
                     string username = UserD.GetUsername(fullMessage);
@@ -83,6 +83,7 @@ namespace MoonBot
                     UserD.insertUser(user);
                     
                     //Follower apifollower = api.GetUserFollower(user);
+                    
 
 
                     //if (sub.user == null)
@@ -112,14 +113,15 @@ namespace MoonBot
                             {
                                 if (commands.Any(c => c.keyword == commandMessage))
                                 {
-                                    CommandO foundCommand = commands.Single(c => c.keyword == commandMessage);
+                                    foundCommand = commands.Single(c => c.keyword == commandMessage);
+                                    
 
-                                    DateTime testDate = new DateTime(1, 1, 1);
+                                    //DateTime testDate = new DateTime(1, 1, 1);
                                     DateTime date = DateTime.Now;
 
-                                    if (foundCommand.startedTime == testDate)
+                                    if (foundCommand.startedTime.AddMilliseconds(foundCommand.cooldown) < DateTime.Now)
                                     {
-
+                                        foundCommand.startedTime = DateTime.Now;
                                         if (foundCommand.keyword == "commands")
                                         {
                                             foundCommand.message += commandsText;
@@ -167,7 +169,7 @@ namespace MoonBot
                                                 break;
                                             case "api":
                                                 MethodInfo mInfo;
-                                                Type type = Type.GetType("MoonBot.TwitchApi", false);
+                                                Type type = Assembly.Load("MoonBot_Data").GetType(foundCommand.file,false,true);
                                                 mInfo = type.GetMethod(foundCommand.message);
                                                 object[] parameters;
 
@@ -180,7 +182,7 @@ namespace MoonBot
                                                     parameters = new object[] { /*apifollower, username*/ };
                                                 }
 
-                                                object apiAnswer = mInfo.Invoke(api, parameters);
+                                                object apiAnswer = mInfo.Invoke(null, parameters);
                                                 irc.WriteChatMessage(apiAnswer.ToString());
                                                 break;
                                         }

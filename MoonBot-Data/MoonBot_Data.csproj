@@ -7,7 +7,7 @@
     <ProjectGuid>{50295A95-BB31-4F4A-B410-5687B02707FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MoonBot_Data</RootNamespace>
-    <AssemblyName>MoonBot-Data</AssemblyName>
+    <AssemblyName>MoonBot_Data</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Channel\ChannelD.cs" />
+    <Compile Include="ChannelD.cs" />
     <Compile Include="CommandD.cs" />
     <Compile Include="FollowerD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Moonbot-Objects\Moonbot-Objects.csproj">
+    <ProjectReference Include="..\Moonbot-Objects\Moonbot_Objects.csproj">
       <Project>{6247396f-246a-47fc-b41b-afb2e7ac39bc}</Project>
-      <Name>Moonbot-Objects</Name>
+      <Name>Moonbot_Objects</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

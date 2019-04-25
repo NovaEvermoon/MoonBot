@@ -13,7 +13,7 @@ namespace MoonBot_Data
 {
     public static class SubscriberD
     {
-        public static void InsertFollowerFromExcel()
+        public static void InsertSubsFromExcel()
         {
             List<Subscription> subs = new List<Subscription>();
             Excel.Application xlApp = new Excel.Application();
