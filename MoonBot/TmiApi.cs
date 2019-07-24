@@ -31,9 +31,10 @@ namespace MoonBot
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    
+                    StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                    Console.WriteLine(sb);
                 }
             }
 

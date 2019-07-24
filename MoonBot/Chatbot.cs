@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,8 +16,13 @@ namespace MoonBot
     {
 
         public static string botName = "themoonchatbot";
-        
+        public static string headerl1 = @"• ▌ ▄ ·.              ▐ ▄ ▄▄▄▄·       ▄▄▄▄▄";
+        public static string headerl2 = @"·██ ▐███▪▪     ▪     •█▌▐█▐█ ▀█▪▪     •██ ";
+        public static string headerl3 = @"▐█ ▌▐▌▐█· ▄█▀▄  ▄█▀▄ ▐█▐▐▌▐█▀▀█▄ ▄█▀▄  ▐█.▪";
+        public static string headerl4 = @"██ ██▌▐█▌▐█▌.▐▌▐█▌.▐▌██▐█▌██▄▪▐█▐█▌.▐▌ ▐█▌·";
+        public static string headerl5 = @"▀▀  █▪▀▀▀ ▀█▄▀▪ ▀█▄▀▪▀▀ █▪·▀▀▀▀  ▀█▄▀▪ ▀▀▀ ";
 
+        public static string headerSeparator = @"｡･:*:･ﾟ ★,｡･:*:･ﾟ☆ﾟ･:*:･｡,★ ﾟ･:*:･｡･:*:･ﾟ ★,｡･:*:･ﾟ☆ﾟ･:*:･｡,★ ﾟ･:*:･｡";
         public static string GetMessage(string fullMessage)
         {
             string message;
@@ -33,10 +39,6 @@ namespace MoonBot
 
         }
 
-        public static void getChannelID()
-        {
-
-        }
 
         public static bool checkLink(string message)
         {
@@ -52,6 +54,33 @@ namespace MoonBot
             }
 
             return link;
+        }
+
+
+
+        public static void init()
+        {
+            string version = ConfigurationManager.AppSettings["version"];
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.SetCursorPosition((Console.WindowWidth - (headerl1.Length)) / 2, Console.CursorTop+1);
+            Console.Write(headerl1);
+            Console.SetCursorPosition((Console.WindowWidth - (headerl2.Length)) / 2, Console.CursorTop+1);
+            Console.Write(headerl2);
+            Console.SetCursorPosition((Console.WindowWidth - (headerl3.Length)) / 2, Console.CursorTop+1);
+            Console.Write(headerl3);
+            Console.SetCursorPosition((Console.WindowWidth - (headerl4.Length)) / 2, Console.CursorTop+1);
+            Console.Write(headerl4);
+            Console.SetCursorPosition((Console.WindowWidth - (headerl5.Length)) / 2, Console.CursorTop+1);
+            Console.Write(headerl5);
+            Console.WriteLine();
+            Console.SetCursorPosition((Console.WindowWidth - (headerSeparator.Length)) / 2, Console.CursorTop + 1);
+            Console.Write(headerSeparator);
+            Console.SetCursorPosition(0, Console.CursorTop + 1);
+            Console.WriteLine();
+
+            int test = Console.CursorLeft;
+            int test2 = Console.CursorTop;
+            Console.Title = "Moonbot v."+version;
         }
     }
 }

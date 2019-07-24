@@ -13,16 +13,14 @@ namespace MoonBot
     {
         public List<customTimer> timers;
         private IrcClient irc;
-        private string typeTimer;
         private string functionName;
         private string assemblyName;
         private string[] parameters;
         private int miliseconds;
+        public int result;
 
         public LaunchTimer(string functionName, string assemblyName, string[] parameters, int miliseconds)
         {
-
-            this.typeTimer = "functiontimer";
             this.assemblyName = assemblyName;
             this.functionName = functionName;
             this.parameters = parameters;
@@ -33,7 +31,6 @@ namespace MoonBot
 
         public LaunchTimer(IrcClient irc)
         {
-            typeTimer = "commandtimer";
             this.irc = irc;
             timers = new List<customTimer>();
         }
@@ -50,13 +47,12 @@ namespace MoonBot
         {
             customTimer timer = new customTimer(miliseconds);
             timer.Start();
-            timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
+            timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed_With_Result);
             timers.Add(timer);
         }
 
-        public void _timer_Elapsed(object sender, ElapsedEventArgs e, out int result)
+        public void _timer_Elapsed_With_Result(object sender, ElapsedEventArgs e)
         {
-            result = 0;
             if (sender != null)
                 if (sender is Timer)
                 {
@@ -67,7 +63,7 @@ namespace MoonBot
                         mInfo = type.GetMethod(functionName);
 
                         object answer = mInfo.Invoke(null, parameters);
-                        result = Convert.ToInt32(answer);
+                        this.result = Convert.ToInt32(answer);
                     }
                     catch(Exception ex)
                     {

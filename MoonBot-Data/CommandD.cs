@@ -15,43 +15,52 @@ namespace MoonBot_Data
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
             List<CommandO> commands = new List<CommandO>();
-            using (MySqlConnection mySqlConnection = new MySqlConnection(connectionString))
+            try
             {
-                mySqlConnection.Open();
-                string query = "SELECT * FROM command WHERE command_status != 0";
-                MySqlCommand command = new MySqlCommand(query, mySqlConnection);
-                MySqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (MySqlConnection mySqlConnection = new MySqlConnection(connectionString))
                 {
-                    while (reader.Read())
-                    {
-                        CommandO chatCommand = new CommandO();
-                        try
-                        {
-                            chatCommand.id = reader.GetInt32(0);
-                            chatCommand.keyword = reader.GetString(1);
-                            chatCommand.message = reader.GetString(2);
-                            chatCommand.userLevel = reader.GetString(3);
-                            chatCommand.cooldown = reader.GetInt32(4);
-                            chatCommand.status = reader.GetBoolean(5);
-                            chatCommand.timer = reader.GetInt32(6);
-                            chatCommand.description = reader.GetString(7);
-                            chatCommand.type = reader.GetString(8);
-                            chatCommand.request = reader.GetString(9);
-                            chatCommand.parameter = reader.GetInt32(10);
-                            chatCommand.file = reader.GetString(11);
-                            chatCommand.condition = reader.GetString(12);
-                            commands.Add(chatCommand);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                    mySqlConnection.Open();
+                    string query = "SELECT * FROM command WHERE command_status != 0";
+                    MySqlCommand command = new MySqlCommand(query, mySqlConnection);
+                    MySqlDataReader reader = command.ExecuteReader();
 
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            CommandO chatCommand = new CommandO();
+                            try
+                            {
+                                chatCommand.id = reader.GetInt32(0);
+                                chatCommand.keyword = reader.GetString(1);
+                                chatCommand.message = reader.GetString(2);
+                                chatCommand.userLevel = reader.GetString(3);
+                                chatCommand.cooldown = reader.GetInt32(4);
+                                chatCommand.status = reader.GetBoolean(5);
+                                chatCommand.timer = reader.GetInt32(6);
+                                chatCommand.description = reader.GetString(7);
+                                chatCommand.type = reader.GetString(8);
+                                chatCommand.request = reader.GetString(9);
+                                chatCommand.parameter = reader.GetInt32(10);
+                                chatCommand.file = reader.GetString(11);
+                                chatCommand.condition = reader.GetString(12);
+                                commands.Add(chatCommand);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
+
+                        }
                     }
                 }
             }
+            catch(Exception ex)
+            {
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                Console.WriteLine(sb);
+            }
+            
             return commands;
         }
         public static bool isKappamonCommand(string commandMessage)

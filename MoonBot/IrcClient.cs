@@ -39,7 +39,9 @@ namespace MoonBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                Console.WriteLine(sb);
             }
         }
 
@@ -52,7 +54,8 @@ namespace MoonBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                Console.WriteLine(sb);
             }
         }
 
@@ -65,7 +68,9 @@ namespace MoonBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                Console.WriteLine(sb);
             }
         }
 
@@ -76,16 +81,20 @@ namespace MoonBot
 
         public string ReadMessage()
         {
+            string message;
             try
             {
-                string message = ircReader.ReadLine();
+                message = ircReader.ReadLine();
 
                 return message;
             }
             catch (Exception ex)
             {
-                return "Error receiving message: " + ex.Message;
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                return sb.ToString();
             }
+
+            return message;
         }
 
         public string Join()

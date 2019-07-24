@@ -27,13 +27,22 @@ namespace MoonBot
         static readonly SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
         static List<string> mods = new List<string>();
         static List<string> viewers = new List<string>();
+        static IrcClient irc;
+        static StringBuilder commandsText;
         static void Main(string[] args)
         {
+            ChatBot.init();
+
             #region LoadChannel
                 ChannelO channel = ChannelD.getChannel();
             #endregion
 
-            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
+            
+
+            irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
+
+            
+            
             TwitchApi api = new TwitchApi();
             TmiApi tmi = new TmiApi();
             
@@ -41,17 +50,8 @@ namespace MoonBot
 
             chatters = tmi.getViewerList(channel);
 
-            string testComit = "this is a test";
             mods = tmi.getMods(chatters);
             viewers = tmi.getViewers(chatters);
-
-
-            int shards = UserD.getUserShard("novaevermoon");
-
-            string[] users = { "novaevermoon" };
-
-            LaunchTimer testtimer = new LaunchTimer("getUserShard", "MoonBot_Data.UserD", users, 30000);
-            testtimer.createTimer();
 
             #region LoadCommands
             List<CommandO> commands = new List<CommandO>();
@@ -65,20 +65,23 @@ namespace MoonBot
                 }
             }
 
-            string commandsText = "";
 
-            foreach (CommandO command in commands)
+            if(commands.Count !=0)
             {
-                if (command.userLevel == "everyone" && command.timer == 0)
+                 commandsText = new StringBuilder();
+                foreach (CommandO command in commands)
                 {
-                    commandsText += "!" + command.keyword + ", ";
+                    if (command.userLevel == "everyone" && command.timer == 0)
+                    {
+                        commandsText.Append("!" + command.keyword + ", ");
 
+                    }
                 }
+                commandsText.Length = commandsText.Length - 2;
             }
+            
+
             #endregion
-
-            //SubscriberD.InsertFollowerFromExcel();
-
 
             PingSender ping = new PingSender(irc);
             ping.Start();
@@ -248,9 +251,10 @@ namespace MoonBot
                     }
                     catch (Exception ex)
                     {
-                        Console.Write(ex);
+                        StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                        Console.WriteLine(sb);
                     }
-                    }
+                }
             }
         }
     }
