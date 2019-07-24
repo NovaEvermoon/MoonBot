@@ -41,6 +41,7 @@ namespace MoonBot_Data
                             chatCommand.request = reader.GetString(9);
                             chatCommand.parameter = reader.GetInt32(10);
                             chatCommand.file = reader.GetString(11);
+                            chatCommand.condition = reader.GetString(12);
                             commands.Add(chatCommand);
                         }
                         catch (Exception e)
@@ -110,6 +111,13 @@ namespace MoonBot_Data
             }
 
             return answer;
+        }
+
+        public static string getCommandUser(string message)
+        {
+            string user = "";
+
+            return user;
         }
     }
 }

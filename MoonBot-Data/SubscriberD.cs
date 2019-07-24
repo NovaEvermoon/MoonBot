@@ -7,13 +7,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Excel = Microsoft.Office.Interop.Excel;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MoonBot_Data
 {
     public static class SubscriberD
     {
-        public static void InsertSubsFromExcel()
+        /*public static void InsertSubsFromExcel()
         {
             List<Subscription> subs = new List<Subscription>();
             Excel.Application xlApp = new Excel.Application();
@@ -75,6 +75,6 @@ namespace MoonBot_Data
             {
                 Console.WriteLine(ex.Message);
             }
-        }
+        }*/
     }
 }

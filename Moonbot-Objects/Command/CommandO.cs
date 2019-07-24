@@ -21,6 +21,7 @@ namespace Moonbot_Objects.Command
         public string request { get; set; }
         public int parameter { get; set; }
         public string file { get; set; }
+        public string condition { get; set; }
         public CommandO()
         {
         }

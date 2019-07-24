@@ -87,5 +87,19 @@ namespace MoonBot
                 return "Error receiving message: " + ex.Message;
             }
         }
+
+        public string Join()
+        {
+            StringBuilder returndata = new StringBuilder();
+            writer.WriteLine("/join #" + channelName);
+
+            while(!returndata.ToString().Contains("End of /NAMES list"))
+            {
+                returndata.Append(ReadMessage());
+            }
+
+            return returndata.ToString(); ;
+
+        }
     }
 }

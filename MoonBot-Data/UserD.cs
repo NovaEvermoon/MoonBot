@@ -86,5 +86,31 @@ namespace MoonBot_Data
 
             return user;
         }
+
+        public static int getUserShard(string username)
+        {
+            int shards = 23;
+
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
+                using (MySqlConnection mySqlConnection = new MySqlConnection(connectionString))
+                {
+                    mySqlConnection.Open();
+
+                    string query = string.Format("SELECT user_shards FROM user WHERE user_name='{0}'", username);
+
+                    MySqlCommand mySqlCommand = new MySqlCommand(query, mySqlConnection);
+                    shards = Convert.ToInt32(mySqlCommand.ExecuteScalar());
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return shards;
+        }
     }
 }

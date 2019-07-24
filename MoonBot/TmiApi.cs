@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace MoonBot
 {
-    class TmiApi
+    public class TmiApi
     {
-        public Examplet getMods(ChannelO channel)
+        public ViewerList getViewerList(ChannelO channel)
         {
-            Examplet test = new Examplet();
+            ViewerList test = new ViewerList();
             string url = "https://tmi.twitch.tv/group/user/" + channel.name + "/chatters";
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             if (webRequest != null)
@@ -27,7 +27,7 @@ namespace MoonBot
                         using (StreamReader sr = new StreamReader(s))
                         {
                             var jsonResponse = sr.ReadToEnd();
-                            test = JsonConvert.DeserializeObject<Examplet>(jsonResponse);
+                            test = JsonConvert.DeserializeObject<ViewerList>(jsonResponse);
                         }
                     }
                 }
@@ -39,5 +39,30 @@ namespace MoonBot
 
             return test;
         }
+
+        public List<string> getViewers(ViewerList viewerList)
+        {
+            List<string> viewers = new List<string>();
+
+            foreach(string viewer in viewerList.chatters.viewers)
+            {
+                viewers.Add(viewer);
+            }
+
+            return viewers;
+        }
+
+        public List<string> getMods(ViewerList viewerList)
+        {
+            List<string> mods = new List<string>();
+
+            foreach (string viewer in viewerList.chatters.viewers)
+            {
+                mods.Add(viewer);
+            }
+
+            return mods;
+        }
+
     }
 }

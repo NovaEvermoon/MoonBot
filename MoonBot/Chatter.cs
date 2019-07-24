@@ -20,7 +20,7 @@ namespace MoonBot
         public IList<string> viewers { get; set; }
     }
 
-    public class Examplet
+    public class ViewerList
     {
         public Links _links { get; set; }
         public int chatter_count { get; set; }

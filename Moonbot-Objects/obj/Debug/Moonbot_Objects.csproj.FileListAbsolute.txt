@@ -3,3 +3,15 @@ C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\bin\Debug\Moonb
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csproj.CoreCompileInputs.cache
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.dll
 C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\bin\Debug\Moonbot_Objects.dll
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\bin\Debug\Moonbot_Objects.pdb
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csprojAssemblyReference.cache
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csproj.CoreCompileInputs.cache
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.dll
+C:\Users\Nova Evermoon\Documents\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.pdb
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\bin\Debug\Moonbot_Objects.dll
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\bin\Debug\Moonbot_Objects.pdb
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csprojAssemblyReference.cache
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csproj.CoreCompileInputs.cache
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.dll
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.pdb
