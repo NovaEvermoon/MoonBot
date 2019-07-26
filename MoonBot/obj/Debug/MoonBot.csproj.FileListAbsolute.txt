@@ -131,3 +131,7 @@ C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.csproj
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CopyComplete
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.exe
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.pdb
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Reactive.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Websocket.Client.dll
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Reactive.xml
+C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Websocket.Client.xml

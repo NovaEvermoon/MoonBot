@@ -18,6 +18,11 @@ using Moonbot_Objects.Command;
 using Moonbot_Objects.User;
 using MoonBot_Data;
 using System.IO.Ports;
+using System.Threading;
+using Websocket;
+using Websocket.Client;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 
 namespace MoonBot
 {
@@ -37,7 +42,6 @@ namespace MoonBot
                 ChannelO channel = ChannelD.getChannel();
             #endregion
 
-            
 
             irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
 
@@ -52,6 +56,38 @@ namespace MoonBot
 
             mods = tmi.getMods(chatters);
             viewers = tmi.getViewers(chatters);
+
+            var exitEvent = new ManualResetEvent(false);
+            var url = new Uri("wss://pubsub-edge.twitch.tv");
+
+
+            //using (var client = new WebsocketClient(url))
+            //{
+            //    client.ReconnectTimeoutMs = (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
+            //    client.ReconnectionHappened.Subscribe(type => Console.WriteLine($"Reconnection Happened, type  : {type}"));
+
+            //    client.MessageReceived.Subscribe(msg => Console.WriteLine($"Message received {msg}"));
+
+            //    client.Start();
+
+            //    string jsonMessage = "{ 'type': 'PING' }";
+
+            //    Task.Run(() => client.Send(jsonMessage));
+
+            //    client.MessageReceived.Subscribe(msg => Console.WriteLine($"Message received {msg}"));
+
+            //    client.MessageReceived.Where(msg => msg.StartsWith("{")).Subscribe(obj => { code1 });
+
+
+            //    exitEvent.WaitOne();
+
+            //}
+
+
+
+
+
+
 
             #region LoadCommands
             List<CommandO> commands = new List<CommandO>();
