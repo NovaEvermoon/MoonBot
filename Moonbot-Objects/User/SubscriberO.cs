@@ -34,4 +34,20 @@ namespace Moonbot_Objects.User
         public int _total { get; set; }
         public List<Subscription> subscriptions { get; set; }
     }
+
+    public class SubscriptionUser
+    {
+        public string broadcaster_id { get; set; }
+        public string broadcaster_name { get; set; }
+        public bool is_gift { get; set; }
+        public string plan_name { get; set; }
+        public string tier { get; set; }
+        public string user_id { get; set; }
+        public string user_name { get; set; }
+    }
+
+    public class Subscriptions
+    {
+        public List<SubscriptionUser> data { get; set; }
+    }
 }

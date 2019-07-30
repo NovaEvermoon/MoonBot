@@ -30,18 +30,27 @@ namespace MoonBot
     {
         static readonly string password = ConfigurationManager.AppSettings["password"];
         static readonly SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
+        static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
         static List<string> mods = new List<string>();
         static List<string> viewers = new List<string>();
         static IrcClient irc;
         static StringBuilder commandsText;
+        static UserO broadcaster = new UserO();
+        static ChannelO channel = new ChannelO();
+
         static void Main(string[] args)
         {
             ChatBot.init();
 
             #region LoadChannel
-                ChannelO channel = ChannelD.getChannel();
+                channel = ChannelD.getChannel();
             #endregion
 
+            #region LoadBroadCasterInfo
+                broadcaster = UserD.getUser(broadcasterName);
+            #endregion
+
+            
 
             irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
 
@@ -134,25 +143,26 @@ namespace MoonBot
                     string username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     bool isMod = chatters.chatters.moderators.Contains(username);
-                    UserO user = UserD.getUser(username);
-
+                    //UserO user = UserD.getUser(username);
+                    UserO user = UserD.getUser("gaellevel");
                     UserD.insertUser(user);
-                    
+
                     //Follower apifollower = api.GetUserFollower(user);
-                    
+
+                    bool isSubscriber = SubscriberD.isSubscriber(user.users[0]._id,broadcaster.users[0]._id);
 
 
-                    //if (sub.user == null)
-                    //{
-                    //    bool link = ChatBot.checkLink(message);
-                    //    if (link == true)
-                    //    {
-                    //        irc.WriteChatMessage(".timeout " + username + " 15");
-                    //        irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
-                    //    }
 
-                    //}
-
+                    if (isSubscriber == false)
+                    {
+                        bool link = ChatBot.checkLink(message);
+                        if (link == true)
+                        {
+                            irc.WriteChatMessage(".timeout " + username + " 15");
+                            irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
+                        }
+                    }
+ 
                     char firstCharacter = message[0];
 
                     try

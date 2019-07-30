@@ -46,9 +46,10 @@ namespace MoonBot_Data
                                 chatCommand.condition = reader.GetString(12);
                                 commands.Add(chatCommand);
                             }
-                            catch (Exception e)
+                            catch (Exception ex)
                             {
-                                Console.WriteLine(e.Message);
+                                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                                Console.WriteLine(sb);
                             }
 
                         }

@@ -15,3 +15,4 @@ C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbo
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csproj.CoreCompileInputs.cache
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.dll
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csprojAssemblyReference.cache
