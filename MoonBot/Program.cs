@@ -20,9 +20,10 @@ using MoonBot_Data;
 using System.IO.Ports;
 using System.Threading;
 using Websocket;
-using Websocket.Client;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using Websocket.Client;
+using System.Net.WebSockets;
 
 namespace MoonBot
 {
@@ -37,6 +38,34 @@ namespace MoonBot
         static StringBuilder commandsText;
         static UserO broadcaster = new UserO();
         static ChannelO channel = new ChannelO();
+
+        //public static async Task<String> WebSocketConnectTestAsync()
+        //{
+
+        //    string _json = "{\"type\": \"PING\"}";
+
+        //    var _url = new Uri("wss://pubsub-edge.twitch.tv");
+
+        //    ClientWebSocket _ClientWebSocket = new ClientWebSocket();
+        //    CancellationToken _Token = new CancellationToken();
+        //    await _ClientWebSocket.ConnectAsync(_url, CancellationToken.None);
+        //    //_ClientWebSocket.
+        //    //ClientWebSocket.
+
+        //    //var data = JsonConvert.SerializeObject(objectToSerialize);
+        //    byte[] _byteArray = Encoding.UTF8.GetBytes(_json);
+        //    var _buffer = new ArraySegment<Byte>(_byteArray, 0, _byteArray.Length);
+        //    await _ClientWebSocket.SendAsync(_buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+
+        //    var _bufferReception = WebSocket.CreateClientBuffer(512, 512);
+        //    //var _bufferResponse = new ArraySegment<Byte>();
+        //    await _ClientWebSocket.ReceiveAsync(_bufferReception, CancellationToken.None);
+
+
+        //    string _jsonStr = Encoding.UTF8.GetString(_bufferReception.Array);
+
+        //    return null;
+        //}
 
         static void Main(string[] args)
         {
@@ -66,36 +95,9 @@ namespace MoonBot
             mods = tmi.getMods(chatters);
             viewers = tmi.getViewers(chatters);
 
-            var exitEvent = new ManualResetEvent(false);
-            var url = new Uri("wss://pubsub-edge.twitch.tv");
-
-
-            //using (var client = new WebsocketClient(url))
-            //{
-            //    client.ReconnectTimeoutMs = (int)TimeSpan.FromSeconds(30).TotalMilliseconds;
-            //    client.ReconnectionHappened.Subscribe(type => Console.WriteLine($"Reconnection Happened, type  : {type}"));
-
-            //    client.MessageReceived.Subscribe(msg => Console.WriteLine($"Message received {msg}"));
-
-            //    client.Start();
-
-            //    string jsonMessage = "{ 'type': 'PING' }";
-
-            //    Task.Run(() => client.Send(jsonMessage));
-
-            //    client.MessageReceived.Subscribe(msg => Console.WriteLine($"Message received {msg}"));
-
-            //    client.MessageReceived.Where(msg => msg.StartsWith("{")).Subscribe(obj => { code1 });
-
-
-            //    exitEvent.WaitOne();
-
-            //}
-
-
-
-
-
+            
+            //var _Task = WebSocketConnectTestAsync();
+            //_Task.Wait();
 
 
             #region LoadCommands
@@ -303,6 +305,8 @@ namespace MoonBot
                 }
             }
         }
+
+        
     }
 }
 

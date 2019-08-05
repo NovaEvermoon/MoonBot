@@ -35,7 +35,6 @@ C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\bin\Debug\MySql.Dat
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.pdb
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\obj\Debug\MoonBot_Data.csprojAssemblyReference.cache
-C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\obj\Debug\MoonBot_Data.csproj.ResolveComReference.cache
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\obj\Debug\MoonBot_Data.csproj.CoreCompileInputs.cache
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\obj\Debug\MoonBot_Data.csproj.CopyComplete
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot-Data\obj\Debug\MoonBot_Data.dll

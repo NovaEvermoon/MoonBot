@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 23, 2019 at 09:13 PM
+-- Generation Time: Aug 05, 2019 at 05:36 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(157);
+(168);
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (13, 'charity', 'From December 12-27, you can cheer with #charity and Twitch will donate $.20 for every 100 Bits to DirectRelief! You\'ll also be able to snag a cute  shiny new charity badge, so make dem bitties rain ! ', 'everyone', 15000, 1, 0, 'charity explanation', 'regular', '', 0, '', ''),
 (15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 0, 1800000, 'Birthday event explanation ', 'timed', '0', 0, '', ''),
 (16, 'rewards', '1€/100 bits : Name in hall of fame\r\n2€/200 bits : Custom command on stream\r\n5€/500 bits : Name on Balloon\r\n10€/1000 bits : Postal Card\r\n20€/2000 bits : Pokemon Pearler Bead\r\n50€/5000 bits : All rewards', 'everyone', 15000, 0, 0, 'birthday rewards', 'regular', '', 0, '', ''),
-(17, 'goals', '200€ : Bestfriend does my makeup (completed)\r\n400€ : Vegan cheescake cooking stream with Chaton\r\n600€ : Helium Karaoke\r\n800€ : Spyro giveaway (PS4)\r\n1000€ : PC Building Stream\r\n1200€(stretch goal) : Cosplay Stream\r\n', 'everyone', 15000, 0, 0, 'Birthday goals ', 'regular', '', 0, '', ''),
+(17, 'goals', '100€ / 300€ / 500€ : Game Giveaway ☆ 200€ : Horror game Stream ☆ 400€ : Just Dance Stream ☆ 600€ : Art Stream', 'everyone', 15000, 1, 0, 'Donation goals ', 'regular', '', 0, '', ''),
 (18, 'duo', 'Today, Nova is duo streaming Human Fall Flat with Dudoiselle ! Head to  https://multistre.am/dudoiselle/novaevermoon/layout4/ to watch both the strims !', 'everyone', 10000, 0, 0, 'duo stream', 'regular', '', 0, '', ''),
 (19, 'addicted', 'toKappa', 'everyone', 10000, 1, 0, 'birthday command for addictedtokappa', 'regular', '', 0, '', ''),
 (20, 'giveaway', 'Ho ho ho ! To thank you all for making this year amazing, I\'m gonna be giving away a copy Spyro Reignited for PS4 so be sure to hang out today :3 ', 'everyone', 15000, 0, 0, 'Christmas Giveaway ', 'regular', '', 0, '', ''),
