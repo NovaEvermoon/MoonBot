@@ -39,71 +39,9 @@ namespace MoonBot
         static UserO broadcaster = new UserO();
         static ChannelO channel = new ChannelO();
 
-        public static async Task<string> PeriodicSendPing(TimeSpan interval, CancellationToken cancellationToken, ClientWebSocket clientwebsocket)
-        {
-            string result;
-            while (true)
-            {
-                result =  SendPingAsync(clientwebsocket).Result;
-                await Task.Delay(interval, cancellationToken);
-            }
-
-            return result;
-        }
-
-        public static async Task<string> SendPingAsync(ClientWebSocket clientwebsocket)
-        {
-            string jsonPing = "{\"type\": \"PING\"}";
-            byte[] byteArray = Encoding.UTF8.GetBytes(jsonPing);
-            ArraySegment<Byte> buffer = new ArraySegment<Byte>(byteArray, 0, byteArray.Length);
-            await clientwebsocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-
-            ArraySegment<Byte> bufferReception = WebSocket.CreateClientBuffer(512, 512);
-            await clientwebsocket.ReceiveAsync(bufferReception, CancellationToken.None);
-
-            string result = Encoding.UTF8.GetString(bufferReception.Array);
-
-            return result;
-
-        }
-
-        public static async Task<ClientWebSocket> WebSocketConnectAsync()
-        {
-            bool connected = false;
-            string _json = "{\"type\": \"PING\"}";
-
-            var _url = new Uri("wss://pubsub-edge.twitch.tv");
-
-            ClientWebSocket _ClientWebSocket = new ClientWebSocket();
-            try
-            {
-                await _ClientWebSocket.ConnectAsync(_url, CancellationToken.None);
-            }
-            catch(Exception ex)
-            {
-                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
-                Console.WriteLine(sb);
-            }
-            
-
-            byte[] _byteArray = Encoding.UTF8.GetBytes(_json);
-            var _buffer = new ArraySegment<Byte>(_byteArray, 0, _byteArray.Length);
-            await _ClientWebSocket.SendAsync(_buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-
-            var _bufferReception = WebSocket.CreateClientBuffer(512, 512);
-            await _ClientWebSocket.ReceiveAsync(_bufferReception, CancellationToken.None);
-
-
-            string jsonStr = Encoding.UTF8.GetString(_bufferReception.Array);
-            if (jsonStr.Contains("PONG"))
-            {
-                connected = true;
-            }
-            return _ClientWebSocket;
-        }
-
         static void Main(string[] args)
         {
+            TwitchSocket twitchSocket = new TwitchSocket();
             ChatBot.init();
 
             #region LoadChannel
@@ -129,14 +67,21 @@ namespace MoonBot
 
             mods = tmi.getMods(chatters);
             viewers = tmi.getViewers(chatters);
+            ClientWebSocket webSocket = twitchSocket.WebSocketConnectAsync().Result;
+            twitchSocket.BitsSubscribe(webSocket);
+
+            System.Timers.Timer timerPing = new System.Timers.Timer(30000);
+            timerPing.Start();
+            timerPing.Elapsed += (sender, e) => twitchSocket.SendPingAsync(webSocket).Wait();
 
 
-            ClientWebSocket connected = WebSocketConnectAsync().Result;
+
             TimeSpan timeSpan = new TimeSpan(0, 0, 0, 30);
-            if(connected.State == WebSocketState.Open)
-            {
-                var result = PeriodicSendPing(timeSpan, CancellationToken.None,connected).Result;
-            }
+
+            //if(webSocket.State == WebSocketState.Open)
+            //{
+            //    var result = PeriodicSendPing(timeSpan, CancellationToken.None, webSocket).Result;
+            //}
 
 
 

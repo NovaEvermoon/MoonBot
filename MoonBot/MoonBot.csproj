@@ -182,6 +182,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TmiApi.cs" />
     <Compile Include="TwitchApi.cs" />
+    <Compile Include="TwitchSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
