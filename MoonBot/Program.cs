@@ -39,8 +39,16 @@ namespace MoonBot
         static UserO broadcaster = new UserO();
         static ChannelO channel = new ChannelO();
 
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            port.Open();
+            port.Write("m");
+            port.Close();
+        }
+
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             TwitchSocket twitchSocket = new TwitchSocket();
             ChatBot.init();
 
@@ -68,11 +76,11 @@ namespace MoonBot
             mods = tmi.getMods(chatters);
             viewers = tmi.getViewers(chatters);
             ClientWebSocket webSocket = twitchSocket.WebSocketConnectAsync().Result;
-            twitchSocket.BitsSubscribe(webSocket);
+            twitchSocket.WhisperSubscribe(webSocket, broadcaster.users[0]._id).Wait();
 
-            System.Timers.Timer timerPing = new System.Timers.Timer(30000);
-            timerPing.Start();
-            timerPing.Elapsed += (sender, e) => twitchSocket.SendPingAsync(webSocket).Wait();
+            //System.Timers.Timer timerPing = new System.Timers.Timer(300000);
+            //timerPing.Start();
+            //timerPing.Elapsed += (sender, e) => twitchSocket.SendPingAsync(webSocket).Wait();
 
 
 

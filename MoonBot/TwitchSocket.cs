@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
 using System.Threading;
+using System.Configuration;
 
 namespace MoonBot
 {
@@ -70,7 +71,7 @@ namespace MoonBot
 
         }
 
-        public async void BitsSubscribe(ClientWebSocket clientwebsocket)
+        public async Task BitsSubscribe(ClientWebSocket clientwebsocket)
         {
             string jsonBits = @"
                                 {
@@ -92,6 +93,25 @@ namespace MoonBot
 
             string result = Encoding.UTF8.GetString(bufferReception.Array);
 
+        }
+
+
+        public async Task WhisperSubscribe(ClientWebSocket clientWebSocket, string userId)
+        {
+            string oauth = ConfigurationManager.AppSettings["whisperReadToken"];
+            string jsonWhisper = String.Format(@"{{'type': 'LISTEN','nonce': 'whisper listen event','data': {{'topics': ['whispers.{0}'],'auth_token': '{1}'}}}}", userId, oauth);
+
+
+
+
+byte[] byteArray = Encoding.UTF8.GetBytes(jsonWhisper);
+            ArraySegment<Byte> buffer = new ArraySegment<Byte>(byteArray, 0, byteArray.Length);
+            await clientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+
+            ArraySegment<Byte> bufferReception = WebSocket.CreateClientBuffer(512, 512);
+            await clientWebSocket.ReceiveAsync(bufferReception, CancellationToken.None);
+
+            string result = Encoding.UTF8.GetString(bufferReception.Array);
         }
     }
 }
