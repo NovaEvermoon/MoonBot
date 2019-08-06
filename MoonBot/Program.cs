@@ -30,7 +30,7 @@ namespace MoonBot
     class Program
     {
         static readonly string password = ConfigurationManager.AppSettings["password"];
-        static readonly SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
+        static readonly SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
         static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
         static List<string> mods = new List<string>();
         static List<string> viewers = new List<string>();
