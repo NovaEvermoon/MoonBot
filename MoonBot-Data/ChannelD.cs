@@ -45,6 +45,43 @@ namespace MoonBot_Data
             }
             catch (Exception ex)
             {
+                StringBuilder sb = new StringBuilder(DateTime.Now.ToString("dd-MM-yyyy") + " : " + ex.Message);
+                Console.WriteLine(sb.ToString());
+            }
+
+            return channel;
+        }
+
+        public static ChannelO getChannelWithId(string userId)
+        {
+            ChannelO channel = new ChannelO();
+            string url = String.Format("https://api.twitch.tv/kraken/channels/{0}", userId);
+            string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
+            if (webRequest != null)
+            {
+                webRequest.Method = "GET";
+                webRequest.Timeout = 12000;
+                webRequest.ContentType = "application/json";
+                webRequest.Accept = "Accept: application/vnd.twitchtv.v5+json";
+                webRequest.Headers.Add("Client-ID", channelOauth);
+            }
+
+            try
+            {
+                using (Stream s = webRequest.GetResponse().GetResponseStream())
+                {
+                    using (StreamReader sr = new StreamReader(s))
+                    {
+                        var jsonResponse = sr.ReadToEnd();
+                        channel = JsonConvert.DeserializeObject<ChannelO>(jsonResponse);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
 
@@ -183,6 +220,26 @@ namespace MoonBot_Data
         //    //string returnString = wresponse.StatusCode.ToString();
 
         }
+
+        public static string getShoutOut(string userName)
+        {
+            string shoutOut = "";
+            if (userName == "")
+            {
+                shoutOut = "You didn't specify any streamer for the shoutout";
+            }
+            UserO user = new UserO();
+            ChannelO channel = new ChannelO();
+            user = UserD.getUser(userName);
+
+            channel = ChannelD.getChannelWithId(user.users[0]._id);
+
+            shoutOut = "✧･ﾟ: ✧･ﾟ: Streamer alert :･ﾟ✧:･ﾟ✧ ! Show some love to this wonderful human being at : http://twitch.tv/"+ userName +" , they were last seen streaming "+channel.game;
+
+
+            return shoutOut;
+        }
+
     }
 
 }

@@ -19,7 +19,7 @@ namespace Moonbot_Objects.Command
         public DateTime startedTime { get; set; }
         public string type { get; set; }
         public string request { get; set; }
-        public int parameter { get; set; }
+        public string parameter { get; set; }
         public string file { get; set; }
         public string condition { get; set; }
         public CommandO()

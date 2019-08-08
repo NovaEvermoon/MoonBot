@@ -41,7 +41,7 @@ namespace MoonBot_Data
                                 chatCommand.description = reader.GetString(7);
                                 chatCommand.type = reader.GetString(8);
                                 chatCommand.request = reader.GetString(9);
-                                chatCommand.parameter = reader.GetInt32(10);
+                                chatCommand.parameter = reader.GetString(10);
                                 chatCommand.file = reader.GetString(11);
                                 chatCommand.condition = reader.GetString(12);
                                 commands.Add(chatCommand);
