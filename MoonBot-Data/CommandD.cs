@@ -41,9 +41,23 @@ namespace MoonBot_Data
                                 chatCommand.description = reader.GetString(7);
                                 chatCommand.type = reader.GetString(8);
                                 chatCommand.request = reader.GetString(9);
-                                chatCommand.parameter = reader.GetString(10);
-                                chatCommand.file = reader.GetString(11);
-                                chatCommand.condition = reader.GetString(12);
+                                chatCommand.parameters = reader.GetInt32(10);
+
+                                string commandParameters = reader.GetString(11);
+                                if(commandParameters != "")
+                                {
+                                    string[] cmdParams = commandParameters.Split('|');
+
+                                    for (int i = 0; i < cmdParams.Length; i++)
+                                    {
+                                        chatCommand.parameterList.Add(cmdParams[i], "");
+                                    }
+                                }
+                                
+
+
+                                chatCommand.file = reader.GetString(12);
+                                chatCommand.condition = reader.GetString(13);
                                 commands.Add(chatCommand);
                             }
                             catch (Exception ex)

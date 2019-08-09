@@ -32,17 +32,17 @@ namespace MoonBot
     class Program
     {
 
-        static readonly string password = ConfigurationManager.AppSettings["password"];
-        static readonly SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
-        static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
-        static List<string> mods = new List<string>();
-        static List<string> viewers = new List<string>();
-        static IrcClient irc;
-        static StringBuilder commandsText;
-        static UserO broadcaster = new UserO();
-        static ChannelO channel = new ChannelO();
-        static List<string> moderators = new List<string>();
-        static string username;
+        public static readonly string password = ConfigurationManager.AppSettings["password"];
+        public static readonly SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
+        public static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
+        public static List<string> mods = new List<string>();
+        public static List<string> viewers = new List<string>();
+        public static IrcClient irc;
+        public static StringBuilder commandsText;
+        public static UserO broadcaster = new UserO();
+        public static ChannelO channel = new ChannelO();
+        public static List<string> moderators = new List<string>();
+        public static string[] command;
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             port.Open();
@@ -63,6 +63,7 @@ namespace MoonBot
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             TwitchSocket twitchSocket = new TwitchSocket();
             ChatBot.init();
+            string username;
             #region LoadBroadCasterInfo
             broadcaster = UserD.getUser(broadcasterName);
             #endregion
@@ -144,134 +145,138 @@ namespace MoonBot
                         {
 
                             string commandMessage = message.Substring(message.IndexOf('!') + 1);
+                            
                             bool kappamonCommand = CommandD.isKappamonCommand(commandMessage);
 
                             if (!kappamonCommand)
                             {
                                 if (commandMessage.Contains(" "))
                                 {
-                                    string[] command = commandMessage.Split(' ');
+                                    command = commandMessage.Split(' ');
+                                    commandMessage = command[0];
                                 }
-                                else
-                                {
-                                    if (commands.Any(c => c.keyword == commandMessage))
-                                    {
-                                        foundCommand = commands.Single(c => c.keyword == commandMessage);
 
-                                        if(foundCommand.userLevel == "moderator" && !moderators.Contains(username))
+                                if (commands.Any(c => c.keyword == commandMessage))
+                                {
+                                    foundCommand = commands.Single(c => c.keyword == commandMessage);
+                                    if(command != null)
+                                    { 
+                                        foundCommand.parameterList["username"] = command[1];
+                                    }
+
+                                    if(foundCommand.userLevel == "moderator" && !moderators.Contains(username))
+                                    {
+                                        irc.WriteChatMessage("You are not allowed to use this command !");
+                                    }
+                                    else
+                                    {
+                                        DateTime date = DateTime.Now;
+
+                                        if (foundCommand.startedTime.AddMilliseconds(foundCommand.cooldown) < DateTime.Now)
+
                                         {
-                                            irc.WriteChatMessage("You are not allowed to use this command !");
+                                            foundCommand.startedTime = DateTime.Now;
+                                            if (foundCommand.keyword == "commands")
+                                            {
+                                                foundCommand.message += commandsText;
+                                            }
+
+                                            switch (foundCommand.type)
+                                            {
+                                                case "request":
+                                                    string query = foundCommand.request;
+                                                    using (MySqlConnection mySqlConnection = new MySqlConnection(""/*connectionString*/))
+                                                    {
+                                                        if (foundCommand.condition != "")
+                                                        {
+                                                            switch (foundCommand.condition)
+                                                            {
+                                                                case "userName":
+                                                                    foundCommand.request = string.Format(foundCommand.request, username);
+                                                                    foundCommand.message = string.Format(foundCommand.message, username);
+                                                                    break;
+                                                            }
+                                                        }
+
+                                                        if (foundCommand.request.Contains("SELECT"))
+                                                        {
+                                                            Tuple<int, string> test = CommandD.executeSelectCommand(foundCommand.request);
+                                                            if (foundCommand.message.Contains("@"))
+                                                            {
+                                                                irc.WriteChatMessage(foundCommand.message.Replace("@", test.Item1.ToString()));
+                                                            }
+                                                            else
+                                                            {
+                                                                irc.WriteChatMessage(test.Item2);
+                                                            }
+                                                        }
+                                                        else if (foundCommand.request.Contains("UPDATE"))
+                                                        {
+                                                            Tuple<int, string> result = CommandD.executeUpdateCommand(foundCommand.request, foundCommand.message);
+                                                            mySqlConnection.Close();
+                                                            if (result.Item1 < 0)
+                                                            {
+
+                                                            }
+                                                            else
+                                                            {
+                                                                irc.WriteChatMessage(result.Item2);
+                                                            }
+                                                        }
+                                                    }
+                                                break;
+                                                case "regular":
+                                                    irc.WriteChatMessage(foundCommand.message);
+                                                break;
+                                                case "api":
+                                                    MethodInfo mInfo;
+                                                    Type type = Assembly.Load("MoonBot_Data").GetType(foundCommand.file, false, true);
+                                                    mInfo = type.GetMethod(foundCommand.message);
+                                                    object[] parameters;
+
+                                                    if (foundCommand.parameters == 0)
+                                                    {
+                                                        parameters = new object[] {};
+                                                    }
+                                                    else
+                                                    {
+                                                        Type testType = typeof(Program);
+                                                        //var fieldInfo = testType.GetField(foundCommand.parameter,BindingFlags.Static | BindingFlags.Public); //.GetValue(testType) as IEnumerable;
+                                                        ////var paramValue =  this.GetType().GetField(foundCommand.parameter).GetValue(this) as IEnumerable;
+
+                                                        parameters = new object[] { foundCommand.parameterList };
+                                                    }
+
+                                                    object apiAnswer = mInfo.Invoke(null, parameters);
+                                                    irc.WriteChatMessage(apiAnswer.ToString());
+                                                break;
+                                                case "moonlights":
+                                                    irc.WriteChatMessage("Switching color to : " + foundCommand.keyword);
+                                                    port.Open();
+                                                    port.Write(foundCommand.message);
+                                                    port.Close();
+                                                break;
+                                            }
                                         }
                                         else
                                         {
-                                            DateTime date = DateTime.Now;
-
-                                            if (foundCommand.startedTime.AddMilliseconds(foundCommand.cooldown) < DateTime.Now)
-
+                                            TimeSpan span = date - foundCommand.startedTime;
+                                            int ms = (int)span.TotalMilliseconds;
+                                            if (ms <= foundCommand.cooldown)
                                             {
-                                                foundCommand.startedTime = DateTime.Now;
-                                                if (foundCommand.keyword == "commands")
-                                                {
-                                                    foundCommand.message += commandsText;
-                                                }
-
-                                                switch (foundCommand.type)
-                                                {
-                                                    case "request":
-                                                        string query = foundCommand.request;
-                                                        using (MySqlConnection mySqlConnection = new MySqlConnection(""/*connectionString*/))
-                                                        {
-                                                            if (foundCommand.condition != "")
-                                                            {
-                                                                switch (foundCommand.condition)
-                                                                {
-                                                                    case "userName":
-                                                                        foundCommand.request = string.Format(foundCommand.request, username);
-                                                                        foundCommand.message = string.Format(foundCommand.message, username);
-                                                                        break;
-                                                                }
-                                                            }
-
-                                                            if (foundCommand.request.Contains("SELECT"))
-                                                            {
-                                                                Tuple<int, string> test = CommandD.executeSelectCommand(foundCommand.request);
-                                                                if (foundCommand.message.Contains("@"))
-                                                                {
-                                                                    irc.WriteChatMessage(foundCommand.message.Replace("@", test.Item1.ToString()));
-                                                                }
-                                                                else
-                                                                {
-                                                                    irc.WriteChatMessage(test.Item2);
-                                                                }
-                                                            }
-                                                            else if (foundCommand.request.Contains("UPDATE"))
-                                                            {
-                                                                Tuple<int, string> result = CommandD.executeUpdateCommand(foundCommand.request, foundCommand.message);
-                                                                mySqlConnection.Close();
-                                                                if (result.Item1 < 0)
-                                                                {
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    irc.WriteChatMessage(result.Item2);
-                                                                }
-                                                            }
-                                                        }
-                                                    break;
-                                                    case "regular":
-                                                        irc.WriteChatMessage(foundCommand.message);
-                                                    break;
-                                                    case "api":
-                                                        MethodInfo mInfo;
-                                                        Type type = Assembly.Load("MoonBot_Data").GetType(foundCommand.file, false, true);
-                                                        mInfo = type.GetMethod(foundCommand.message);
-                                                        object[] parameters;
-
-                                                        if (foundCommand.parameter == "")
-                                                        {
-                                                            parameters = new object[] {/* apifollower, username*/ };
-                                                        }
-                                                        else
-                                                        {
-                                                            //Type testType = typeof(Program);
-                                                            //var fieldInfo = testType.GetField(foundCommand.parameter,BindingFlags.Static); //.GetValue(testType) as IEnumerable;
-                                                            ////var paramValue =  this.GetType().GetField(foundCommand.parameter).GetValue(this) as IEnumerable;
-
-                                                            parameters = new object[] { /*apifollower, username*/ };
-                                                        }
-
-                                                        object apiAnswer = mInfo.Invoke(null, parameters);
-                                                        irc.WriteChatMessage(apiAnswer.ToString());
-                                                        break;
-                                                        case "moonlights":
-                                                        irc.WriteChatMessage("Switching color to : " + foundCommand.keyword);
-                                                        port.Open();
-                                                        port.Write(foundCommand.message);
-                                                        port.Close();
-                                                    break;
-                                                }
+                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
                                             }
                                             else
                                             {
-                                                TimeSpan span = date - foundCommand.startedTime;
-                                                int ms = (int)span.TotalMilliseconds;
-                                                if (ms <= foundCommand.cooldown)
-                                                {
-                                                    irc.WriteChatMessage("This command is in cooldown right now, be patient !");
-                                                }
-                                                else
-                                                {
-                                                    irc.WriteChatMessage(foundCommand.message);
-                                                    foundCommand.startedTime = DateTime.Now;
-                                                }
+                                                irc.WriteChatMessage(foundCommand.message);
+                                                foundCommand.startedTime = DateTime.Now;
                                             }
                                         }
-                                    }   
-                                    else
-                                    {
-                                        irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
                                     }
+                                }   
+                                else
+                                {
+                                    irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
                                 }
                             }
                         }

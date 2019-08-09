@@ -19,11 +19,13 @@ namespace Moonbot_Objects.Command
         public DateTime startedTime { get; set; }
         public string type { get; set; }
         public string request { get; set; }
-        public string parameter { get; set; }
+        public int parameters { get; set; }
+        public Dictionary<string,string> parameterList { get; set; }
         public string file { get; set; }
         public string condition { get; set; }
         public CommandO()
         {
+            parameterList = new Dictionary<string, string>();
         }
     }
 }

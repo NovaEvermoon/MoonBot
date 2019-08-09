@@ -221,22 +221,34 @@ namespace MoonBot_Data
 
         }
 
-        public static string getShoutOut(string userName)
+        public static string getShoutOut(Dictionary<string,string> parameters)
         {
+            string userName = parameters["username"];
+
             string shoutOut = "";
-            if (userName == "")
+            if (userName != "")
+            {
+                UserO user = new UserO();
+                ChannelO channel = new ChannelO();
+                user = UserD.getUser(userName);
+                if (user._total != 0)
+                {
+                    channel = ChannelD.getChannelWithId(user.users[0]._id);
+
+                    shoutOut = "✧･ﾟ: ✧･ﾟ: Streamer alert :･ﾟ✧:･ﾟ✧ ! Show some love to this wonderful human being at : http://twitch.tv/" + userName + " , they were last seen streaming " + channel.game;
+
+                }
+                else
+                {
+                    shoutOut = "This user doesn't exist, make sure you wrote their username correctly!";
+                }
+                
+            }
+            else
             {
                 shoutOut = "You didn't specify any streamer for the shoutout";
             }
-            UserO user = new UserO();
-            ChannelO channel = new ChannelO();
-            user = UserD.getUser(userName);
-
-            channel = ChannelD.getChannelWithId(user.users[0]._id);
-
-            shoutOut = "✧･ﾟ: ✧･ﾟ: Streamer alert :･ﾟ✧:･ﾟ✧ ! Show some love to this wonderful human being at : http://twitch.tv/"+ userName +" , they were last seen streaming "+channel.game;
-
-
+           
             return shoutOut;
         }
 
