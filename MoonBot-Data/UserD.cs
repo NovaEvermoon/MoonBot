@@ -86,7 +86,6 @@ namespace MoonBot_Data
 
             return user;
         }
-
         public static int getUserShard(string username)
         {
             int shards = 23;
@@ -112,5 +111,6 @@ namespace MoonBot_Data
 
             return shards;
         }
+
     }
 }

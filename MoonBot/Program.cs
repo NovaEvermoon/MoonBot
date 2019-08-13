@@ -43,6 +43,8 @@ namespace MoonBot
         public static ChannelO channel = new ChannelO();
         public static List<string> moderators = new List<string>();
         public static string[] command;
+        public static string username;
+        public static string channelId;
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             port.Open();
@@ -54,6 +56,7 @@ namespace MoonBot
         {
             #region LoadChannel
                 channel = ChannelD.getChannel();
+                channelId = channel._id;
             #endregion
 
             irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
@@ -63,7 +66,7 @@ namespace MoonBot
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             TwitchSocket twitchSocket = new TwitchSocket();
             ChatBot.init();
-            string username;
+            
             #region LoadBroadCasterInfo
             broadcaster = UserD.getUser(broadcasterName);
             #endregion
@@ -123,6 +126,8 @@ namespace MoonBot
                     string message = ChatBot.GetMessage(fullMessage);
                     //bool isMod = chatters.chatters.moderators.Contains(username);
                     UserO user = UserD.getUser(username);
+
+                    //irc.WriteChatMessage(FollowerD.getFollowage(user, channel._id));
                     UserD.insertUser(user);
 
                     bool isSubscriber = SubscriberD.isSubscriber(user.users[0]._id, broadcaster.users[0]._id);
@@ -159,12 +164,25 @@ namespace MoonBot
                                 if (commands.Any(c => c.keyword == commandMessage))
                                 {
                                     foundCommand = commands.Single(c => c.keyword == commandMessage);
-                                    if(command != null)
-                                    { 
+                                    if (command != null)
+                                    {
                                         foundCommand.parameterList["username"] = command[1];
                                     }
+                                    else if (command == null && foundCommand.parameters != 0)
+                                    {
+                                        Type testType = typeof(Program);
+                                        Dictionary<string, string> newDic = new Dictionary<string, string>();
 
-                                    if(foundCommand.userLevel == "moderator" && !moderators.Contains(username))
+                                        foreach(KeyValuePair<string,string> dic in foundCommand.parameterList)
+                                        {
+                                            var fieldInfo = testType.GetField(dic.Key.ToString(), BindingFlags.Static | BindingFlags.Public).GetValue(testType) as IEnumerable;
+                                            newDic.Add(dic.Key.ToString(), fieldInfo.ToString());
+                                        }
+
+                                        foundCommand.parameterList = newDic;
+                                    }
+
+                                    if (foundCommand.userLevel == "moderator" && !moderators.Contains(username))
                                     {
                                         irc.WriteChatMessage("You are not allowed to use this command !");
                                     }
@@ -226,7 +244,14 @@ namespace MoonBot
                                                     }
                                                 break;
                                                 case "regular":
-                                                    irc.WriteChatMessage(foundCommand.message);
+                                                    if(foundCommand.message.Contains("{"))
+                                                    {
+                                                        irc.WriteChatMessage(string.Format(foundCommand.message,username));
+                                                    }
+                                                    else
+                                                    {
+                                                        irc.WriteChatMessage(foundCommand.message);
+                                                    }
                                                 break;
                                                 case "api":
                                                     MethodInfo mInfo;

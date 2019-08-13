@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 09, 2019 at 02:36 PM
+-- Generation Time: Aug 13, 2019 at 03:03 PM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -92,7 +92,7 @@ CREATE TABLE `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(172);
+(177);
 
 -- --------------------------------------------------------
 
@@ -128,7 +128,7 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (4, 'store', 'Humble bundle store : https://www.humblebundle.com/store?partner=novaevermoon', 'everyone', 10000, 1, 0, 'Get the humble store partner link', 'regular', '', 0, '', '', ''),
 (5, 'monthly', 'Humble bundle monthly : https://www.humblebundle.com/monthly?partner=novaevermoon', 'everyone', 10000, 1, 0, 'Get humble monthly link', 'regular', '', 0, '', '', ''),
 (6, 'crystals', 'Crystals are the channel\'s currency, you earn them while watching the stream and by following, hosting, subscribing etc. You can use these to buy neat rewards ! Leaderboard : https://streamlabs.com/novaevermoon#/loyalty', 'everyone', 10000, 1, 0, 'Get crystal infos', 'regular', '', 0, '', '', ''),
-(7, 'lurk', ' is going into lurk mode ! Thank you ♡', 'everyone', 10000, 1, 0, 'sending message for lurk ', 'regular', '', 0, '', '', ''),
+(7, 'lurk', '{0} is going into lurk mode ! Thank you ♡', 'everyone', 10000, 1, 0, 'sending message for lurk ', 'regular', '', 0, '', '', ''),
 (8, 'discord', 'Wanna be part of the cool kids and hang out after stream? You can get access to my discord either by subbing or with crystals (!crystals for more info :3 )', 'everyone', 10000, 1, 0, 'get discord info', 'regular', '', 0, '', '', ''),
 (9, 'commands', 'List of commands you can use in the chat : ', 'everyone', 10000, 1, 0, 'Display list of usable commands', 'regular', '', 0, '', '', ''),
 (10, 'prime', 'Did you know that you can get a free subscription to the channel with twitch prime ! Follow that link to learn more about it ! https://twitch.amazon.com/prime ', 'everyone', 0, 1, 4440000, 'Display information about twitch prime', 'timed', '', 0, '', '', ''),
@@ -143,7 +143,6 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (20, 'giveaway', 'Ho ho ho ! To thank you all for making this year amazing, I\'m gonna be giving away a copy Spyro Reignited for PS4 so be sure to hang out today :3 ', 'everyone', 15000, 0, 0, 'Christmas Giveaway ', 'regular', '', 0, '', '', ''),
 (21, 'menu', 'For today\'s cooking stream, we will me making : Garlic Puff pastry, Garlic mushrooms, Seitan roast with mushroom sauce (yeah we really like mushrooms :B), potatoe gratin, Pecan mapple puff pastry and sugar cookies !', 'everyone', 15000, 0, 0, 'Christmas menu', 'regular', '', 0, '', '', ''),
 (22, 'HinaNumbaOne', 'My gold medal, don\'t test me Kappa', 'everyone', 15000, 1, 0, 'Hina\'s command', 'regular', '', 0, '', '', ''),
-(23, 'followage', 'getFollowage', 'everyone', 15000, 1, 0, 'getFollowage', 'api', '', 1, '', '', ''),
 (24, 'stretch', 'It\'s time to take a short break, stretch dese legs and grab a drink ! ', 'everyone', 0, 1, 5130000, 'Stretch Command', 'timed', '', 0, '', '', ''),
 (25, 'pc', 'Nova is currently streaming on a broken ass laptop and is pushing for a new pc ! We\'re almost there ! Thank you everyone for the support :3 ', 'everyone', 15000, 0, 0, 'Pc push description', 'regular', '', 0, '', '', ''),
 (26, 'bsg', 'Please refrain from backsteating ! Especially with games with a great storyline/mechanics like Dark Souls. Nova asks a lot of questions but these are mainly rethorical and talking out loud, if she needs an answer she will directly ask the chat ! ', 'everyone', 10000, 1, 0, 'BackseatGaming ', 'regular', '', 0, '', '', ''),
@@ -163,7 +162,8 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (46, 'moonlights', 'You can now choose the ambiance of the stream by controlling the light around me ! Colors to choose from : !garnet,  !citrine, !peridot, !labradorite, !amethyst, !rosequartz, !moonstone', 'everyone', 15000, 1, 0, 'moonlight description', 'regular', '0', 0, '', '0', ''),
 (47, 'shards', '{0}, you are the proud owner of @ magic crystal shards ', 'everyone', 15000, 0, 0, 'get a user\'s number of crystal shards ', 'request', 'SELECT user_shards FROM user WHERE user_name = \'{0}\'', 1, '', '', 'userName'),
 (48, 'addShards', '{0} shards added to {1}', 'mods', 15000, 0, 0, 'add a number of shards to a user', 'request', 'UPDATE user SET user_shards = {0} WHERE user_name', 2, 'username | amount', '', 'userName shardNumber'),
-(49, 'so', 'getShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0');
+(49, 'so', 'getShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0'),
+(50, 'followage', 'getFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, 'username|channelId', 'MoonBot_Data.FollowerD', '');
 
 -- --------------------------------------------------------
 
@@ -2273,7 +2273,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `command`
 --
 ALTER TABLE `command`
-  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `follower`
