@@ -1,5 +1,5 @@
 ﻿
-using Moonbot_Objects.Channel;
+using Moonbot_Objects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -6,9 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Moonbot_Objects.Channel;
+using Moonbot_Objects;
 using MoonBot_Data;
-using Moonbot_Objects.User;
 using System.Configuration;
 using MySql.Data.MySqlClient;
 using System.Data;
@@ -17,11 +16,11 @@ namespace MoonBot_Data
 {
     public static class FollowerD
     {
-        public static void insertFollowers(ChannelO channel)
+        public static void InsertFollowers(ChannelO channel)
         {
             int offset = 0;
             List<Follow> followers = new List<Follow>();
-            FollowerO followersO =  ChannelD.getChannelFollowers(offset, channel);
+            FollowerO followersO =  ChannelD.GetChannelFollowers(offset, channel);
             int total = followersO._total;
 
             
@@ -34,7 +33,7 @@ namespace MoonBot_Data
                     offset += 1;
                     
                 }
-                followersO = ChannelD.getChannelFollowers(offset, channel);
+                followersO = ChannelD.GetChannelFollowers(offset, channel);
             }
 
 

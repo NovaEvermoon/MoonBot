@@ -12,9 +12,12 @@ namespace MoonBot
     public class TwitchSocket
     {
         public ClientWebSocket ClientWebSocket;
-        public TwitchSocket(ClientWebSocket webSocket)
+        public ClientWebSocket whisperWebSocket;
+
+        public TwitchSocket(ClientWebSocket webSocket,ClientWebSocket whisperWebSocket)
         {
             this.ClientWebSocket = webSocket;
+            this.whisperWebSocket = whisperWebSocket;
         }
 
         public TwitchSocket()
@@ -71,8 +74,9 @@ namespace MoonBot
 
         }
 
-        public async Task BitsSubscribe(ClientWebSocket clientwebsocket)
+        public async Task<string> BitsSubscribe(ClientWebSocket clientwebsocket)
         {
+            string result = "";
             string jsonBits = @"
                                 {
     
@@ -91,27 +95,26 @@ namespace MoonBot
             ArraySegment<Byte> bufferReception = WebSocket.CreateClientBuffer(512, 512);
             await clientwebsocket.ReceiveAsync(bufferReception, CancellationToken.None);
 
-            string result = Encoding.UTF8.GetString(bufferReception.Array);
+            return result = Encoding.UTF8.GetString(bufferReception.Array);
 
         }
 
 
-        public async Task WhisperSubscribe(ClientWebSocket clientWebSocket, string userId)
+        public async Task<string> WhisperSubscribeAsync(ClientWebSocket clientWebSocket, string userId)
         {
+            string result = "";
             string oauth = ConfigurationManager.AppSettings["whisperReadToken"];
             string jsonWhisper = String.Format(@"{{'type': 'LISTEN','nonce': 'whisper listen event','data': {{'topics': ['whispers.{0}'],'auth_token': '{1}'}}}}", userId, oauth);
 
-
-
-
-byte[] byteArray = Encoding.UTF8.GetBytes(jsonWhisper);
+            byte[] byteArray = Encoding.UTF8.GetBytes(jsonWhisper);
             ArraySegment<Byte> buffer = new ArraySegment<Byte>(byteArray, 0, byteArray.Length);
             await clientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
 
             ArraySegment<Byte> bufferReception = WebSocket.CreateClientBuffer(512, 512);
             await clientWebSocket.ReceiveAsync(bufferReception, CancellationToken.None);
 
-            string result = Encoding.UTF8.GetString(bufferReception.Array);
+             result = Encoding.UTF8.GetString(bufferReception.Array);
+            return result;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoonBot
+namespace MoonBot_Objects
 {
     public class Team
     {

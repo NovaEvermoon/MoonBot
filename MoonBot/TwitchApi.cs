@@ -1,5 +1,4 @@
 ﻿using Moonbot_Objects;
-using Moonbot_Objects.Channel;
 using Newtonsoft.Json;
 using RestSharp;
 using System;

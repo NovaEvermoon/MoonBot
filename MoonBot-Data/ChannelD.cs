@@ -1,5 +1,4 @@
-﻿using Moonbot_Objects.Channel;
-using Moonbot_Objects.User;
+﻿using Moonbot_Objects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace MoonBot_Data
 {
     public static class ChannelD
     {
-        public static ChannelO getChannel()
+        public static ChannelO GetChannel()
         {
             ChannelO channel = new ChannelO();
             string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
@@ -51,8 +50,7 @@ namespace MoonBot_Data
 
             return channel;
         }
-
-        public static ChannelO getChannelWithId(string userId)
+        public static ChannelO GetChannelById(string userId)
         {
             ChannelO channel = new ChannelO();
             string url = String.Format("https://api.twitch.tv/kraken/channels/{0}", userId);
@@ -87,7 +85,7 @@ namespace MoonBot_Data
 
             return channel;
         }
-        public static FollowerO getChannelFollowers(int offset,ChannelO channel)
+        public static FollowerO GetChannelFollowers(int offset,ChannelO channel)
         {
             FollowerO followers = new FollowerO();
             string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
@@ -122,7 +120,7 @@ namespace MoonBot_Data
             }
             return followers;
         }
-        public static void getChannelSubscribers(int offset, ChannelO channel)
+        public static void GetChannelSubscribers(int offset, ChannelO channel)
         {
             string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
             string readChannelSubOauth = ConfigurationManager.AppSettings["channelSubscriptionToken"];
@@ -155,21 +153,21 @@ namespace MoonBot_Data
                 Console.WriteLine(ex.Message);
             }
         }
-        public static string getChannelTitle()
+        public static string GetChannelTitle()
         {
-            ChannelO channel = getChannel();
+            ChannelO channel = GetChannel();
 
             string title = "The stream's current title is : " + channel.status;
             return title;
         }
-        public static string getChannelGame()
+        public static string GetChannelGame()
         {
-            ChannelO channel = getChannel();
+            ChannelO channel = GetChannel();
 
             string game = "Currently playing : " + channel.game;
             return game;
         }
-        public static void udateChannelTitle(ChannelO channel)
+        public static void UdateChannelTitle(ChannelO channel)
         {
         //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.twitch.tv/kraken/channels/" + ChatBot.channelId);
         //    request.Method = "PUT";
@@ -220,8 +218,7 @@ namespace MoonBot_Data
         //    //string returnString = wresponse.StatusCode.ToString();
 
         }
-
-        public static string getShoutOut(Dictionary<string,string> parameters)
+        public static string GetShoutOut(Dictionary<string,string> parameters)
         {
             string userName = parameters["username"];
 
@@ -230,10 +227,10 @@ namespace MoonBot_Data
             {
                 UserO user = new UserO();
                 ChannelO channel = new ChannelO();
-                user = UserD.getUser(userName);
+                user = UserD.GetUser(userName);
                 if (user._total != 0)
                 {
-                    channel = ChannelD.getChannelWithId(user.users[0]._id);
+                    channel = GetChannelById(user.users[0]._id);
 
                     shoutOut = "✧･ﾟ: ✧･ﾟ: Streamer alert :･ﾟ✧:･ﾟ✧ ! Show some love to this wonderful human being at : http://twitch.tv/" + userName + " , they were last seen streaming " + channel.game;
 

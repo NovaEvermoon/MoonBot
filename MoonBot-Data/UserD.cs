@@ -1,4 +1,4 @@
-﻿using Moonbot_Objects.User;
+﻿using Moonbot_Objects;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -15,7 +15,7 @@ namespace MoonBot_Data
 {
     public static class UserD
     {
-        public static void insertUser(UserO user)
+        public static void InsertUser(UserO user)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace MoonBot_Data
 
             return username;
         }
-        public static UserO getUser(string username)
+        public static UserO GetUser(string username)
         {
             string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
             string readUserToken = ConfigurationManager.AppSettings["userReadToken"];
@@ -86,8 +86,7 @@ namespace MoonBot_Data
 
             return user;
         }
-
-        public static int getUserShard(string username)
+        public static int GetUserShard(string username)
         {
             int shards = 23;
 

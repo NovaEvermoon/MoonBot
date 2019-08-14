@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects.Channel
+namespace Moonbot_Objects
 {
     public class ChannelO
     {

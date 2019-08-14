@@ -13,9 +13,6 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Configuration;
 using Moonbot_Objects;
-using Moonbot_Objects.Channel;
-using Moonbot_Objects.Command;
-using Moonbot_Objects.User;
 using MoonBot_Data;
 using System.IO.Ports;
 using System.Threading;
@@ -32,31 +29,31 @@ namespace MoonBot
     class Program
     {
 
-        public static readonly string password = ConfigurationManager.AppSettings["password"];
-        public static readonly SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
-        public static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
-        public static List<string> mods = new List<string>();
-        public static List<string> viewers = new List<string>();
-        public static IrcClient irc;
-        public static StringBuilder commandsText;
-        public static UserO broadcaster = new UserO();
-        public static ChannelO channel = new ChannelO();
-        public static List<string> moderators = new List<string>();
-        public static string[] command;
+        public static readonly string _password = ConfigurationManager.AppSettings["password"];
+        public static readonly SerialPort _port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
+        public static readonly string _broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
+        public static List<string> _mods = new List<string>();
+        public static List<string> _viewers = new List<string>();
+        public static IrcClient _irc;
+        public static StringBuilder _commandsText;
+        public static UserO _broadcaster = new UserO();
+        public static ChannelO _channel = new ChannelO();
+        public static List<string> _moderators = new List<string>();
+        public static string[] _command;
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            port.Open();
-            port.Write("m");
-            port.Close();
+            _port.Open();
+            _port.Write("m");
+            _port.Close();
         }
 
         static void Main(string[] args)
         {
             #region LoadChannel
-                channel = ChannelD.getChannel();
+                _channel = ChannelD.GetChannel();
             #endregion
 
-            irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, password, channel.name);
+            _irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, _password, _channel.name);
             TwitchApi api = new TwitchApi();
             TmiApi tmi = new TmiApi();
             ViewerList chatters = new ViewerList();
@@ -65,18 +62,18 @@ namespace MoonBot
             ChatBot.init();
             string username;
             #region LoadBroadCasterInfo
-            broadcaster = UserD.getUser(broadcasterName);
+            _broadcaster = UserD.GetUser(_broadcasterName);
             #endregion
 
-            moderators.Add("gaelLevel");
-            moderators.Add("terror_seeds");
-            moderators.Add("nebulea");
-            moderators.Add("novaevermoon");
+            _moderators.Add("gaelLevel");
+            _moderators.Add("terror_seeds");
+            _moderators.Add("nebulea");
+            _moderators.Add("novaevermoon");
 
             #region LoadCommands
             List<CommandO> commands = new List<CommandO>();
-            commands = CommandD.loadCommands();
-            LaunchTimer launchTimer = new LaunchTimer(irc);
+            commands = CommandD.LoadCommands();
+            LaunchTimer launchTimer = new LaunchTimer(_irc);
             foreach (CommandO command in commands)
             {
                 if (command.type == "timed")
@@ -88,52 +85,58 @@ namespace MoonBot
 
             if (commands.Count != 0)
             {
-                commandsText = new StringBuilder();
+                _commandsText = new StringBuilder();
                 foreach (CommandO command in commands)
                 {
                     if (command.userLevel == "everyone" && command.timer == 0)
                     {
-                        commandsText.Append("!" + command.keyword + ", ");
+                        _commandsText.Append("!" + command.keyword + ", ");
 
                     }
                 }
-                commandsText.Length = commandsText.Length - 2;
+                _commandsText.Length = _commandsText.Length - 2;
             }
 
 
             #endregion
-            
 
-            chatters = tmi.getViewerList(channel);
+            chatters = tmi.getViewerList(_channel);
 
-            mods = tmi.getMods(chatters);
-            viewers = tmi.getViewers(chatters);
-            ClientWebSocket webSocket = twitchSocket.WebSocketConnectAsync().Result;
-            chatters = tmi.getViewerList(channel);
-            PingSender ping = new PingSender(irc);
+            //_mods = tmi.getMods(chatters);
+            _viewers = tmi.getViewers(chatters);
+            twitchSocket.ClientWebSocket = twitchSocket.WebSocketConnectAsync().Result;
+            var testSocket = twitchSocket.WhisperSubscribeAsync(twitchSocket.ClientWebSocket, _broadcaster.users[0]._id);
+            //ClientWebSocket webSocket = twitchSocket.WebSocketConnectAsync().Result;
+
+            //var testWebSocket = twitchSocket.WhisperSubscribeAsync(twitchSocket.whisperWebSocket,_broadcaster.users[0]._id).Result;
+        
+
+            PingSender ping = new PingSender(_irc);
             ping.Start();
+
+
 
             while (true)
             {
-                string fullMessage = irc.ReadMessage();
+                string fullMessage = _irc.ReadMessage();
                 CommandO foundCommand = new CommandO();
                 if (fullMessage.Contains("PRIVMSG"))
                 {
                     username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     //bool isMod = chatters.chatters.moderators.Contains(username);
-                    UserO user = UserD.getUser(username);
-                    UserD.insertUser(user);
+                    UserO user = UserD.GetUser(username);
+                    UserD.InsertUser(user);
 
-                    bool isSubscriber = SubscriberD.isSubscriber(user.users[0]._id, broadcaster.users[0]._id);
+                    bool isSubscriber = SubscriberD.IsSubscriber(user.users[0]._id, _broadcaster.users[0]._id);
 
                     if (isSubscriber == false)
                     {
                         bool link = ChatBot.checkLink(message);
                         if (link == true)
                         {
-                            irc.WriteChatMessage(".timeout " + username + " 15");
-                            irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
+                            _irc.WriteChatMessage(".timeout " + username + " 15");
+                            _irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
                         }
                     }
 
@@ -146,27 +149,27 @@ namespace MoonBot
 
                             string commandMessage = message.Substring(message.IndexOf('!') + 1);
                             
-                            bool kappamonCommand = CommandD.isKappamonCommand(commandMessage);
+                            bool kappamonCommand = CommandD.IsKappamonCommand(commandMessage);
 
                             if (!kappamonCommand)
                             {
                                 if (commandMessage.Contains(" "))
                                 {
-                                    command = commandMessage.Split(' ');
-                                    commandMessage = command[0];
+                                    _command = commandMessage.Split(' ');
+                                    commandMessage = _command[0];
                                 }
 
                                 if (commands.Any(c => c.keyword == commandMessage))
                                 {
                                     foundCommand = commands.Single(c => c.keyword == commandMessage);
-                                    if(command != null)
+                                    if(_command != null)
                                     { 
-                                        foundCommand.parameterList["username"] = command[1];
+                                        foundCommand.parameterList["username"] = _command[1];
                                     }
 
-                                    if(foundCommand.userLevel == "moderator" && !moderators.Contains(username))
+                                    if(foundCommand.userLevel == "moderator" && !_moderators.Contains(username))
                                     {
-                                        irc.WriteChatMessage("You are not allowed to use this command !");
+                                        _irc.WriteChatMessage("You are not allowed to use this command !");
                                     }
                                     else
                                     {
@@ -178,7 +181,7 @@ namespace MoonBot
                                             foundCommand.startedTime = DateTime.Now;
                                             if (foundCommand.keyword == "commands")
                                             {
-                                                foundCommand.message += commandsText;
+                                                foundCommand.message += _commandsText;
                                             }
 
                                             switch (foundCommand.type)
@@ -200,19 +203,19 @@ namespace MoonBot
 
                                                         if (foundCommand.request.Contains("SELECT"))
                                                         {
-                                                            Tuple<int, string> test = CommandD.executeSelectCommand(foundCommand.request);
+                                                            Tuple<int, string> test = CommandD.ExecuteSelectCommand(foundCommand.request);
                                                             if (foundCommand.message.Contains("@"))
                                                             {
-                                                                irc.WriteChatMessage(foundCommand.message.Replace("@", test.Item1.ToString()));
+                                                                _irc.WriteChatMessage(foundCommand.message.Replace("@", test.Item1.ToString()));
                                                             }
                                                             else
                                                             {
-                                                                irc.WriteChatMessage(test.Item2);
+                                                                _irc.WriteChatMessage(test.Item2);
                                                             }
                                                         }
                                                         else if (foundCommand.request.Contains("UPDATE"))
                                                         {
-                                                            Tuple<int, string> result = CommandD.executeUpdateCommand(foundCommand.request, foundCommand.message);
+                                                            Tuple<int, string> result = CommandD.ExecuteUpdateCommand(foundCommand.request, foundCommand.message);
                                                             mySqlConnection.Close();
                                                             if (result.Item1 < 0)
                                                             {
@@ -220,13 +223,13 @@ namespace MoonBot
                                                             }
                                                             else
                                                             {
-                                                                irc.WriteChatMessage(result.Item2);
+                                                                _irc.WriteChatMessage(result.Item2);
                                                             }
                                                         }
                                                     }
                                                 break;
                                                 case "regular":
-                                                    irc.WriteChatMessage(foundCommand.message);
+                                                    _irc.WriteChatMessage(foundCommand.message);
                                                 break;
                                                 case "api":
                                                     MethodInfo mInfo;
@@ -248,13 +251,13 @@ namespace MoonBot
                                                     }
 
                                                     object apiAnswer = mInfo.Invoke(null, parameters);
-                                                    irc.WriteChatMessage(apiAnswer.ToString());
+                                                    _irc.WriteChatMessage(apiAnswer.ToString());
                                                 break;
                                                 case "moonlights":
-                                                    irc.WriteChatMessage("Switching color to : " + foundCommand.keyword);
-                                                    port.Open();
-                                                    port.Write(foundCommand.message);
-                                                    port.Close();
+                                                    _irc.WriteChatMessage("Switching color to : " + foundCommand.keyword);
+                                                    _port.Open();
+                                                    _port.Write(foundCommand.message);
+                                                    _port.Close();
                                                 break;
                                             }
                                         }
@@ -264,11 +267,11 @@ namespace MoonBot
                                             int ms = (int)span.TotalMilliseconds;
                                             if (ms <= foundCommand.cooldown)
                                             {
-                                                irc.WriteChatMessage("This command is in cooldown right now, be patient !");
+                                                _irc.WriteChatMessage("This command is in cooldown right now, be patient !");
                                             }
                                             else
                                             {
-                                                irc.WriteChatMessage(foundCommand.message);
+                                                _irc.WriteChatMessage(foundCommand.message);
                                                 foundCommand.startedTime = DateTime.Now;
                                             }
                                         }
@@ -276,7 +279,7 @@ namespace MoonBot
                                 }   
                                 else
                                 {
-                                    irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
+                                    _irc.WriteChatMessage("This command does not exist, type !commands to know what commands are available");
                                 }
                             }
                         }

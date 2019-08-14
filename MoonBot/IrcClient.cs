@@ -44,7 +44,6 @@ namespace MoonBot
                 Console.WriteLine(sb);
             }
         }
-
         public void WriteConsoleMessage(string Message)
         {
             try
@@ -58,7 +57,6 @@ namespace MoonBot
                 Console.WriteLine(sb);
             }
         }
-
         public void WriteChatMessage(string message)
         {
             try
@@ -73,12 +71,10 @@ namespace MoonBot
                 Console.WriteLine(sb);
             }
         }
-
-        public void getMod()
+        public void GetMod()
         {
             WriteChatMessage(":" + botName + "!" + botName + "@" + botName + ".tmi.twitch.tv GLOBALUSERSTATE #" + channelName);
         }
-
         public string ReadMessage()
         {
             string message;
@@ -96,7 +92,6 @@ namespace MoonBot
 
             return message;
         }
-
         public string Join()
         {
             StringBuilder returndata = new StringBuilder();

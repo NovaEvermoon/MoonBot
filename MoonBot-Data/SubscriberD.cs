@@ -1,4 +1,4 @@
-﻿using Moonbot_Objects.User;
+﻿using Moonbot_Objects;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
@@ -16,7 +16,7 @@ namespace MoonBot_Data
 {
     public static class SubscriberD
     {
-        public static bool isSubscriber(string userId, string broadcasterId)
+        public static bool IsSubscriber(string userId, string broadcasterId)
         {
             bool isSubscriber = false;
             try

@@ -58,9 +58,6 @@
     <Compile Include="UserD.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Moonbot-Objects\Moonbot_Objects.csproj">
       <Project>{6247396f-246a-47fc-b41b-afb2e7ac39bc}</Project>
       <Name>Moonbot_Objects</Name>

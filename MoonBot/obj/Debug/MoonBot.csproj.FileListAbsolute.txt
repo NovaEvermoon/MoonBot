@@ -38,51 +38,6 @@ C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\System.Runtime.Compil
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\RestSharp.dll
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.pdb
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\RestSharp.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot.exe.config
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot.exe
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Options.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Primitives.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MySql.Data.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\RestSharp.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Serilog.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Serilog.Extensions.Logging.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\SuperSocket.ClientEngine.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Enums.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Interfaces.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Models.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.Enums.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.Models.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\TwitchLib.PubSub.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\WebSocket4Net.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Options.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Primitives.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\MySql.Data.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\RestSharp.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Serilog.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Serilog.Extensions.Logging.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.csprojAssemblyReference.cache
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CoreCompileInputs.cache
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CopyComplete
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.exe
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\obj\Debug\MoonBot.pdb
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\MoonBot_Data.dll
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.dll
 C:\Users\Nova Evermoon\Documents\MoonBot\MoonBot\bin\Debug\MoonBot_Data.pdb
@@ -131,11 +86,56 @@ C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.csproj
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CopyComplete
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.exe
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\obj\Debug\MoonBot.pdb
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Reactive.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Websocket.Client.dll
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\System.Reactive.xml
-C:\Users\Nova\Documents\mystream\Moonbot\MoonBot\MoonBot\bin\Debug\Websocket.Client.xml
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\bin\Debug\System.Reactive.dll
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\bin\Debug\Websocket.Client.dll
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\bin\Debug\System.Reactive.xml
 C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\MoonBot\bin\Debug\Websocket.Client.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\obj\Debug\MoonBot.csprojAssemblyReference.cache
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CoreCompileInputs.cache
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MoonBot.exe.config
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MoonBot.exe
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MoonBot.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Options.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Primitives.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MySql.Data.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\RestSharp.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Serilog.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Serilog.Extensions.Logging.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\SuperSocket.ClientEngine.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\System.Reactive.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Enums.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Interfaces.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Api.Models.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.Enums.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.Client.Models.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\TwitchLib.PubSub.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Websocket.Client.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\WebSocket4Net.dll
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MoonBot_Data.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Moonbot_Objects.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Options.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Microsoft.Extensions.Primitives.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\MySql.Data.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\RestSharp.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Serilog.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Serilog.Extensions.Logging.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\System.Reactive.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\bin\Debug\Websocket.Client.xml
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\obj\Debug\MoonBot.csproj.CopyComplete
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\obj\Debug\MoonBot.exe
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\MoonBot\obj\Debug\MoonBot.pdb

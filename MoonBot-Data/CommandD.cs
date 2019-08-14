@@ -4,14 +4,14 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moonbot_Objects.Command;
+using Moonbot_Objects;
 using MySql.Data.MySqlClient;
 
 namespace MoonBot_Data
 {
     public static class CommandD
     {
-        public static List<CommandO> loadCommands()
+        public static List<CommandO> LoadCommands()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
             List<CommandO> commands = new List<CommandO>();
@@ -78,7 +78,7 @@ namespace MoonBot_Data
             
             return commands;
         }
-        public static bool isKappamonCommand(string commandMessage)
+        public static bool IsKappamonCommand(string commandMessage)
         {
             string[] kappamonCommands = { "song", "feed", "meow" };
             bool exists = false;
@@ -89,7 +89,7 @@ namespace MoonBot_Data
             }
             return exists;
         }
-        public static Tuple<int,string> executeSelectCommand(string query)
+        public static Tuple<int,string> ExecuteSelectCommand(string query)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
             Tuple<int, string> answer = null;
@@ -113,7 +113,7 @@ namespace MoonBot_Data
 
             return answer;
         }
-        public static Tuple<int, string> executeUpdateCommand(string query, string message)
+        public static Tuple<int, string> ExecuteUpdateCommand(string query, string message)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["MysqlMoonBotDataBase"].ConnectionString;
             Tuple<int, string> answer = null;
@@ -136,8 +136,7 @@ namespace MoonBot_Data
 
             return answer;
         }
-
-        public static string getCommandUser(string message)
+        public static string GetCommandUser(string message)
         {
             string user = "";
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moonbot_Objects.Command
+namespace Moonbot_Objects
 {
     public class CommandO
     {
@@ -23,6 +23,7 @@ namespace Moonbot_Objects.Command
         public Dictionary<string,string> parameterList { get; set; }
         public string file { get; set; }
         public string condition { get; set; }
+
         public CommandO()
         {
             parameterList = new Dictionary<string, string>();
