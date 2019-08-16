@@ -1,4 +1,4 @@
-﻿using Moonbot_Objects.Channel;
+﻿using Moonbot_Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;

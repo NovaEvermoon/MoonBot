@@ -112,7 +112,7 @@ namespace MoonBot_Data
             string userName = parameters["username"];
             string channelId = parameters["channelId"];
 
-            UserO user = UserD.getUser(userName);
+            UserO user = UserD.GetUser(userName);
 
             string channelOauth = ConfigurationManager.AppSettings["channelOauth"];
             Followage followage = new Followage();

@@ -29,19 +29,19 @@ namespace MoonBot
     class Program
     {
 
-        public static readonly string password = ConfigurationManager.AppSettings["password"];
-        public static readonly SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
-        public static readonly string broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
-        public static List<string> mods = new List<string>();
-        public static List<string> viewers = new List<string>();
-        public static IrcClient irc;
-        public static StringBuilder commandsText;
-        public static UserO broadcaster = new UserO();
-        public static ChannelO channel = new ChannelO();
-        public static List<string> moderators = new List<string>();
-        public static string[] command;
-        public static string username;
-        public static string channelId;
+        public static readonly string _password = ConfigurationManager.AppSettings["password"];
+        public static readonly SerialPort _port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
+        public static readonly string _broadcasterName = ConfigurationManager.AppSettings["broadcaster"];
+        public static List<string> _mods = new List<string>();
+        public static List<string> _viewers = new List<string>();
+        public static IrcClient _irc;
+        public static StringBuilder _commandsText;
+        public static UserO _broadcaster = new UserO();
+        public static ChannelO _channel = new ChannelO();
+        public static List<string> _moderators = new List<string>();
+        public static string[] _command;
+        public static string _username;
+        public static string _channelId;
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             _port.Open();
@@ -52,8 +52,8 @@ namespace MoonBot
         static void Main(string[] args)
         {
             #region LoadChannel
-                channel = ChannelD.getChannel();
-                channelId = channel._id;
+                _channel = ChannelD.GetChannel();
+                _channelId = _channel._id;
             #endregion
 
             _irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, _password, _channel.name);
@@ -125,10 +125,10 @@ namespace MoonBot
                 CommandO foundCommand = new CommandO();
                 if (fullMessage.Contains("PRIVMSG"))
                 {
-                    username = UserD.GetUsername(fullMessage);
+                    _username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
                     //bool isMod = chatters.chatters.moderators.Contains(username);
-                    UserO user = UserD.GetUser(username);
+                    UserO user = UserD.GetUser(_username);
                     UserD.InsertUser(user);
 
                     bool isSubscriber = SubscriberD.IsSubscriber(user.users[0]._id, _broadcaster.users[0]._id);
@@ -138,7 +138,7 @@ namespace MoonBot
                         bool link = ChatBot.checkLink(message);
                         if (link == true)
                         {
-                            _irc.WriteChatMessage(".timeout " + username + " 15");
+                            _irc.WriteChatMessage(".timeout " + _username + " 15");
                             _irc.WriteChatMessage("Posting links is not allowed here for non-subs, if you think this link might interest me, just whisper me or one of my mods ♡");
                         }
                     }
@@ -165,11 +165,11 @@ namespace MoonBot
                                 if (commands.Any(c => c.keyword == commandMessage))
                                 {
                                     foundCommand = commands.Single(c => c.keyword == commandMessage);
-                                    if (command != null)
+                                    if (_command != null)
                                     {
-                                        foundCommand.parameterList["username"] = command[1];
+                                        foundCommand.parameterList["username"] = _command[1];
                                     }
-                                    else if (command == null && foundCommand.parameters != 0)
+                                    else if (_command == null && foundCommand.parameters != 0)
                                     {
                                         Type testType = typeof(Program);
                                         Dictionary<string, string> newDic = new Dictionary<string, string>();
@@ -183,7 +183,7 @@ namespace MoonBot
                                         foundCommand.parameterList = newDic;
                                     }
 
-                                    if (foundCommand.userLevel == "moderator" && !moderators.Contains(username))
+                                    if (foundCommand.userLevel == "moderator" && !_moderators.Contains(_username))
                                     {
                                         _irc.WriteChatMessage("You are not allowed to use this command !");
                                     }
@@ -211,8 +211,8 @@ namespace MoonBot
                                                             switch (foundCommand.condition)
                                                             {
                                                                 case "userName":
-                                                                    foundCommand.request = string.Format(foundCommand.request, username);
-                                                                    foundCommand.message = string.Format(foundCommand.message, username);
+                                                                    foundCommand.request = string.Format(foundCommand.request, _username);
+                                                                    foundCommand.message = string.Format(foundCommand.message, _username);
                                                                     break;
                                                             }
                                                         }
@@ -247,11 +247,11 @@ namespace MoonBot
                                                 case "regular":
                                                     if(foundCommand.message.Contains("{"))
                                                     {
-                                                        irc.WriteChatMessage(string.Format(foundCommand.message,username));
+                                                        _irc.WriteChatMessage(string.Format(foundCommand.message,_username));
                                                     }
                                                     else
                                                     {
-                                                        irc.WriteChatMessage(foundCommand.message);
+                                                        _irc.WriteChatMessage(foundCommand.message);
                                                     }
                                                 break;
                                                 case "api":

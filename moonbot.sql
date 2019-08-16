@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Aug 13, 2019 at 03:03 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 7.2.5
+-- Host: 127.0.0.1:3306
+-- Generation Time: Aug 16, 2019 at 06:11 AM
+-- Server version: 5.7.24
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -26,6 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `InsertFollower`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertFollower` (IN `twitchId` INT, IN `createdAt` DATETIME)  NO SQL
 INSERT INTO follower(follower_twitchId,follower_createdAt)
 	SELECT twitchId,createdAt    
@@ -34,6 +35,7 @@ INSERT INTO follower(follower_twitchId,follower_createdAt)
                       WHERE follower_twitchId = twitchId
                     )$$
 
+DROP PROCEDURE IF EXISTS `InsertSubscriber`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSubscriber` (IN `twitchId` INT, IN `createdAt` DATETIME, IN `tier` VARCHAR(50))  NO SQL
 INSERT INTO subscriber(subscriber_twitchId,subscriber_createdAt,subscriber_tier)
 	SELECT twitchId,createdAt,tier    
@@ -44,6 +46,7 @@ INSERT INTO subscriber(subscriber_twitchId,subscriber_createdAt,subscriber_tier)
                       AND subscriber_tier = tier
                     )$$
 
+DROP PROCEDURE IF EXISTS `InsertUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser` (IN `displayName` VARCHAR(500), IN `twitchId` INT(6) UNSIGNED)  INSERT INTO user(user_displayName,user_twitchId)
 SELECT displayName, twitchId
  WHERE NOT EXISTS ( SELECT * 
@@ -51,6 +54,7 @@ SELECT displayName, twitchId
                       WHERE user_twitchId = twitchId
                     )$$
 
+DROP PROCEDURE IF EXISTS `InsertUserWithName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUserWithName` (IN `displayName` VARCHAR(500), IN `twitchId` INT, IN `name` VARCHAR(500))  NO SQL
 INSERT INTO user(user_displayName,user_twitchId,user_name)
 
@@ -60,6 +64,7 @@ INSERT INTO user(user_displayName,user_twitchId,user_name)
                                   WHERE user_twitchId = twitchId
                                 )$$
 
+DROP PROCEDURE IF EXISTS `updateUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUser` (IN `displayName` VARCHAR(500), IN `name` VARCHAR(500), IN `twitchId` INT)  NO SQL
 IF EXISTS(SELECT * FROM user WHERE user_twitchId = twitchId) THEN
     UPDATE
@@ -83,7 +88,8 @@ DELIMITER ;
 -- Table structure for table `burps`
 --
 
-CREATE TABLE `burps` (
+DROP TABLE IF EXISTS `burps`;
+CREATE TABLE IF NOT EXISTS `burps` (
   `burps_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -92,7 +98,7 @@ CREATE TABLE `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(177);
+(183);
 
 -- --------------------------------------------------------
 
@@ -100,8 +106,9 @@ INSERT INTO `burps` (`burps_total`) VALUES
 -- Table structure for table `command`
 --
 
-CREATE TABLE `command` (
-  `command_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `command`;
+CREATE TABLE IF NOT EXISTS `command` (
+  `command_id` int(11) NOT NULL AUTO_INCREMENT,
   `command_keyword` varchar(150) COLLATE utf8_bin NOT NULL,
   `command_message` varchar(1000) COLLATE utf8_bin NOT NULL,
   `command_userLevel` varchar(150) COLLATE utf8_bin NOT NULL,
@@ -114,8 +121,9 @@ CREATE TABLE `command` (
   `command_parameters` int(150) DEFAULT NULL,
   `command_parameterList` varchar(100) COLLATE utf8_bin NOT NULL,
   `command_file` varchar(100) COLLATE utf8_bin NOT NULL,
-  `command_condition` varchar(500) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `command_condition` varchar(500) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`command_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `command`
@@ -132,7 +140,7 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (8, 'discord', 'Wanna be part of the cool kids and hang out after stream? You can get access to my discord either by subbing or with crystals (!crystals for more info :3 )', 'everyone', 10000, 1, 0, 'get discord info', 'regular', '', 0, '', '', ''),
 (9, 'commands', 'List of commands you can use in the chat : ', 'everyone', 10000, 1, 0, 'Display list of usable commands', 'regular', '', 0, '', '', ''),
 (10, 'prime', 'Did you know that you can get a free subscription to the channel with twitch prime ! Follow that link to learn more about it ! https://twitch.amazon.com/prime ', 'everyone', 0, 1, 4440000, 'Display information about twitch prime', 'timed', '', 0, '', '', ''),
-(11, 'burp', 'The burp count has been updated ! ', 'moderator', 1000, 1, 0, 'Add burps to the burp total', 'request', 'UPDATE burps SET burps_total = burps_total+1', 0, '', '', ''),
+(11, 'burp', 'The burp count has been updated ! ', 'everyone', 1000, 1, 0, 'Add burps to the burp total', 'request', 'UPDATE burps SET burps_total = burps_total+1', 0, '', '', ''),
 (12, 'burps', 'Nova has burped @ times so far !', 'everyone', 10000, 1, 0, 'get the total number of burps', 'request', 'SELECT * FROM burps', 0, '', '', ''),
 (13, 'charity', 'From December 12-27, you can cheer with #charity and Twitch will donate $.20 for every 100 Bits to DirectRelief! You\'ll also be able to snag a cute  shiny new charity badge, so make dem bitties rain ! ', 'everyone', 15000, 1, 0, 'charity explanation', 'regular', '', 0, '', '', ''),
 (15, 'birthday', 'Nova\'s birthday was on the 8th of December. For this occasion, she is doing a pc fund push for the ENTIRE month of december ! Sepcial rewards and goals can be unlocked with donations & bits ! Type !goals or !rewards to learn more about it', 'everyone', 0, 0, 1800000, 'Birthday event explanation ', 'timed', '0', 0, '', '', ''),
@@ -152,18 +160,18 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (32, 'qotd', 'Tell me about your favorite restaurant!', 'everyone', 15000, 0, 0, 'question of the day ', 'regular', '', 0, '', '', ''),
 (33, 'pride', 'Happy Pride month ! For every 200 bits  given in the channel you will unlock a random pride emote for yourself and randow viewers as well ! Twitch will also be donating a small amount the The Trevor Project ! :rainbow:', 'everyone', 15000, 0, 0, 'Pride command', 'regular', '', 0, '', '', ''),
 (34, 'garnet', 'a', 'everyone', 15000, 1, 0, 'switch led to garnet color', 'moonlights', '0', 0, '', '0', ''),
-(36, 'citrine', 'c', 'everyone', 15000, 1, 0, 'switch color to citrine', 'moonlights', '0', 0, '', '0', ''),
-(37, 'peridot', 'd', 'everyone', 15000, 1, 0, 'switch color to peridot', 'moonlights', '0', 0, '', '0', ''),
-(39, 'aquamarine', 'f', 'everyone', 15000, 1, 0, 'switch color to aquamarine', 'moonlights', '0', 0, '', '0', ''),
-(40, 'labradorite', 'g', 'everyone', 15000, 1, 0, 'switch color to labradorite', 'moonlights', '0', 0, '', '0', ''),
-(41, 'amethyst', 'h', 'everyone', 15000, 1, 0, 'switch color to amethyst', 'moonlights', '0', 0, '', '0', ''),
-(43, 'rosequartz', 'j', 'everyone', 15000, 1, 0, 'switch color to rosequartz', 'moonlights', '0', 0, '', '0', ''),
-(45, 'moonstone', 'l', 'everyone', 15000, 1, 0, 'switch color to moonstone', 'moonlights', '0', 0, '', '0', ''),
+(36, 'citrine', 'b', 'everyone', 15000, 1, 0, 'switch color to citrine', 'moonlights', '0', 0, '', '0', ''),
+(37, 'peridot', 'c', 'everyone', 15000, 1, 0, 'switch color to peridot', 'moonlights', '0', 0, '', '0', ''),
+(40, 'labradorite', 'd', 'everyone', 15000, 1, 0, 'switch color to labradorite', 'moonlights', '0', 0, '', '0', ''),
+(41, 'amethyst', 'e', 'everyone', 15000, 1, 0, 'switch color to amethyst', 'moonlights', '0', 0, '', '0', ''),
+(43, 'rosequartz', 'f', 'everyone', 15000, 1, 0, 'switch color to rosequartz', 'moonlights', '0', 0, '', '0', ''),
+(45, 'moonstone', 'g', 'everyone', 15000, 1, 0, 'switch color to moonstone', 'moonlights', '0', 0, '', '0', ''),
 (46, 'moonlights', 'You can now choose the ambiance of the stream by controlling the light around me ! Colors to choose from : !garnet,  !citrine, !peridot, !labradorite, !amethyst, !rosequartz, !moonstone', 'everyone', 15000, 1, 0, 'moonlight description', 'regular', '0', 0, '', '0', ''),
 (47, 'shards', '{0}, you are the proud owner of @ magic crystal shards ', 'everyone', 15000, 0, 0, 'get a user\'s number of crystal shards ', 'request', 'SELECT user_shards FROM user WHERE user_name = \'{0}\'', 1, '', '', 'userName'),
 (48, 'addShards', '{0} shards added to {1}', 'mods', 15000, 0, 0, 'add a number of shards to a user', 'request', 'UPDATE user SET user_shards = {0} WHERE user_name', 2, 'username | amount', '', 'userName shardNumber'),
 (49, 'so', 'getShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0'),
-(50, 'followage', 'getFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, 'username|channelId', 'MoonBot_Data.FollowerD', '');
+(50, 'followage', 'getFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, 'username|channelId', 'MoonBot_Data.FollowerD', ''),
+(51, 'off', 'm', 'everyone', 10000, 1, 0, 'turn led off', 'moonlights', '0', 0, '0', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -171,11 +179,13 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 -- Table structure for table `follower`
 --
 
-CREATE TABLE `follower` (
-  `follower_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `follower`;
+CREATE TABLE IF NOT EXISTS `follower` (
+  `follower_id` int(11) NOT NULL AUTO_INCREMENT,
   `follower_createdAt` datetime NOT NULL,
-  `follower_twitchId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `follower_twitchId` int(11) NOT NULL,
+  PRIMARY KEY (`follower_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=780 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `follower`
@@ -966,12 +976,14 @@ INSERT INTO `follower` (`follower_id`, `follower_createdAt`, `follower_twitchId`
 -- Table structure for table `subscriber`
 --
 
-CREATE TABLE `subscriber` (
-  `subscriber_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `subscriber`;
+CREATE TABLE IF NOT EXISTS `subscriber` (
+  `subscriber_id` int(11) NOT NULL AUTO_INCREMENT,
   `subscriber_createdAt` date NOT NULL,
   `subscriber_twitchId` int(11) NOT NULL,
-  `subscriber_tier` varchar(50) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `subscriber_tier` varchar(50) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`subscriber_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `subscriber`
@@ -1241,13 +1253,15 @@ INSERT INTO `subscriber` (`subscriber_id`, `subscriber_createdAt`, `subscriber_t
 -- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_displayName` varchar(200) COLLATE utf8_bin NOT NULL,
   `user_twitchId` int(11) NOT NULL,
   `user_name` varchar(500) COLLATE utf8_bin NOT NULL,
-  `user_shards` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `user_shards` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `user`
@@ -2235,63 +2249,32 @@ INSERT INTO `user` (`user_id`, `user_displayName`, `user_twitchId`, `user_name`,
 (982, 'beni_therealistinthegame', 269771465, '', 0),
 (983, 'Yoshana87', 49369267, '', 0),
 (984, 'kaanmkn1', 442756119, '', 0),
-(985, 'Iszkariot', 29335532, '', 0);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `command`
---
-ALTER TABLE `command`
-  ADD PRIMARY KEY (`command_id`);
-
---
--- Indexes for table `follower`
---
-ALTER TABLE `follower`
-  ADD PRIMARY KEY (`follower_id`);
-
---
--- Indexes for table `subscriber`
---
-ALTER TABLE `subscriber`
-  ADD PRIMARY KEY (`subscriber_id`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `command`
---
-ALTER TABLE `command`
-  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
-
---
--- AUTO_INCREMENT for table `follower`
---
-ALTER TABLE `follower`
-  MODIFY `follower_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=780;
-
---
--- AUTO_INCREMENT for table `subscriber`
---
-ALTER TABLE `subscriber`
-  MODIFY `subscriber_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=986;
+(985, 'Iszkariot', 29335532, '', 0),
+(986, 'RileyTaugorLUV', 79419645, '', 0),
+(987, 'thekid__14', 448586716, '', 0),
+(988, 'yawbarima__ali', 428524103, '', 0),
+(989, 'za11y', 130589425, '', 0),
+(990, 'jvanriper2006', 251798304, '', 0),
+(991, 'aelmaiTV', 132443851, '', 0),
+(992, 'Hydrate_Robot', 453995186, '', 0),
+(993, 'MikeRoss4ever', 423533744, '', 0),
+(994, 'BigBuckORamma', 162126278, '', 0),
+(995, 'SKGynX', 130284860, '', 0),
+(996, 'the_sleepy_doggy', 453174393, '', 0),
+(997, 'layshamae', 454630995, '', 0),
+(998, 'sonicscokedealer', 454770761, '', 0),
+(999, 'kontorora_', 89664478, '', 0),
+(1000, 'inviver_1', 229419006, '', 0),
+(1001, 'MxmhdTV', 411689948, '', 0),
+(1002, 'goddess_worship', 454079908, '', 0),
+(1003, 'Eggsbenedict_', 99796704, '', 0),
+(1004, 'seanybadger', 102023548, '', 0),
+(1005, 'ZaidX2_', 89569151, '', 0),
+(1006, 'aaagatka', 155055985, '', 0),
+(1007, 'ArvutiGaming', 49757273, '', 0),
+(1008, 'SketchElder', 86777079, '', 0),
+(1009, 'Sugarpuffies', 193493053, '', 0),
+(1010, 'TheAussie', 25465564, '', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
