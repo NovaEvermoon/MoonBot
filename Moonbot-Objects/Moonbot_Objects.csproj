@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Stream\StreamO.cs" />
     <Compile Include="User\BroadCasterO.cs" />
     <Compile Include="Channel\ChannelO.cs" />
     <Compile Include="Command\CommandO.cs" />

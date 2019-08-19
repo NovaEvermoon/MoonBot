@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 16, 2019 at 06:11 AM
+-- Generation Time: Aug 19, 2019 at 06:06 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `burps` (
 --
 
 INSERT INTO `burps` (`burps_total`) VALUES
-(183);
+(188);
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `command` (
   `command_file` varchar(100) COLLATE utf8_bin NOT NULL,
   `command_condition` varchar(500) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`command_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `command`
@@ -154,7 +154,7 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (24, 'stretch', 'It\'s time to take a short break, stretch dese legs and grab a drink ! ', 'everyone', 0, 1, 5130000, 'Stretch Command', 'timed', '', 0, '', '', ''),
 (25, 'pc', 'Nova is currently streaming on a broken ass laptop and is pushing for a new pc ! We\'re almost there ! Thank you everyone for the support :3 ', 'everyone', 15000, 0, 0, 'Pc push description', 'regular', '', 0, '', '', ''),
 (26, 'bsg', 'Please refrain from backsteating ! Especially with games with a great storyline/mechanics like Dark Souls. Nova asks a lot of questions but these are mainly rethorical and talking out loud, if she needs an answer she will directly ask the chat ! ', 'everyone', 10000, 1, 0, 'BackseatGaming ', 'regular', '', 0, '', '', ''),
-(27, 'title', 'getChannelTitle', 'everyone', 15000, 1, 0, 'get the stream\'s current title', 'api', '', 0, '', 'MoonBot_Data.ChannelD', ''),
+(27, 'title', 'GetChannelTitle', 'everyone', 15000, 1, 0, 'get the stream\'s current title', 'api', '', 0, '', 'MoonBot_Data.ChannelD', ''),
 (28, 'game', 'getChannelGame', 'everyone', 15000, 1, 0, 'get channel\'s current game', 'api', '', 0, '', 'MoonBot_Data.ChannelD', ''),
 (29, 'raid', 'Have you ever danced with Nova in the pale moonlight ? :crescent_moon: Have you ever danced with Nova in the pale moonlight ? :crescent_moon: Have you ever danced with Nova in the pale moonlight ? :crescent_moon: Have you ever danced with Nova in the pale moonlight ? :crescent_moon:', 'everyone', 15000, 1, 0, 'Displays the raid message', 'regular', '0', 0, '', '', ''),
 (32, 'qotd', 'Tell me about your favorite restaurant!', 'everyone', 15000, 0, 0, 'question of the day ', 'regular', '', 0, '', '', ''),
@@ -169,9 +169,10 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (46, 'moonlights', 'You can now choose the ambiance of the stream by controlling the light around me ! Colors to choose from : !garnet,  !citrine, !peridot, !labradorite, !amethyst, !rosequartz, !moonstone', 'everyone', 15000, 1, 0, 'moonlight description', 'regular', '0', 0, '', '0', ''),
 (47, 'shards', '{0}, you are the proud owner of @ magic crystal shards ', 'everyone', 15000, 0, 0, 'get a user\'s number of crystal shards ', 'request', 'SELECT user_shards FROM user WHERE user_name = \'{0}\'', 1, '', '', 'userName'),
 (48, 'addShards', '{0} shards added to {1}', 'mods', 15000, 0, 0, 'add a number of shards to a user', 'request', 'UPDATE user SET user_shards = {0} WHERE user_name', 2, 'username | amount', '', 'userName shardNumber'),
-(49, 'so', 'getShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0'),
-(50, 'followage', 'getFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, 'username|channelId', 'MoonBot_Data.FollowerD', ''),
-(51, 'off', 'm', 'everyone', 10000, 1, 0, 'turn led off', 'moonlights', '0', 0, '0', '0', '0');
+(49, 'so', 'GetShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0'),
+(50, 'followage', 'GetFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, '_username|_channelId', 'MoonBot_Data.FollowerD', ''),
+(51, 'off', 'm', 'everyone', 10000, 1, 0, 'turn led off', 'moonlights', '0', 0, '0', '0', '0'),
+(52, 'uptime', 'GetStreamUptime', 'everyone', 15000, 1, 0, 'Get the uptime of the stream', 'api', '0', 1, '_streamUptime', 'MoonBot_Data.StreamD', '0');
 
 -- --------------------------------------------------------
 
@@ -1261,7 +1262,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_name` varchar(500) COLLATE utf8_bin NOT NULL,
   `user_shards` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `user`
@@ -2274,7 +2275,25 @@ INSERT INTO `user` (`user_id`, `user_displayName`, `user_twitchId`, `user_name`,
 (1007, 'ArvutiGaming', 49757273, '', 0),
 (1008, 'SketchElder', 86777079, '', 0),
 (1009, 'Sugarpuffies', 193493053, '', 0),
-(1010, 'TheAussie', 25465564, '', 0);
+(1010, 'TheAussie', 25465564, '', 0),
+(1011, 'itohirobumi_hero', 203952433, '', 0),
+(1012, 'tomthetosser', 113749883, '', 0),
+(1013, 'ijustateyourgoldfishxo', 450445596, '', 0),
+(1014, 'Aliceson', 454856967, '', 0),
+(1015, 'kristianowens1', 270771947, '', 0),
+(1016, 'hinanuinui', 122356713, '', 0),
+(1017, 'kindaaveragegamerr', 266588384, '', 0),
+(1018, 'bsmac03', 418474152, '', 0),
+(1019, 'Lilliecrumbley', 195862133, '', 0),
+(1020, 'pisya_papicha', 267261338, '', 0),
+(1021, 'SmlPls', 36298465, '', 0),
+(1022, 'ThisRandomOstrich', 221252014, '', 0),
+(1023, 'alfredvenom', 201143650, '', 0),
+(1024, 'Polux25', 23607634, '', 0),
+(1025, 'ifappedtoyou6669', 455310752, '', 0),
+(1026, 'mR_JuSt_A_TiN', 247666372, '', 0),
+(1027, 'FuturePresidentOfTheWorld', 414654500, '', 0),
+(1028, 'serdarkoc07', 183481347, '', 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

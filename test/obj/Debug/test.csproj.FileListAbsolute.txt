@@ -1,0 +1,7 @@
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\bin\Debug\test.exe.config
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\bin\Debug\test.exe
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\bin\Debug\test.pdb
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\obj\Debug\test.csprojAssemblyReference.cache
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\obj\Debug\test.csproj.CoreCompileInputs.cache
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\obj\Debug\test.exe
+C:\Users\Nova Evermoon\Documents\Twitch\MoonBot\test\obj\Debug\test.pdb

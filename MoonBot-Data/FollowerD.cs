@@ -12,6 +12,7 @@ using System.Configuration;
 using MySql.Data.MySqlClient;
 using System.Data;
 using Moonbot_Objects;
+using Stream = System.IO.Stream;
 
 namespace MoonBot_Data
 {
@@ -106,11 +107,11 @@ namespace MoonBot_Data
 
         }
 
-        public static string getFollowage(Dictionary<string,string> parameters)
+        public static string GetFollowage(Dictionary<string,string> parameters)
         {
 
-            string userName = parameters["username"];
-            string channelId = parameters["channelId"];
+            string userName = parameters["_username"];
+            string channelId = parameters["_channelId"];
 
             UserO user = UserD.GetUser(userName);
 
@@ -140,7 +141,7 @@ namespace MoonBot_Data
 
             if (followage.created_at == null)
             {
-                message.Append(String.Format("{0} is not following the channel, what are you even waiting for D:", user.users[0].display_name));
+                message.Append(String.Format("{0}, you are not following the channel, what are you even waiting for D:", user.users[0].display_name));
             }
             else
             {
@@ -157,7 +158,7 @@ namespace MoonBot_Data
                 int minutes = (baseDate + span).Minute;
                 int seconds = (baseDate + span).Second;
 
-                message.Append(string.Format("{0} has been following the channel for ", user.users[0].display_name));
+                message.Append(string.Format("{0}, you have been following the channel for ", user.users[0].display_name));
 
                 if(years != 0)
                 {

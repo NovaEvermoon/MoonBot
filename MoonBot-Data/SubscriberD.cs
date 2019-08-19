@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Stream = System.IO.Stream;
 //using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MoonBot_Data

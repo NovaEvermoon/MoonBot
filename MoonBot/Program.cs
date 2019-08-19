@@ -42,6 +42,8 @@ namespace MoonBot
         public static string[] _command;
         public static string _username;
         public static string _channelId;
+        public static StreamO _stream;
+        public static DateTime _streamUptime;
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
             _port.Open();
@@ -54,6 +56,19 @@ namespace MoonBot
             #region LoadChannel
                 _channel = ChannelD.GetChannel();
                 _channelId = _channel._id;
+            #endregion
+
+            #region LoadStream
+            _stream = StreamD.GetStreamByUser(_channelId);
+            if(_stream.stream  == null)
+            {
+                _streamUptime = new DateTime();
+            }
+            else
+            {
+                _streamUptime = _stream.stream.created_at.ToLocalTime();
+            }
+            
             #endregion
 
             _irc = new IrcClient("irc.twitch.tv", 6667, ChatBot.botName, _password, _channel.name);
@@ -105,6 +120,8 @@ namespace MoonBot
 
             chatters = tmi.getViewerList(_channel);
 
+            
+
             //_mods = tmi.getMods(chatters);
             _viewers = tmi.getViewers(chatters);
             twitchSocket.ClientWebSocket = twitchSocket.WebSocketConnectAsync().Result;
@@ -127,7 +144,6 @@ namespace MoonBot
                 {
                     _username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
-                    //bool isMod = chatters.chatters.moderators.Contains(username);
                     UserO user = UserD.GetUser(_username);
                     UserD.InsertUser(user);
 
@@ -176,7 +192,7 @@ namespace MoonBot
 
                                         foreach(KeyValuePair<string,string> dic in foundCommand.parameterList)
                                         {
-                                            var fieldInfo = testType.GetField(dic.Key.ToString(), BindingFlags.Static | BindingFlags.Public).GetValue(testType) as IEnumerable;
+                                            var fieldInfo = testType.GetField(dic.Key.ToString(), BindingFlags.Static | BindingFlags.Public).GetValue(testType) ;
                                             newDic.Add(dic.Key.ToString(), fieldInfo.ToString());
                                         }
 
@@ -267,9 +283,6 @@ namespace MoonBot
                                                     else
                                                     {
                                                         Type testType = typeof(Program);
-                                                        //var fieldInfo = testType.GetField(foundCommand.parameter,BindingFlags.Static | BindingFlags.Public); //.GetValue(testType) as IEnumerable;
-                                                        ////var paramValue =  this.GetType().GetField(foundCommand.parameter).GetValue(this) as IEnumerable;
-
                                                         parameters = new object[] { foundCommand.parameterList };
                                                     }
 
