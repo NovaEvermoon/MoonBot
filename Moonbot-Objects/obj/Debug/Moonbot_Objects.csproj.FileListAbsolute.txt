@@ -15,3 +15,4 @@ C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\bin\Debug\Moonb
 C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\bin\Debug\Moonbot_Objects.pdb
 C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.dll
 C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.pdb
+C:\Users\Nova\Documents\mystream\MoonBot\MoonBot\Moonbot-Objects\obj\Debug\Moonbot_Objects.csprojAssemblyReference.cache

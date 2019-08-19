@@ -37,10 +37,12 @@ namespace MoonBot
         public static IrcClient _irc;
         public static StringBuilder _commandsText;
         public static UserO _broadcaster = new UserO();
+        public static UserO _user = new UserO();
         public static ChannelO _channel = new ChannelO();
         public static List<string> _moderators = new List<string>();
         public static string[] _command;
         public static string _username;
+        public static string _chatterUsername;
         public static string _channelId;
         public static StreamO _stream;
         public static DateTime _streamUptime;
@@ -118,12 +120,9 @@ namespace MoonBot
 
             #endregion
 
-            chatters = tmi.getViewerList(_channel);
+            //chatters = tmi.getViewerList(_channel);
 
-            
-
-            //_mods = tmi.getMods(chatters);
-            _viewers = tmi.getViewers(chatters);
+            //_viewers = tmi.getViewers(chatters);
             twitchSocket.ClientWebSocket = twitchSocket.WebSocketConnectAsync().Result;
             var testSocket = twitchSocket.WhisperSubscribeAsync(twitchSocket.ClientWebSocket, _broadcaster.users[0]._id);
             //ClientWebSocket webSocket = twitchSocket.WebSocketConnectAsync().Result;
@@ -134,8 +133,6 @@ namespace MoonBot
             PingSender ping = new PingSender(_irc);
             ping.Start();
 
-
-
             while (true)
             {
                 string fullMessage = _irc.ReadMessage();
@@ -144,12 +141,13 @@ namespace MoonBot
                 {
                     _username = UserD.GetUsername(fullMessage);
                     string message = ChatBot.GetMessage(fullMessage);
-                    UserO user = UserD.GetUser(_username);
-                    UserD.InsertUser(user);
+                    _user  = UserD.GetUser(_username);
+                    UserD.InsertUser(_user);
 
-                    bool isSubscriber = SubscriberD.IsSubscriber(user.users[0]._id, _broadcaster.users[0]._id);
+                    bool isSubscriber = SubscriberD.IsSubscriber(_user.users[0]._id, _broadcaster.users[0]._id);
 
-                    if (isSubscriber == false)
+
+                    if (isSubscriber == false && _user.isPermit == false)
                     {
                         bool link = ChatBot.checkLink(message);
                         if (link == true)
@@ -175,22 +173,27 @@ namespace MoonBot
                                 if (commandMessage.Contains(" "))
                                 {
                                     _command = commandMessage.Split(' ');
-                                    commandMessage = _command[0];
+                                    if(_command.Length == 2)
+                                    {
+                                        commandMessage = _command[0];
+                                        _chatterUsername = _command[1];
+                                    }
+                                }
+                                else
+                                {
+                                    _command[0] = commandMessage;
                                 }
 
                                 if (commands.Any(c => c.keyword == commandMessage))
                                 {
                                     foundCommand = commands.Single(c => c.keyword == commandMessage);
-                                    if (_command != null)
-                                    {
-                                        foundCommand.parameterList["username"] = _command[1];
-                                    }
-                                    else if (_command == null && foundCommand.parameters != 0)
+
+                                    if(foundCommand.parameters != 0)
                                     {
                                         Type testType = typeof(Program);
-                                        Dictionary<string, string> newDic = new Dictionary<string, string>();
+                                        Dictionary<string, dynamic> newDic = new Dictionary<string, dynamic>();
 
-                                        foreach(KeyValuePair<string,string> dic in foundCommand.parameterList)
+                                        foreach(KeyValuePair<string, dynamic> dic in foundCommand.parameterList)
                                         {
                                             var fieldInfo = testType.GetField(dic.Key.ToString(), BindingFlags.Static | BindingFlags.Public).GetValue(testType) ;
                                             newDic.Add(dic.Key.ToString(), fieldInfo.ToString());
@@ -272,7 +275,7 @@ namespace MoonBot
                                                 break;
                                                 case "api":
                                                     MethodInfo mInfo;
-                                                    Type type = Assembly.Load("MoonBot_Data").GetType(foundCommand.file, false, true);
+                                                    Type type = Assembly.Load("MoonBot_Data").GetType(foundCommand.assembly, false, true);
                                                     mInfo = type.GetMethod(foundCommand.message);
                                                     object[] parameters;
 
@@ -282,7 +285,7 @@ namespace MoonBot
                                                     }
                                                     else
                                                     {
-                                                        Type testType = typeof(Program);
+                                                        //Type testType = typeof(Program);
                                                         parameters = new object[] { foundCommand.parameterList };
                                                     }
 

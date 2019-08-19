@@ -53,6 +53,8 @@
     <Compile Include="ChannelD.cs" />
     <Compile Include="CommandD.cs" />
     <Compile Include="FollowerD.cs" />
+    <Compile Include="IrcClient.cs" />
+    <Compile Include="LaunchTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamD.cs" />
     <Compile Include="SubscriberD.cs" />

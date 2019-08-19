@@ -219,9 +219,9 @@ namespace MoonBot_Data
         //    //string returnString = wresponse.StatusCode.ToString();
 
         }
-        public static string GetShoutOut(Dictionary<string,string> parameters)
+        public static string GetShoutOut(Dictionary<string, dynamic> parameters)
         {
-            string userName = parameters["username"];
+            string userName = (string)parameters["_chatterUsername"];
 
             string shoutOut = "";
             if (userName != "")

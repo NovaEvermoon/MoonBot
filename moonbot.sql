@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Aug 19, 2019 at 06:06 AM
--- Server version: 5.7.24
--- PHP Version: 7.2.14
+-- Host: 127.0.0.1
+-- Generation Time: Aug 19, 2019 at 03:07 PM
+-- Server version: 10.1.32-MariaDB
+-- PHP Version: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -26,7 +26,6 @@ DELIMITER $$
 --
 -- Procedures
 --
-DROP PROCEDURE IF EXISTS `InsertFollower`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertFollower` (IN `twitchId` INT, IN `createdAt` DATETIME)  NO SQL
 INSERT INTO follower(follower_twitchId,follower_createdAt)
 	SELECT twitchId,createdAt    
@@ -35,7 +34,6 @@ INSERT INTO follower(follower_twitchId,follower_createdAt)
                       WHERE follower_twitchId = twitchId
                     )$$
 
-DROP PROCEDURE IF EXISTS `InsertSubscriber`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertSubscriber` (IN `twitchId` INT, IN `createdAt` DATETIME, IN `tier` VARCHAR(50))  NO SQL
 INSERT INTO subscriber(subscriber_twitchId,subscriber_createdAt,subscriber_tier)
 	SELECT twitchId,createdAt,tier    
@@ -46,7 +44,6 @@ INSERT INTO subscriber(subscriber_twitchId,subscriber_createdAt,subscriber_tier)
                       AND subscriber_tier = tier
                     )$$
 
-DROP PROCEDURE IF EXISTS `InsertUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser` (IN `displayName` VARCHAR(500), IN `twitchId` INT(6) UNSIGNED)  INSERT INTO user(user_displayName,user_twitchId)
 SELECT displayName, twitchId
  WHERE NOT EXISTS ( SELECT * 
@@ -54,7 +51,6 @@ SELECT displayName, twitchId
                       WHERE user_twitchId = twitchId
                     )$$
 
-DROP PROCEDURE IF EXISTS `InsertUserWithName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUserWithName` (IN `displayName` VARCHAR(500), IN `twitchId` INT, IN `name` VARCHAR(500))  NO SQL
 INSERT INTO user(user_displayName,user_twitchId,user_name)
 
@@ -64,7 +60,6 @@ INSERT INTO user(user_displayName,user_twitchId,user_name)
                                   WHERE user_twitchId = twitchId
                                 )$$
 
-DROP PROCEDURE IF EXISTS `updateUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUser` (IN `displayName` VARCHAR(500), IN `name` VARCHAR(500), IN `twitchId` INT)  NO SQL
 IF EXISTS(SELECT * FROM user WHERE user_twitchId = twitchId) THEN
     UPDATE
@@ -88,8 +83,7 @@ DELIMITER ;
 -- Table structure for table `burps`
 --
 
-DROP TABLE IF EXISTS `burps`;
-CREATE TABLE IF NOT EXISTS `burps` (
+CREATE TABLE `burps` (
   `burps_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -106,9 +100,8 @@ INSERT INTO `burps` (`burps_total`) VALUES
 -- Table structure for table `command`
 --
 
-DROP TABLE IF EXISTS `command`;
-CREATE TABLE IF NOT EXISTS `command` (
-  `command_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `command` (
+  `command_id` int(11) NOT NULL,
   `command_keyword` varchar(150) COLLATE utf8_bin NOT NULL,
   `command_message` varchar(1000) COLLATE utf8_bin NOT NULL,
   `command_userLevel` varchar(150) COLLATE utf8_bin NOT NULL,
@@ -120,16 +113,15 @@ CREATE TABLE IF NOT EXISTS `command` (
   `command_request` varchar(5000) COLLATE utf8_bin NOT NULL,
   `command_parameters` int(150) DEFAULT NULL,
   `command_parameterList` varchar(100) COLLATE utf8_bin NOT NULL,
-  `command_file` varchar(100) COLLATE utf8_bin NOT NULL,
-  `command_condition` varchar(500) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`command_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `command_assembly` varchar(100) COLLATE utf8_bin NOT NULL,
+  `command_condition` varchar(500) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `command`
 --
 
-INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `command_userLevel`, `command_cooldown`, `command_status`, `command_timer`, `command_description`, `command_type`, `command_request`, `command_parameters`, `command_parameterList`, `command_file`, `command_condition`) VALUES
+INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `command_userLevel`, `command_cooldown`, `command_status`, `command_timer`, `command_description`, `command_type`, `command_request`, `command_parameters`, `command_parameterList`, `command_assembly`, `command_condition`) VALUES
 (1, 'nova', 'Follow me on social media! ♡ https://linktr.ee/nova.evermoon', 'everyone', 10000, 1, 0, 'Display Nova\'s social media', 'regular', '', 0, '', '', ''),
 (2, 'humble', 'Do you like video games? Do you like saving money? Would you like to get games cheaper while supporting me and also charity? Look no further, humble bundle is for you ! Type !monthly for the link to the monthly bundle or !store for the link to the store ', 'everyone', 15000, 1, 0, 'Gives the information and links about humble bundle ', 'regular', '', 0, '', '', ''),
 (3, 'follow', 'Are you enjoying your time here? Don\'t forget to smash that follow button so you can come and hang out next time I\'m live ! ♡', 'everyone', 0, 1, 2820000, 'Following message timed command', 'timed', '', 0, '', '', ''),
@@ -169,10 +161,11 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 (46, 'moonlights', 'You can now choose the ambiance of the stream by controlling the light around me ! Colors to choose from : !garnet,  !citrine, !peridot, !labradorite, !amethyst, !rosequartz, !moonstone', 'everyone', 15000, 1, 0, 'moonlight description', 'regular', '0', 0, '', '0', ''),
 (47, 'shards', '{0}, you are the proud owner of @ magic crystal shards ', 'everyone', 15000, 0, 0, 'get a user\'s number of crystal shards ', 'request', 'SELECT user_shards FROM user WHERE user_name = \'{0}\'', 1, '', '', 'userName'),
 (48, 'addShards', '{0} shards added to {1}', 'mods', 15000, 0, 0, 'add a number of shards to a user', 'request', 'UPDATE user SET user_shards = {0} WHERE user_name', 2, 'username | amount', '', 'userName shardNumber'),
-(49, 'so', 'GetShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, 'username', 'MoonBot_Data.ChannelD', '0'),
+(49, 'so', 'GetShoutOut', 'moderator', 15000, 1, 0, 'shoutout command', 'api', '0', 1, '_chatterUsername', 'MoonBot_Data.ChannelD', '0'),
 (50, 'followage', 'GetFollowage', 'everyone', 150000, 1, 0, 'get followage of a user', 'api', '0', 2, '_username|_channelId', 'MoonBot_Data.FollowerD', ''),
 (51, 'off', 'm', 'everyone', 10000, 1, 0, 'turn led off', 'moonlights', '0', 0, '0', '0', '0'),
-(52, 'uptime', 'GetStreamUptime', 'everyone', 15000, 1, 0, 'Get the uptime of the stream', 'api', '0', 1, '_streamUptime', 'MoonBot_Data.StreamD', '0');
+(52, 'uptime', 'GetStreamUptime', 'everyone', 15000, 1, 0, 'Get the uptime of the stream', 'api', '0', 1, '_streamUptime', 'MoonBot_Data.StreamD', '0'),
+(53, 'permit', 'PermitUser', 'moderators', 15000, 1, 0, 'permit a user to post a link', 'api', '', 1, '_user', 'MoonBot_Data.UserD', '');
 
 -- --------------------------------------------------------
 
@@ -180,13 +173,11 @@ INSERT INTO `command` (`command_id`, `command_keyword`, `command_message`, `comm
 -- Table structure for table `follower`
 --
 
-DROP TABLE IF EXISTS `follower`;
-CREATE TABLE IF NOT EXISTS `follower` (
-  `follower_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `follower` (
+  `follower_id` int(11) NOT NULL,
   `follower_createdAt` datetime NOT NULL,
-  `follower_twitchId` int(11) NOT NULL,
-  PRIMARY KEY (`follower_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=780 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `follower_twitchId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `follower`
@@ -977,14 +968,12 @@ INSERT INTO `follower` (`follower_id`, `follower_createdAt`, `follower_twitchId`
 -- Table structure for table `subscriber`
 --
 
-DROP TABLE IF EXISTS `subscriber`;
-CREATE TABLE IF NOT EXISTS `subscriber` (
-  `subscriber_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subscriber` (
+  `subscriber_id` int(11) NOT NULL,
   `subscriber_createdAt` date NOT NULL,
   `subscriber_twitchId` int(11) NOT NULL,
-  `subscriber_tier` varchar(50) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`subscriber_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `subscriber_tier` varchar(50) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `subscriber`
@@ -1254,15 +1243,13 @@ INSERT INTO `subscriber` (`subscriber_id`, `subscriber_createdAt`, `subscriber_t
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL,
   `user_displayName` varchar(200) COLLATE utf8_bin NOT NULL,
   `user_twitchId` int(11) NOT NULL,
   `user_name` varchar(500) COLLATE utf8_bin NOT NULL,
-  `user_shards` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `user_shards` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `user`
@@ -2294,6 +2281,62 @@ INSERT INTO `user` (`user_id`, `user_displayName`, `user_twitchId`, `user_name`,
 (1026, 'mR_JuSt_A_TiN', 247666372, '', 0),
 (1027, 'FuturePresidentOfTheWorld', 414654500, '', 0),
 (1028, 'serdarkoc07', 183481347, '', 0);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `command`
+--
+ALTER TABLE `command`
+  ADD PRIMARY KEY (`command_id`);
+
+--
+-- Indexes for table `follower`
+--
+ALTER TABLE `follower`
+  ADD PRIMARY KEY (`follower_id`);
+
+--
+-- Indexes for table `subscriber`
+--
+ALTER TABLE `subscriber`
+  ADD PRIMARY KEY (`subscriber_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `command`
+--
+ALTER TABLE `command`
+  MODIFY `command_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT for table `follower`
+--
+ALTER TABLE `follower`
+  MODIFY `follower_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=780;
+
+--
+-- AUTO_INCREMENT for table `subscriber`
+--
+ALTER TABLE `subscriber`
+  MODIFY `subscriber_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1029;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

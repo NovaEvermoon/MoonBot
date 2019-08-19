@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Stream = System.IO.Stream;
 
 namespace MoonBot_Data
@@ -112,6 +113,23 @@ namespace MoonBot_Data
 
             return shards;
         }
+        public static UserO PermitUser(Dictionary<string, dynamic> parameters)
+        {
+            UserO user = (UserO)parameters["_user"];
+            user.isPermit = true;
+            CustomTimer timer = new CustomTimer(120000, user);
+            timer.Start();
+            timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
 
+            return user;
+        }
+
+        public static void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (sender != null)
+            {
+                ((CustomTimer)sender).user.isPermit = false;
+            }
+        }
     }
 }

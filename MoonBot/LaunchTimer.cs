@@ -1,4 +1,5 @@
-﻿using Moonbot_Objects;
+﻿using MoonBot_Data;
+using Moonbot_Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace MoonBot
 {
     public class LaunchTimer
     {
-        public List<customTimer> timers;
+        public List<CustomTimer> timers;
         private IrcClient irc;
         private string functionName;
         private string assemblyName;
@@ -26,18 +27,18 @@ namespace MoonBot
             this.parameters = parameters;
             this.miliseconds = miliseconds;
 
-            timers = new List<customTimer>();
+            timers = new List<CustomTimer>();
         }
 
         public LaunchTimer(IrcClient irc)
         {
             this.irc = irc;
-            timers = new List<customTimer>();
+            timers = new List<CustomTimer>();
         }
         public void createTimer(CommandO command)
         {
 
-                customTimer timer = new customTimer(command.timer, command.message);
+                CustomTimer timer = new CustomTimer(command.timer, command.message);
                 timer.Start();
                 timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
                 timers.Add(timer);
@@ -45,7 +46,7 @@ namespace MoonBot
 
         public void createTimer()
         {
-            customTimer timer = new customTimer(miliseconds);
+            CustomTimer timer = new CustomTimer(miliseconds);
             timer.Start();
             timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed_With_Result);
             timers.Add(timer);
@@ -77,23 +78,29 @@ namespace MoonBot
         public void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
                 if (sender != null)
-                    if (sender is customTimer)
-                        irc.WriteChatMessage(((customTimer)sender).commandMessage);
+                    if (sender is CustomTimer)
+                        irc.WriteChatMessage(((CustomTimer)sender).commandMessage);
         }
     }
 
-    public class customTimer : Timer
+    public class CustomTimer : Timer
     {
         public string commandMessage;
+        public UserO user;
 
-        public customTimer(double miliseconds) : base(miliseconds)
+        public CustomTimer(double miliseconds) : base(miliseconds)
         {
             
         }
 
-        public customTimer(double miliseconds, string commandMessage) : base(miliseconds)
+        public CustomTimer(double miliseconds, string commandMessage) : base(miliseconds)
         {
             this.commandMessage = commandMessage;
+        }
+
+        public CustomTimer(double miliseconds, UserO user) : base(miliseconds)
+        {
+            this.user = user;
         }
     }   
     

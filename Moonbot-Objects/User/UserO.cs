@@ -22,6 +22,8 @@ namespace Moonbot_Objects
     {
         public int _total { get; set; }
         public List<User> users { get; set; }
+
+        public bool isPermit { get; set; }
     }
 
 }
